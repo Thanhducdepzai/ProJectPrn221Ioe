@@ -1,0 +1,27 @@
+﻿@page
+@model DemoProject.Pages.FillBlankModel
+@{
+    ViewData["Title"] = "Fill Blank";
+}
+
+<div class="quiz-page-container quiz-background">
+    <div class="quiz-content">
+        <div class="quiz-main">
+            <div class="question-box">
+                <p class="question">..., tui là công túa chinh đẹp.</p>
+                <form method="post">
+                    <input type="text" name="Answer" class="answer-input" placeholder="Type your answer here" />
+                    <button type="submit" class="submit-button">Answer</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="quiz-sidebar">
+            <div class="score-box">
+                <p>Score: 0</p>
+                <p>Name: </p>
+                <p>ID: </p>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,81 @@
+﻿@page
+@model DemoProject.Pages.InstructionModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Instruction Page</title>
+    <style>
+        /* CSS */
+        body {
+            font-family: Arial, sans-serif;
+            background: url('/images/Quiz.jpg') no-repeat center center fixed;
+            /* Sử dụng hình ảnh "Quiz.jpg" làm nền, không lặp lại, canh giữa, giữ nguyên vị trí cố định */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            color: #333; /* Thêm màu cho phần text */
+        }
+
+        .blue-box {
+            background-color: #add8e6; /* Blue box */
+            text-align: center;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: white; /* Màu cho phần text */
+        }
+
+        .small-blue-box {
+            background-color: #add8e6; /* Blue box */
+            text-align: center;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            color: white; /* Màu cho phần text */
+        }
+
+        .purple-button {
+            display: block; /* Chuyển nút sang dạng block để nó không nằm trên cùng một hàng với các phần khác */
+            margin: 0 auto; /* Để nút ở giữa trang */
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #8a2be2; /* Purple background for buttons */
+            color: white;
+            cursor: pointer;
+            font-size: 1em;
+        }
+
+            .purple-button:hover {
+                background-color: #6a0dad; /* Darker purple on hover */
+            }
+
+        .small-blue-box p, .blue-box p {
+            color: #003366; /* Màu xanh đậm */
+        }
+        /* End of CSS */
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="small-blue-box">
+            <p>Instruction</p>
+        </div>
+
+        <div class="blue-box">
+            <p>(Hướng dẫn thi)</p>
+        </div>
+
+        <button class="purple-button">Start</button>
+    </div>
+
+</body>
+</html>

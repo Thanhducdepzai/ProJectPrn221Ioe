@@ -1,0 +1,63 @@
+﻿@page
+@model DemoProject.Pages.HomeStudentModel
+@{
+    ViewData["Title"] = "Student Test Page";
+}
+
+<div class="container">
+    <div class="student-info">
+        <p>Xin chào học sinh</p>
+        <p>Nguyen Thanh Duc</p>
+        <p>ID: 303030303</p>
+        <p>Tài khoản: NguyenThanhDuc01#</p>
+    </div>
+
+    <div class="exam-info gray-box">
+        <h3>KỲ THI SẮP/ĐANG DIỄN RA</h3>
+        <div class="exam-details">
+            <p>Tên kỳ thi: Thi học kỳ năm học 2023/2024</p>
+            <p>Ngày thi: 20/6/2024</p>
+            <p>Thời gian diễn ra kỳ thi: 26/6/2024 3:30 ➔ 3/7/2024 23:59</p>
+            <button class="exam-button purple-button">Vào thi</button>
+        </div>
+    </div>
+
+    <div class="school-year-info green-box">
+        <h3>NĂM HỌC 2023 - 2024</h3>
+        <div class="practice-status">
+            <p>TỰ LUYỆN</p>
+            <p>Hoàn thành: Chưa bắt đầu</p>
+            <p>Điểm trung bình: Chưa có dữ liệu</p>
+            <button class="practice-button green-button">TỰ LUYỆN NGAY</button>
+        </div>
+    </div>
+
+    <div class="exam-results green-box">
+        <h3>Kết quả thi IOE</h3>
+        <div class="results-details">
+            <div>
+                <p>Kết quả thi học kỳ năm học 2023-2024</p>
+                <p>Điểm: </p>
+                <p>Thời gian: </p>
+            </div>
+            <div>
+                <p>Kết quả thi tự luyện ngày 13/5/2024</p>
+                <p>Điểm: </p>
+                <p>Thời gian: </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="rank-info blue-box">
+        <div class="self-practice-rank">
+            <p>Xếp hạng tự luyện của bạn</p>
+            <p>Xếp hạng của bạn sẽ được cập nhật trong vòng 24h sau khi hoàn thành vòng thi.</p>
+            <button class="rank-button purple-button">Xem top 10</button>
+        </div>
+        <div class="exam-rank">
+            <p>Xếp hạng kỳ thi của bạn</p>
+            <p>Xếp hạng của bạn sẽ được cập nhật trong vòng 24h sau khi hoàn thành vòng thi.</p>
+            <button class="rank-button purple-button">Xem top 10</button>
+        </div>
+    </div>
+</div>

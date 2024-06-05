@@ -1,0 +1,62 @@
+﻿@{
+    bool isHomePage = ViewData["IsHomePage"] != null ? (bool)ViewData["IsHomePage"] : false;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - My Quiz App</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    @if (isHomePage)
+    {
+        <!-- Header cho trang Index -->
+        <header class="home-header">
+            <img src="~/images/logo.png" alt="Logo" class="logo" /> <!-- Logo trước -->
+            <nav class="right-nav">
+                <a href="/TuLuyen">Tự luyện</a>
+                <a href="/HocCungIDE">Học cùng IDE</a>
+                <a href="#" class="login-link">Đăng nhập</a> <!-- Thay Đăng nhập thành liên kết -->
+                <a href="#" class="register-link">Đăng ký</a> <!-- Thay Thoát thành liên kết -->
+            </nav>
+        </header>
+    }
+    else
+    {
+        <!-- Header cho các trang khác -->
+        <header class="other-header">
+            <img src="~/images/logo.png" alt="Logo" class="logo" />
+            <nav>
+                <a href="/HocCungIDE">Học cùng IDE</a>
+                <a href="/TuLuyen">Tự luyện</a>
+                <a href="/ThongTinCaNhan">Thông tin cá nhân</a>
+                <button class="logout-button">Thoát</button>
+            </nav>
+        </header>
+    }
+
+    <footer class="footer">
+        <div class="footer-content">
+            <span>Tổng Công ty trường đại học FPT</span>
+            <span>Địa chỉ: Trường đại học FPT Hà Nội</span>
+            <span>Project môn PRN221</span>
+        </div>
+    </footer>
+
+    <script src="~/js/site.js"></script>
+
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <script src="~/js/site.js"></script>
+
+    <!-- Phần Scripts được render từ các trang con -->
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

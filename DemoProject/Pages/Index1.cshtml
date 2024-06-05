@@ -1,0 +1,156 @@
+﻿@page
+@model DemoProject.Pages.Index1Model
+@{
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home page</title>
+    <style>
+        /* CSS cho trang Home */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: #333;
+            background: url('/images/background.png') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            text-align: center;
+            position: relative; /* Đặt vị trí tương đối */
+        }
+
+        .header {
+            padding: 20px;
+            background-color: transparent; /* Loại bỏ nền trắng */
+        }
+
+        .main-content {
+            display: flex;
+            justify-content: space-between;
+            padding: 40px;
+            margin: 20px auto;
+            width: 80%;
+            position: relative; /* Đặt vị trí tương đối */
+            z-index: 1; /* Đảm bảo nó ở trên background */
+        }
+
+            .main-content .left, .main-content .right {
+                flex: 1;
+                margin: 10px;
+            }
+
+            .main-content .left {
+                background-color: #dfffe0; /* Màu xanh lá */
+                padding: 40px;
+                border-radius: 10px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            }
+
+                .main-content .left h1, .main-content .left h2, .main-content .left h3 {
+                    margin: 0;
+                    color: #333;
+                }
+
+            .main-content .buttons {
+                margin-top: 20px;
+            }
+
+            .main-content button {
+                border: none;
+                padding: 15px 30px;
+                font-size: 18px;
+                margin: 10px;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+        .green-button {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .yellow-button {
+            background-color: #FFD700;
+            color: black;
+        }
+
+        .green-button:hover {
+            background-color: #45a049;
+        }
+
+        .yellow-button:hover {
+            background-color: #ffc700;
+        }
+
+        .right {
+            position: relative; /* Đặt vị trí tương đối */
+            z-index: 2; /* Đẩy phần thông tin hỗ trợ lên trên phần chào mừng */
+            background-color: transparent; /* Loại bỏ màu nền */
+        }
+
+        .support-info {
+            background-color: rgba(173, 216, 230, 0.8); /* Màu xanh dương với độ trong suốt */
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .hotline {
+            background-color: rgba(220, 220, 220, 0.8); /* Màu xám với độ trong suốt */
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 10px;
+        }
+
+        /* Thêm hình chữ nhật xám bé */
+        .gray-rectangle {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 50px; /* Chiều cao bé */
+            background-color: #ccc; /* Màu xám */
+            z-index: 1; /* Đảm bảo ở trên nền */
+            text-align: left;
+            padding: 10px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <!-- Logo removed -->
+        </div>
+
+        <div class="main-content">
+            <div class="left">
+                <h1>CHÀO MỪNG BẠN ĐẾN VỚI</h1>
+                <h2>TỰ LUYỆN IDE</h2>
+                <h3>VÒNG 35</h3>
+                <div class="buttons">
+                    <button class="green-button">Vào tự luyện ngay</button>
+                    <button class="yellow-button">Lịch thi</button>
+                </div>
+            </div>
+            <div class="right support-info">
+                <h4>Họ và Tên:Nguyễn Thành Đức</h4>
+                <h4>Id:</h4>
+                <h4>Khối: 3 </h4>
+                <h4>Lớp: 3c</h4>
+                <div class="hotline">
+                    <p>Trường: Tiểu học Vũ Phúc</p>
+                    <p>Huyện: Thành phố Thái Bình</p>
+                    <p>Thành phố: Thái Bình</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+</body>
+</html>

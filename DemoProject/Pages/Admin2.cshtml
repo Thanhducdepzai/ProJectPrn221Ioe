@@ -1,0 +1,57 @@
+﻿@page
+@model DemoProject.Pages.Admin2Model
+@{
+    ViewData["Title"] = "Multiple Choice Test Page";
+}
+
+<div class="test-page-container">
+    <div class="header">
+        <h2>Vòng tự luyện: 35</h2>
+    </div>
+
+    <div class="test-info">
+        <label for="bai">Bài:</label>
+        <input type="number" id="bai" name="bai" value="5" min="1" max="100">
+
+        <label for="dangkibai">Dạng bài:</label>
+        <select id="dangkibai" name="dangkibai">
+            <!-- Options here -->
+        </select>
+
+        <label for="thoigian">Thời gian (phút):</label>
+        <input type="number" id="thoigian" name="thoigian" value="20" min="1" max="60">
+    </div>
+
+    <div class="user-info">
+        <div class="user-details">
+            <p>Hoang Thu Phuong</p>
+            <p>Role: ADMIN</p>
+            <p>ID: 086945068</p>
+        </div>
+    </div>
+
+    <div class="question-container">
+        <label for="cauhoi1">Câu 1:</label>
+        <textarea id="cauhoi1" name="cauhoi1" rows="4" cols="50">Nam usually go to school...bus</textarea>
+
+        <div class="answer-options">
+            <input type="radio" id="optionA" name="answer" value="A">
+            <label for="optionA">A) <input type="text" id="answerA" name="answerA" placeholder="Nhập đáp án A..."></label><br>
+
+            <input type="radio" id="optionB" name="answer" value="B">
+            <label for="optionB">B) <input type="text" id="answerB" name="answerB" placeholder="Nhập đáp án B..."></label><br>
+
+            <input type="radio" id="optionC" name="answer" value="C">
+            <label for="optionC">C) <input type="text" id="answerC" name="answerC" placeholder="Nhập đáp án C..."></label><br>
+
+            <input type="radio" id="optionD" name="answer" value="D">
+            <label for="optionD">D) <input type="text" id="answerD" name="answerD" placeholder="Nhập đáp án D..."></label><br>
+        </div>
+    </div>
+
+    <div class="buttons">
+        <button class="add-button">Thêm</button>
+        <button class="create-button">Tạo đề</button>
+        <button class="save-button">Lưu</button>
+    </div>
+</div>
