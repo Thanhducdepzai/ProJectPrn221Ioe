@@ -1,0 +1,27 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - My Quiz App</title>
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+    <header>
+        <img src="~/images/logo.png" alt="Logo" />
+        <nav>
+            <a href="/HocCungIDE">Học cùng IDE</a>
+            <a href="/TuLuyen">Tự luyện</a>
+            <a href="/ThongTinCaNhan">Thông tin cá nhân</a>
+            <button class="logout-button">Thoát</button>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+   
+    <script src="~/js/site.js"></script>
+</body>
+</html>
