@@ -12,15 +12,19 @@ header {
     background-color: rgba(0, 123, 255, 0.8);
     padding: 10px 20px;
     border-bottom: 1px solid #e5e5e5;
+
     position: fixed;
     top: 0;
     right: 0;
     width: 100%;
+
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: white;
+
     z-index: 999; /* Đảm bảo Header hiển thị trên cùng của các phần khác */
+
 
 }
 
@@ -232,6 +236,7 @@ footer {
         background-color: #218838; /* Màu xanh đậm */
         transform: scale(1.05);
     }
+<<<<<<< HEAD
 
 /* Synonym page styles */
 body {
@@ -852,3 +857,4 @@ body {
     .footer-content span {
         margin: 0 15px; 
     }
+

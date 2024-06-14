@@ -1,8 +1,12 @@
+
 ﻿@{
     bool isHomePage = ViewData["IsHomePage"] != null ? (bool)ViewData["IsHomePage"] : false;
 }
 
-<!DOCTYPE html>
+
+
+﻿<!DOCTYPE html>
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,6 +15,7 @@
     <link rel="stylesheet" href="~/css/site.css" />
 </head>
 <body>
+
     @if (isHomePage)
     {
         <!-- Header cho trang Index -->
@@ -48,15 +53,31 @@
 
     <script src="~/js/site.js"></script>
 
+=======
+    <header>
+        <img src="~/images/logo.png" alt="Logo" />
+        <nav>
+            <a href="/HocCungIDE">Học cùng IDE</a>
+            <a href="/TuLuyen">Tự luyện</a>
+            <a href="/ThongTinCaNhan">Thông tin cá nhân</a>
+            <button class="logout-button">Thoát</button>
+        </nav>
+    </header>
+
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
+
     <script src="~/js/site.js"></script>
 
     <!-- Phần Scripts được render từ các trang con -->
     @RenderSection("Scripts", required: false)
+
+   
+    <script src="~/js/site.js"></script>
+
 </body>
 </html>
