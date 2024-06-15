@@ -1,11 +1,8 @@
-
-﻿@{
+@{
     bool isHomePage = ViewData["IsHomePage"] != null ? (bool)ViewData["IsHomePage"] : false;
 }
 
-
-
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 
 <html lang="en">
 <head>
@@ -20,12 +17,12 @@
     {
         <!-- Header cho trang Index -->
         <header class="home-header">
-            <img src="~/images/logo.png" alt="Logo" class="logo" /> <!-- Logo trước -->
+            <img src="~/images/logo.png" alt="Logo" class="logo" />
             <nav class="right-nav">
                 <a href="/TuLuyen">Tự luyện</a>
                 <a href="/HocCungIDE">Học cùng IDE</a>
-                <a href="#" class="login-link">Đăng nhập</a> <!-- Thay Đăng nhập thành liên kết -->
-                <a href="#" class="register-link">Đăng ký</a> <!-- Thay Thoát thành liên kết -->
+                <a href="#" class="login-link">Đăng nhập</a>
+                <a href="#" class="register-link">Đăng ký</a>
             </nav>
         </header>
     }
@@ -43,6 +40,12 @@
         </header>
     }
 
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
     <footer class="footer">
         <div class="footer-content">
             <span>Tổng Công ty trường đại học FPT</span>
@@ -53,31 +56,8 @@
 
     <script src="~/js/site.js"></script>
 
-=======
-    <header>
-        <img src="~/images/logo.png" alt="Logo" />
-        <nav>
-            <a href="/HocCungIDE">Học cùng IDE</a>
-            <a href="/TuLuyen">Tự luyện</a>
-            <a href="/ThongTinCaNhan">Thông tin cá nhân</a>
-            <button class="logout-button">Thoát</button>
-        </nav>
-    </header>
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
-
-
-    <script src="~/js/site.js"></script>
-
     <!-- Phần Scripts được render từ các trang con -->
     @RenderSection("Scripts", required: false)
-
-   
-    <script src="~/js/site.js"></script>
 
 </body>
 </html>
