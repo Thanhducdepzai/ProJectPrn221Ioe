@@ -1,0 +1,209 @@
+﻿@page
+@model ProjectIoePrn.Pages.OverviewExamsModel
+@{
+}
+<div class="de">
+    <br />
+    <h3>Vòng tự luyện:</h3>
+</div>
+<div class="TaoDe">
+
+    <div class="info">
+        <div class="info-vong">
+            <p>Khối bạn đang dự thi: </p>
+            <p>Số vòng thi IOE đang mở: </p>
+            <p>Vòng thi hiện tại của bạn: </p>
+
+        </div>
+        <div class="noiquy">
+            <p>Nội quy: </p>
+            <p>b</p>
+            <p>c</p>
+            <p>d</p>
+
+        </div>
+        <div class="table-thi">
+            <h3>Bài thi của bạn</h3>
+            <table>
+                <tr style="background-color: lightgray">
+                    <th>STT</th>
+                    <th>Bài thi</th>
+                    <th>Điểm</th>
+                    <th>Thời gian (giây)</th>
+
+                </tr>
+
+                <tr>
+                    <td>1</td>
+                    <td>Bài thi 1 hoàn th</td>
+                    <td>100</td>
+                    <td>150</td>
+
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Bài thi 1 hoàn th</td>
+                    <td>100</td>
+                    <td>150</td>
+
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>Bài thi 1 hoàn th</td>
+                    <td>100</td>
+                    <td>150</td>
+
+                </tr>
+
+                <tr style="color:red">
+                    <td></td>
+                    <td>Kết quả tự luyện</td>
+                    <td>300</td>
+                    <td>350</td>
+
+                </tr>
+            </table>
+        </div>
+        <div class="tuluyen">
+            <h3>Tổng hợp kết quả tự luyện</h3>
+            <div class="table-thi">
+                <table>
+                    <tr style="background-color: lightgray">
+                        <th>STT</th>
+                        <th>Vòng</th>
+                        <th>Thời gian(giây)</th>
+                        <th>Điểm</th>
+
+                    </tr>
+
+                    <tr>
+                        <td>1</td>
+                        <td>1</td>
+                        <td>100</td>
+                        <td style="color:rgba(0, 123, 255, 0.8)"><b>150</b></td>
+
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>100</td>
+                        <td style="color:rgba(0, 123, 255, 0.8)"><b>150</b></td>
+
+                    </tr>
+
+                </table>
+            </div>
+        </div>
+        <div>
+            <h2>Xin chúc mừng ...</h2>
+            <button>Nhận chứng chỉ</button>
+        </div>
+    </div>
+
+    <div class="info-user">
+        <div class="side-info-text">
+            <p>Xin chào</p>
+            <p>Nguyen Hoai Nam</p>
+            <p>ID: Admin</p>
+            <p>Tài khoản: NguyenHoaiNam00#</p>
+        </div>
+
+        <div class="rank-info">
+            <div class="title">
+                Điểm cao nhất quốc gia lớp
+            </div>
+
+            <div class="card-item">
+                Học viên:<b>Nguyen Hoai Nam</b> : 10000<br />
+                Trường ... - Huyện ... - ...
+            </div>
+            <div class="card-item">
+                Học viên:<b>Nguyen Hoai Nam</b> : 10000<br />
+                Trường ... - Huyện ... - ...
+            </div>
+            <div class="card-item">
+                Học viên:<b>Nguyen Hoai Nam</b> : 10000<br />
+                Trường ... - Huyện ... - ...
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<style>
+    .TaoDe {
+        color: black;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .de {
+        background-color: lightgray;
+        padding: 20px;
+        color: black;
+    }
+
+        .de h3 {
+            margin: 0;
+        }
+
+    .info {
+        margin-left: 100px;
+        width: 60%;
+    }
+
+    table {
+        width: 80%;
+        border: none;
+        border-collapse: collapse;
+    }
+
+        table tr {
+            height: 40px
+        }
+
+        table td {
+            text-align: center;
+            border-bottom: solid 1px black;
+        }
+
+
+
+    button {
+        border: none;
+        width: 250px;
+        font-size: large;
+        padding: 20px;
+        background-color: rgba(0, 123, 255, 0.8);
+        border-radius: 5px;
+        color: white;
+    }
+
+        button:hover {
+            background-color: blue;
+        }
+
+    .info-user {
+        margin-top: 30px
+    }
+
+    .rank-info {
+        margin-top: 30px;
+    }
+
+        .rank-info .title {
+            background-color: rgba(0, 123, 255, 0.8);
+            color: white;
+            padding: 10px;
+        }
+
+    .card-item {
+        background-color: lightgray;
+        padding: 10px;
+        margin: 5px 0 5px 0;
+    }
+
+    .tuluyen {
+        margin-top: 50px;
+    }
+</style>

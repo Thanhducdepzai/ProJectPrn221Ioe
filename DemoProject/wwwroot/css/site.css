@@ -76,8 +76,9 @@ footer {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px;
-    width: 100%;
+    padding: 40px;
+    
+    
 }
 
 .quiz-content {
@@ -157,6 +158,7 @@ footer {
 .quiz-page-container.quiz-background {
     background: url('/images/Quiz.jpg') no-repeat center center fixed;
     background-size: cover;
+    
 }
 
 /* Styling for option buttons */
@@ -857,4 +859,114 @@ body {
     .footer-content span {
         margin: 0 15px; 
     }
+
+.de-thi {
+    display: flex;
+    flex-direction: row;
+    color: black;
+}
+
+.side-info {
+    width: 20%;
+    margin: 20px
+}
+
+.side-info-text {
+    background-color: aliceblue;
+    padding: 10px;
+}
+
+.side-info-btn button {
+    width: 80%;
+    height: 40px;
+    margin: 10px;
+    background-color: mediumpurple;
+    font-size: large;
+    border: none;
+    color: white;
+}
+
+    .side-info-btn button:hover, .create-dethi-moi button:hover, .list-tuluyen button:hover {
+        background-color: rebeccapurple;
+    }
+
+.create-dethi-moi {
+    background-color: lightgray;
+    width: 100%;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.create-dethi {
+    margin: 30px;
+    width: 40%;
+}
+
+.create-dethi-moi form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+    .form-group label {
+        width: 120px;
+    }
+
+
+    .form-group textarea {
+        width: 300px;
+        height: 70px;
+    }
+
+.create-dethi-moi button {
+    font-size: large;
+    background-color: mediumpurple;
+    border: none;
+    padding: 10px;
+    padding: 10px;
+    color: white;
+    margin-left: 100px;
+    margin-top: 20px;
+}
+
+.dethi-page {
+    display: flex;
+    flex-direction: row;
+}
+
+    .dethi-page button {
+        background-color: deepskyblue;
+        padding: 10px;
+        color: white;
+        border: none;
+        margin: 20px;
+        width: 50px;
+    }
+
+        .dethi-page button:hover {
+            background-color: dodgerblue;
+        }
+
+.list-tuluyen {
+    display: flex;
+    flex-direction: row;
+    background-color: lightgrey;
+    align-items: center;
+    padding: 20px;
+    justify-content: space-between;
+}
+
+    .list-tuluyen button {
+        font-size: large;
+        background-color: mediumpurple;
+        border: none;
+        padding: 10px;
+        color: white;
+    }
+
 
