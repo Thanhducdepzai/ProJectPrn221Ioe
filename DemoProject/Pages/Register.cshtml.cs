@@ -16,13 +16,19 @@ namespace DemoProject.Pages
         } 
         public void OnGet()
         {
+            ViewData["ModelStateIsValid"] = "N/A";
+            ViewData["Students"] = "N/A";
+            ViewData["student"] = "N/A";
         }
+        [BindProperty]
         public Student student { get; set; } = default!;
         public async Task<IActionResult> OnPostAsync()
         {         
             if (!ModelState.IsValid|| _context.Students == null ||  student == null)
             {
-                
+                ViewData["ModelStateIsValid"] ="ModelState.IsValid is "+ !ModelState.IsValid + ModelState.Values;
+                ViewData["Students"] = "_context.Students is " + (_context.Students==null);
+                ViewData["student"] = "student is " + (student == null);
                 return Page();
             }
             _context.Students.Add(student);
