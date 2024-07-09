@@ -4,16 +4,16 @@
     ViewData["Title"] = "Overview Exams";
 }
 
-<h2>Overview Exams</h2>
+<h2>Vòng tự luyện</h2>
 
 @if (Model.Student != null)
 {
     <div>
-        <h3>Student Information</h3>
+        <h3>Thông tin học sinh</h3>
         <p>ID: @Model.Student.StudentId</p>
-        <p>Account: @Model.Student.StudentName</p>
-        <p>Class: @Model.Student.StudentClass</p>
-        <p>School : @Model.Student.School</p>
+        <p>Tài khoản: @Model.Student.StudentName</p>
+        <p>Lớp: @Model.Student.StudentClass</p>
+        
 
         <!-- Add more student details as needed -->
     </div>
@@ -30,13 +30,14 @@
             <li>1 phần thi sẽ có 10 cau hỏi, mỗi câu 10 điểm</li>
             <li> Phần matching word sẽ có 2 từ chọn đúng sẽ được 20 điểm</li>
         </ul>
-        <p>(*) Các trường hợp thi sai luật:</p>
+        <p>(*) Hướng dẫn thi:</p>
         <ul>
-            <li>Đăng nhập một tài khoản trên hai máy hoặc hai trình duyệt khác nhau và thi cùng một thời điểm</li>
-            <li>Đang làm bài thi mà tải lại trang đề thi hoặc thoát ra không nộp bài</li>
-            <li>Mở nhiều cửa sổ vào thi một lúc</li>
+            <li>Trắc nghiệm: chọn đáp án đúng</li>
+            <li>Điền từ: Điền từ vào ô trống</li>
+            <li>Nối từ: Chọn 2 từ tiếng Việt, tiếng Anh đồng nghĩa</li>
         </ul>
-        <p>Các trường hợp vi phạm sẽ bị hệ thống tự động thoát ra ngoài và tính một lần trượt vòng thi.</p>
+        <p>Học sinh bắt buộc phải thi hết 3 bài thi mới được sang vòng tiếp theo.</p>
+
     </div>
 }
 
@@ -65,7 +66,7 @@
 
 
 
-<h3>Self-Study Summary</h3>
+<h3>Các bài thi hiện tại</h3>
 <table>
     <thead>
         <tr>
@@ -119,7 +120,7 @@
     </tbody>
 </table>
 
-<h3>Your Tests</h3>
+<h3>Các vòng thi của bạn</h3>
 <table>
     <thead>
         <tr>
