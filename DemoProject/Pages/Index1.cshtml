@@ -133,12 +133,18 @@
                 <h2>TỰ LUYỆN IDE</h2>
                 <h3>VÒNG 35</h3>
                 <div class="buttons">
-                    <button class="green-button">Vào tự luyện ngay</button>
-                    <button class="yellow-button">Lịch thi</button>
+                    <!-- Form cho nút "Vào tự luyện ngay" -->
+                    <form method="get" asp-page="/OverviewExams">
+                        <button type="submit" class="green-button">Vào tự luyện ngay</button>
+                    </form>
+                    <!-- Form cho nút "Lịch thi" -->
+                    <form method="get" asp-page="/HomeStudent">
+                        <button type="submit" class="yellow-button">Lịch thi</button>
+                    </form>
                 </div>
             </div>
             <div class="right support-info">
-                <h4>Họ và Tên:Nguyễn Thành Đức</h4>
+                <h4>Họ và Tên: Nguyễn Thành Đức</h4>
                 <h4>Id:</h4>
                 <h4>Khối: 3 </h4>
                 <h4>Lớp: 3c</h4>
@@ -151,6 +157,6 @@
 
         </div>
     </div>
-    
+
 </body>
 </html>
