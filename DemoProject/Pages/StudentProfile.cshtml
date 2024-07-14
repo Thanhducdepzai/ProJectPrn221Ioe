@@ -1,22 +1,24 @@
 ﻿@page
-@model DemoProject.Pages.StudentProfileModel
+@model ProjectIoePrn.Pages.StudentProfileModel
 @{
     ViewData["Title"] = "Student Profile";
+   
+    var currentRound = ViewData["cr"] ;
 }
 
 <div class="profile-page-container">
     <div class="info-box">
-        <h2>HOÀNG THU PHƯƠNG</h2>
-        <p>LỚP: 3C</p>
-        <p>TRƯỜNG: TRƯỜNG TIỂU HỌC VŨ PHÚC</p>
-        <p>XẾP HẠNG TỰ LUYỆN: Bạn thuộc top 10</p>
+        <h2>@Model.stu.StudentName </h2>
+        <p>LỚP: @Model.stu.StudentClass</p>
+        <p>TRƯỜNG: @Model.school.SchoolName</p>
+        <p>XẾP HẠNG TỰ LUYỆN: Bạn thuộc top @ViewData["StudentRank"]</p>
         <p>XẾP HẠNG THI THỬ: Bạn chưa hoàn thành</p>
     </div>
 
     <!-- Ranking Info Box 1 -->
     <div class="ranking-info-box">
         <div class="ranking-info">
-            <p>Top 50 tự luyện: Vòng 35 - Khối Lớp 3</p>
+            <p>Top 50 tự luyện: Vòng @ViewData["cr"] - Khối Lớp 3</p>
             <p>Tuần 35 (6/5-12/5/2024)</p>
             <p>TRƯỜNG | QUẬN/HUYỆN | TỈNH THÀNH | QUỐC GIA</p>
             <p>THÁI BÌNH</p>
@@ -37,14 +39,28 @@
                     <th>TRƯỜNG</th>
                     <th>QUẬN/HUYỆN</th>
                     <th>ĐIỂM</th>
-                    <th>SỐ LẦN THI</th>
+                   
                     <th>THỜI GIAN THI</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td colspan="8"></td>
-                </tr>
+                @if (ViewData["TopStudentsPart"] != null)
+                {
+                    var topStudentsPart = ViewData["TopStudentsPart"] as List<ProjectIoePrn.Pages.StudentProfileModel.StudentScoreViewModel>;
+                    foreach (var student in topStudentsPart)
+                    {
+                        <tr>
+                            <td>@student.Rank</td>
+                            <td>@student.StudentName</td>
+                            <td>@student.StudentClass</td>
+                            <td>@student.SchoolName</td>
+                            <td>@student.DistrictName</td>
+                            <td>@student.Score</td>
+
+                            <td>@student.TimeSpent</td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
         <div class="pagination">
@@ -55,7 +71,7 @@
     <!-- Ranking Info Box 2 -->
     <div class="ranking-info-box">
         <div class="ranking-info">
-            <p>Top 50 kỳ thi học kỳ 2023-2024: Vòng 35 - Khối Lớp 3</p>
+            <p>Top 50 kỳ thi học kỳ 2023-2024: Vòng @ViewData["cr"] - Khối Lớp 3</p>
             <p>Tuần 35 (6/5-12/5/2024)</p>
             <p>TRƯỜNG | QUẬN/HUYỆN | TỈNH THÀNH | QUỐC GIA</p>
             <p>THÁI BÌNH</p>
@@ -76,14 +92,28 @@
                     <th>TRƯỜNG</th>
                     <th>QUẬN/HUYỆN</th>
                     <th>ĐIỂM</th>
-                    <th>SỐ LẦN THI</th>
+                    
                     <th>THỜI GIAN THI</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td colspan="8"></td>
-                </tr>
+                @if (ViewData["TopStudents"] != null)
+                {
+                    var topStudents = ViewData["TopStudents"] as List<ProjectIoePrn.Pages.StudentProfileModel.StudentScoreViewModel>;
+                    foreach (var student in topStudents)
+                    {
+                        <tr>
+                            <td>@student.Rank</td>
+                            <td>@student.StudentName</td>
+                            <td>@student.StudentClass</td>
+                            <td>@student.SchoolName</td>
+                            <td>@student.DistrictName</td>
+                            <td>@student.Score</td>
+                            
+                            <td>@student.TimeSpent</td>
+                        </tr>
+                    }
+                }
             </tbody>
         </table>
         <div class="pagination">
