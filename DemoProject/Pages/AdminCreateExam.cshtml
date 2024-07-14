@@ -1,0 +1,324 @@
+﻿@page
+@model ProjectIoePrn.Pages.AdminCreateExamModel
+@{
+}
+<div class="test-page-container">
+    <div class="header">
+        <h2>Vòng tự luyện: 35</h2>
+    </div>
+
+    <div class="test-info">
+        <div>
+            <label for="question">Câu:</label>
+            <!-- Only show this when switch to fill blanks questions container, else hide it-->
+            <select id="questionListPart1" name="question" onchange="saveAndLoadQuestionPart1(this.value)">
+                <option value="1">Câu 1</option>
+                <option value="2">Câu 2</option>
+                <option value="3">Câu 3</option>
+                <option value="4">Câu 4</option>
+                <option value="5">Câu 5</option>
+                <option value="6">Câu 6</option>
+                <option value="7">Câu 7</option>
+                <option value="8">Câu 8</option>
+                <option value="9">Câu 9</option>
+                <option value="10">Câu 10</option>
+            </select>
+
+            <!-- Only show this when switch to quiz questions container, else hide it-->
+            <select id="questionListPart2" name="question" onchange="saveAndLoadQuestionPart2(this.value)" style="display: none;">
+                <option value="1">Câu 1</option>
+                <option value="2">Câu 2</option>
+                <option value="3">Câu 3</option>
+                <option value="4">Câu 4</option>
+                <option value="5">Câu 5</option>
+                <option value="6">Câu 6</option>
+                <option value="7">Câu 7</option>
+                <option value="8">Câu 8</option>
+                <option value="9">Câu 9</option>
+                <option value="10">Câu 10</option>
+            </select>
+        </div>
+        <div>
+            <label for="exam-part">Dạng bài:</label>
+            <select id="exam-part" onchange="switchContainer(this.value)">
+                <option value="fillBlanks">Điền từ</option>
+                <option value="quiz">Quiz</option>
+                <option value="wordMatching">Nối từ</option>
+            </select>
+        </div>
+
+        <label for="thoigian">Thời gian (phút):</label>
+        <input type="number" id="thoigian" name="thoigian" value="20" min="1" max="60">
+    </div>
+
+    <div class="user-info">
+        <div class="user-details">
+            <p>Tên: @Model.Admin.AdminName</p>
+            <p>Role: ADMIN</p>
+            <p>ID: @Model.Admin.AdminId</p>
+        </div>
+    </div>
+
+    <div id="fillBlanksContainer" class="question-container">
+        <!-- Question selector for Part 1 -->
+        <label id="question-label1" for="cauhoi">Câu 1:</label>
+        <textarea id="cauhoi" name="cauhoi" rows="4" cols="50"></textarea>
+
+        <label for="dapan">Đáp án:</label>
+        <input type="text" id="dapan" name="dapan">
+
+    </div>
+
+    <div id="quizContainer" class="question-container" style="display:none;">
+        <label id="question-label2" for="quizName">Câu 1:</label>
+        <textarea id="quizName" name="quizName" rows="4" cols="50"></textarea>
+
+        <div class="answer-options">
+            <input type="radio" id="radioCorrect" name="answer" value="1">
+            <label for="optionA">A) <input type="text" id="choice1" name="answerA" placeholder="Nhập đáp án A..."></label><br>
+
+            <input type="radio" id="radioCorrect" name="answer" value="2">
+            <label for="optionB">B) <input type="text" id="choice2" name="answerB" placeholder="Nhập đáp án B..."></label><br>
+
+            <input type="radio" id="radioCorrect" name="answer" value="3">
+            <label for="optionC">C) <input type="text" id="choice3" name="answerC" placeholder="Nhập đáp án C..."></label><br>
+
+            <input type="radio" id="radioCorrect" name="answer" value="4">
+            <label for="optionD">D) <input type="text" id="choice4" name="answerD" placeholder="Nhập đáp án D..."></label><br>
+        </div>
+    </div>
+
+    <div id="wordMatchingContainer" class="question-container" style="display:none;">
+        <table>
+            <thead>
+                <tr>
+                    <th>Tiếng Việt</th>
+                    <th></th>
+                    <th>English</th>
+                </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                        <td><input type="text" id="tuviet1" /></td>
+                        <td class="equals-sign">=</td>
+                        <td><input type="text" id="tuanh1" /></td>
+                    </tr
+                                        <tr>
+                        <td><input type="text" id="tuviet2" /></td>
+                        <td class="equals-sign">=</td>
+                        <td><input type="text" id="tuanh2" /></td>
+                    </tr>
+                                        <tr>
+                        <td><input type="text" id="tuviet3" /></td>
+                        <td class="equals-sign">=</td>
+                        <td><input type="text" id="tuanh3" /></td>
+                    </tr>
+                                        <tr>
+                        <td><input type="text" id="tuviet4" /></td>
+                        <td class="equals-sign">=</td>
+                        <td><input type="text" id="tuanh4" /></td>
+                    </tr>
+                                        <tr>
+                        <td><input type="text" id="tuviet5" /></td>
+                        <td class="equals-sign">=</td>
+                        <td><input type="text" id="tuanh5" /></td>
+                    </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="buttons">
+        <button class="create-button">Tạo đề</button>
+        <button class="save-button" onclick="saveCurrentQuestion()">Lưu</button>
+    </div>
+</div>
+
+<script>
+    const questionsPart1 = {
+        1: { name: "", answer: "" },
+        2: { name: "", answer: "" },
+        3: { name: "", answer: "" },
+        4: { name: "", answer: "" },
+        5: { name: "", answer: "" },
+        6: { name: "", answer: "" },
+        7: { name: "", answer: "" },
+        8: { name: "", answer: "" },
+        9: { name: "", answer: "" },
+        10: { name: "", answer: "" }
+    };
+    const questionsPart2 = {
+        1: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        2: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        3: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        4: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        5: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        6: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        7: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        8: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        9: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" },
+        10: { name: "", 1: "", 2: "", 3: "", 4: "", correct: "" }
+    };
+    const questionsPart3 = {
+        1: { vietnamese: "", english: "" },
+        2: { vietnamese: "", english: "" },
+        3: { vietnamese: "", english: "" },
+        4: { vietnamese: "", english: "" },
+        5: { vietnamese: "", english: "" }
+    };
+
+    let currentQuestion = 1;
+
+    function saveAndLoadQuestionPart1(questionNumber) {
+        saveCurrentQuestionPart1();
+        loadQuestionPart1(questionNumber);
+        currentQuestion = questionNumber;
+        updateQuestionLabelPart1(questionNumber);
+    }
+
+    function saveAndLoadQuestionPart2(questionNumber) {
+        saveCurrentQuestionPart2();
+        loadQuestionPart2(questionNumber);
+        currentQuestion = questionNumber;
+        updateQuestionLabelPart2(questionNumber);
+    }
+
+    function saveAndLoadQuestionPart3() {
+        saveCurrentQuestionPart3();
+        // No need to load for Part 3 since it doesn't have a question selector
+    }
+
+    // Save current questions
+    function saveCurrentQuestionPart1() {
+        const questionContainer = document.getElementById('fillBlanksContainer');
+        if (questionContainer.style.display === 'block') {
+            const questionName = questionContainer.querySelector('#cauhoi').value;
+            const questionAnswer = questionContainer.querySelector('#dapan').value;
+            questionsPart1[currentQuestion].name = questionName;
+            questionsPart1[currentQuestion].answer = questionAnswer;
+        }
+    }
+
+   function saveCurrentQuestionPart2() {
+    const questionContainer = document.getElementById('quizContainer');
+    const name = questionContainer.querySelector('#quizName').value;
+    const choice1 = questionContainer.querySelector('#choice1').value;
+    const choice2 = questionContainer.querySelector('#choice2').value;
+    const choice3 = questionContainer.querySelector('#choice3').value;
+    const choice4 = questionContainer.querySelector('#choice4').value;
+
+    let radioCorrectValue = "";
+    const radioCorrect = questionContainer.querySelector('input[name="answer"]:checked');
+    if (radioCorrect) {
+        radioCorrectValue = radioCorrect.value;
+    }
+
+    questionsPart2[currentQuestion].name = name;
+    questionsPart2[currentQuestion]["1"] = choice1;
+    questionsPart2[currentQuestion]["2"] = choice2;
+    questionsPart2[currentQuestion]["3"] = choice3;
+    questionsPart2[currentQuestion]["4"] = choice4;
+    questionsPart2[currentQuestion].correct = radioCorrectValue;
+}
+
+
+    function saveCurrentQuestionPart3() {
+        const questionContainer = document.getElementById('wordMatchingContainer');
+        if (questionContainer.style.display === 'block') {
+            for (let i = 1; i <= 5; i++) {
+                questionsPart3[i].vietnamese = questionContainer.querySelector(`#tuviet${i}`).value;
+                questionsPart3[i].english = questionContainer.querySelector(`#tuanh${i}`).value;
+            }
+        }
+    }
+
+    // Load questions
+    function loadQuestionPart1(questionNumber) {
+        const questionContainer = document.getElementById('fillBlanksContainer');
+        questionContainer.querySelector('#cauhoi').value = questionsPart1[questionNumber].name;
+        questionContainer.querySelector('#dapan').value = questionsPart1[questionNumber].answer;
+    }
+
+function loadQuestionPart2(questionNumber) {
+    const questionContainer = document.getElementById('quizContainer');
+    questionContainer.querySelector('#quizName').value = questionsPart2[questionNumber].name;
+    questionContainer.querySelector('#choice1').value = questionsPart2[questionNumber]["1"];
+    questionContainer.querySelector('#choice2').value = questionsPart2[questionNumber]["2"];
+    questionContainer.querySelector('#choice3').value = questionsPart2[questionNumber]["3"];
+    questionContainer.querySelector('#choice4').value = questionsPart2[questionNumber]["4"];
+
+    const correctAnswer = questionsPart2[questionNumber].correct;
+    const radioCorrect = questionContainer.querySelector(`input[name="answer"][value="${correctAnswer}"]`);
+    if (radioCorrect) {
+        radioCorrect.checked = true;
+    } else {
+        // Handle the case where correctAnswer does not match any radio button value
+        console.error(`Radio button with value '${correctAnswer}' not found.`);
+    }
+}
+
+
+    function loadQuestionPart3() {
+        const questionContainer = document.getElementById('wordMatchingContainer');
+        for (let i = 1; i <= 5; i++) {
+            questionContainer.querySelector(`#tuviet${i}`).value = questionsPart3[i].vietnamese;
+            questionContainer.querySelector(`#tuanh${i}`).value = questionsPart3[i].english;
+        }
+    }
+
+    // Update question labels
+    function updateQuestionLabelPart1(questionNumber) {
+        const questionLabel = document.getElementById('question-label1');
+        questionLabel.textContent = `Câu ${questionNumber}:`;
+    }
+
+    function updateQuestionLabelPart2(questionNumber) {
+        const questionLabel = document.getElementById('question-label2');
+        questionLabel.textContent = `Câu ${questionNumber}:`;
+    }
+
+    // Switch between question containers
+    function switchContainer(containerId) {
+        // Save current question data based on the current container
+        if (document.getElementById('fillBlanksContainer').style.display === 'block') {
+            saveCurrentQuestionPart1();
+        } else if (document.getElementById('quizContainer').style.display === 'block') {
+            saveCurrentQuestionPart2();
+        } else if (document.getElementById('wordMatchingContainer').style.display === 'block') {
+            saveCurrentQuestionPart3();
+        }
+
+        // Hide all containers
+        document.getElementById('fillBlanksContainer').style.display = 'none';
+        document.getElementById('quizContainer').style.display = 'none';
+        document.getElementById('wordMatchingContainer').style.display = 'none';
+
+        // Show the selected container
+        if (containerId === 'fillBlanks') {
+            document.getElementById('fillBlanksContainer').style.display = 'block';
+            document.getElementById('questionListPart1').style.display = 'block';
+            document.getElementById('questionListPart2').style.display = 'none';
+            loadQuestionPart1(currentQuestion);
+            updateQuestionLabelPart1(currentQuestion);
+        } else if (containerId === 'quiz') {
+            document.getElementById('quizContainer').style.display = 'block';
+            document.getElementById('questionListPart1').style.display = 'none';
+            document.getElementById('questionListPart2').style.display = 'block';
+            loadQuestionPart2(currentQuestion);
+            updateQuestionLabelPart2(currentQuestion);
+        } else if (containerId === 'wordMatching') {
+            document.getElementById('wordMatchingContainer').style.display = 'block';
+            document.getElementById('questionListPart1').style.display = 'none';
+            document.getElementById('questionListPart2').style.display = 'none';
+            loadQuestionPart3();
+            // No need to update label for Part 3 since it doesn't have a question selector
+        }
+    }
+
+    // Initial setup
+    document.addEventListener('DOMContentLoaded', () => {
+        switchContainer('fillBlanks'); // Assuming 'fillBlanks' is the default container
+    });
+
+    // Additional functions as needed...
+
+</script>
