@@ -71,12 +71,12 @@ namespace DemoProject.Pages
 
             return new JsonResult(districts);
         }
-        public async Task<JsonResult> OnGetSchoolsAsync(int levelOfSchoolId)
+        public async Task<JsonResult> OnGetSchoolsAsync(int levelOfSchoolId, int districtId)
         {
             var schools = await _context.Schools
-                .Where(d => d.LevelSchoolId == levelOfSchoolId)
+                .Where(s => s.LevelSchoolId == levelOfSchoolId && s.DistrictId == districtId)
+                .Select(s => new { s.SchoolId, s.SchoolName })
                 .ToListAsync();
-
             return new JsonResult(schools);
         }
 
