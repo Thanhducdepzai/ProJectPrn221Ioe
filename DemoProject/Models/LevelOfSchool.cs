@@ -1,11 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-<<<<<<< HEAD
 namespace ProjectIoePrn.Models
-=======
-namespace DemoProject.Models
->>>>>>> Register
 {
     public partial class LevelOfSchool
     {
