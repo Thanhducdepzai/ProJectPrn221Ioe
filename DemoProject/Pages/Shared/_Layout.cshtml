@@ -32,13 +32,12 @@
         <header class="other-header">
             <img src="~/images/logo.png" alt="Logo" class="logo" />
             <nav>
-                <a href="/HocCungIDE">Học cùng IDE</a>
-                <a href="/TuLuyen">Tự luyện</a>
-                <a href="/ThongTinCaNhan">Thông tin cá nhân</a>
-                <a href="~/Logout">
-                    <button class="logout-button">Thoát</button>
-                </a>
-                
+
+                <a asp-page="/OverviewExams">Học cùng Ide</a>
+                <a asp-page="/OverviewExams">Tự luyện</a>
+                <a asp-page="/StudentProfile">Thông tin cá nhân</a>
+                <a asp-page="/Index" class="logout-button">Thoát</a>
+
             </nav>
         </header>
     }

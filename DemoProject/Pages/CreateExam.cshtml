@@ -6,9 +6,9 @@
     <div class="side-info">
         <div class="side-info-text">
             <p>Xin chào</p>
-            <p>Nguyen Hoai Nam</p>
-            <p>ID: Admin</p>
-            <p>Tài khoản: NguyenHoaiNam00#</p>
+            <p>@Model.Admin.AdminName</p> <!--Admin Name here-->
+            <p>ID: @Model.Admin.AdminId</p> <!--Admin Id here-->
+            <p>Tài khoản: @Model.Admin.AdminUsername</p> <!-- Admin Username here-->
         </div>
         <div class="side-info-btn">
             <button>Danh sách kỳ thi của bạn</button>
@@ -18,35 +18,6 @@
     </div>
 
     <div class="create-dethi">
-        <h3>Tạo đề thi mới</h3>
-        <div class="create-dethi-moi">
-            <form>
-                <div class="form-group">
-                    <label for="exam-name">Tên kỳ thi:</label>
-                    <input type="text" id="exam-name">
-                </div>
-                <div class="form-group">
-                    <label for="exam-date">Ngày thi:</label>
-                    <input type="date" id="exam-date">
-                </div>
-                <div class="form-group">
-                    <label for="exam-time">Thời điểm:</label>
-                    <input type="datetime-local" id="exam-time">
-                </div>
-                <div class="form-group">
-                    <label for="exam-rules">Nội quy:</label>
-                    <textarea id="exam-rules"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exam-instructions">Hướng dẫn thi:</label>
-                    <textarea id="exam-instructions"></textarea>
-                </div>
-            </form>
-            <div>
-                <button>Tạo kỳ thi mới</button>
-                <button>Lưu</button>
-            </div>
-        </div>
         <br><br>
         <h3>Tạo đề tự luyện mới</h3>
         <div class="create-dethi-moi">
@@ -62,14 +33,6 @@
                 <div class="form-group">
                     <label for="exam-time">Thời điểm:</label>
                     <input type="datetime-local" id="exam-time">
-                </div>
-                <div class="form-group">
-                    <label for="exam-rules">Nội quy:</label>
-                    <textarea id="exam-rules"></textarea>
-                </div>
-                <div class="form-group">
-                    <label for="exam-instructions">Hướng dẫn thi:</label>
-                    <textarea id="exam-instructions"></textarea>
                 </div>
             </form>
             <div>

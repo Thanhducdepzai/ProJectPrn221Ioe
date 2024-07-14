@@ -1,11 +1,17 @@
-using ProjectIoePrn.Models;
-var builder = WebApplication.CreateBuilder(args);
 
+using Microsoft.EntityFrameworkCore;
+using ProjectIoePrn.Models;
+
+
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<IOE_Project_Clone_PRN221Context>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("value")));
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddDbContext<IOE_Project_Clone_PRN221Context>();
 builder.Services.AddSession();
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

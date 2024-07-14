@@ -44,7 +44,11 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Admin");
 
-                entity.Property(e => e.AdminId).HasColumnName("admin_id");
+
+                entity.Property(e => e.AdminId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("admin_id");
+
 
                 entity.Property(e => e.AdminDob)
                     .HasColumnType("date")
@@ -76,11 +80,15 @@ namespace ProjectIoePrn.Models
             modelBuilder.Entity<Answer>(entity =>
             {
                 entity.HasKey(e => e.AnwserId)
-                    .HasName("PK__Answer__4B78FF672BEC0641");
+
+                    .HasName("PK__Answer__4B78FF676C4C43AF");
 
                 entity.ToTable("Answer");
 
-                entity.Property(e => e.AnwserId).HasColumnName("anwser_id ");
+                entity.Property(e => e.AnwserId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("anwser_id ");
+
 
                 entity.Property(e => e.AnswerText)
                     .HasMaxLength(100)
@@ -100,11 +108,15 @@ namespace ProjectIoePrn.Models
             modelBuilder.Entity<District>(entity =>
             {
                 entity.HasKey(e => e.DistricId)
-                    .HasName("PK__District__17728AEE46C99020");
+
+                    .HasName("PK__District__17728AEE2BB99170");
 
                 entity.ToTable("District");
 
-                entity.Property(e => e.DistricId).HasColumnName("distric_id");
+                entity.Property(e => e.DistricId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("distric_id");
+
 
                 entity.Property(e => e.DistricName)
                     .HasMaxLength(50)
@@ -123,7 +135,11 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Grade");
 
-                entity.Property(e => e.GradeId).HasColumnName("grade_id");
+
+                entity.Property(e => e.GradeId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("grade_id");
+
 
                 entity.Property(e => e.GradeName)
                     .HasMaxLength(50)
@@ -141,11 +157,15 @@ namespace ProjectIoePrn.Models
             modelBuilder.Entity<IndividualResultDetail>(entity =>
             {
                 entity.HasKey(e => e.IndividualResultId)
-                    .HasName("PK__Individu__003B1E2EB50EDF91");
+
+                    .HasName("PK__Individu__003B1E2ED4FC3639");
 
                 entity.ToTable("Individual Result Detail");
 
-                entity.Property(e => e.IndividualResultId).HasColumnName("individual_result_id");
+                entity.Property(e => e.IndividualResultId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("individual_result_id");
+
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
 
@@ -171,11 +191,15 @@ namespace ProjectIoePrn.Models
             modelBuilder.Entity<LevelOfSchool>(entity =>
             {
                 entity.HasKey(e => e.LevelSchoolId)
-                    .HasName("PK__Level of__63E29240779124AC");
+
+                    .HasName("PK__Level of__63E29240346AEA9E");
 
                 entity.ToTable("Level of school");
 
-                entity.Property(e => e.LevelSchoolId).HasColumnName("levelSchool_id");
+                entity.Property(e => e.LevelSchoolId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("levelSchool_id");
+
 
                 entity.Property(e => e.LevelName)
                     .HasMaxLength(50)
@@ -186,7 +210,11 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Part");
 
-                entity.Property(e => e.PartId).HasColumnName("part_id");
+
+                entity.Property(e => e.PartId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("part_id");
+
 
                 entity.Property(e => e.PartCreateDate)
                     .HasColumnType("date")
@@ -222,11 +250,15 @@ namespace ProjectIoePrn.Models
             modelBuilder.Entity<PresentPartResultDetail>(entity =>
             {
                 entity.HasKey(e => e.PartResultDetailId)
-                    .HasName("PK__Present __2008258D5B8CADC8");
+
+                    .HasName("PK__Present __2008258DDF971C7A");
 
                 entity.ToTable("Present Part Result Detail");
 
-                entity.Property(e => e.PartResultDetailId).HasColumnName("part_result_detail_id ");
+                entity.Property(e => e.PartResultDetailId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("part_result_detail_id ");
+
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
 
@@ -253,7 +285,11 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Province");
 
-                entity.Property(e => e.ProvinceId).HasColumnName("province_id");
+
+                entity.Property(e => e.ProvinceId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("province_id");
+
 
                 entity.Property(e => e.ProvinceName)
                     .HasMaxLength(150)
@@ -264,7 +300,11 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Question");
 
-                entity.Property(e => e.QuestionId).HasColumnName("question_id ");
+
+                entity.Property(e => e.QuestionId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("question_id ");
+
 
                 entity.Property(e => e.PartId).HasColumnName("part_id");
 
@@ -290,7 +330,11 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Round");
 
-                entity.Property(e => e.RoundId).HasColumnName("round_id");
+
+                entity.Property(e => e.RoundId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("round_id");
+
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_id");
 
@@ -317,7 +361,11 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("School");
 
-                entity.Property(e => e.SchoolId).HasColumnName("school_id");
+
+                entity.Property(e => e.SchoolId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("school_id");
+
 
                 entity.Property(e => e.DistrictId).HasColumnName("district_id");
 
@@ -344,7 +392,11 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Student");
 
-                entity.Property(e => e.StudentId).HasColumnName("student_id");
+
+                entity.Property(e => e.StudentId)
+                    .ValueGeneratedNever()
+                    .HasColumnName("student_id");
+
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_ID");
 
@@ -398,11 +450,15 @@ namespace ProjectIoePrn.Models
             modelBuilder.Entity<TypeOfQuestion>(entity =>
             {
                 entity.HasKey(e => e.TypeOfQuestion1)
-                    .HasName("PK__Type of __8D14B5FD281911A7");
+
+                    .HasName("PK__Type of __8D14B5FDDF98A526");
 
                 entity.ToTable("Type of question");
 
-                entity.Property(e => e.TypeOfQuestion1).HasColumnName("type_of_question");
+                entity.Property(e => e.TypeOfQuestion1)
+                    .ValueGeneratedNever()
+                    .HasColumnName("type_of_question");
+
 
                 entity.Property(e => e.TypeOfQuestionName)
                     .HasMaxLength(450)
