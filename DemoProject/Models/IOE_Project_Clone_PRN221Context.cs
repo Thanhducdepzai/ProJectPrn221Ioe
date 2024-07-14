@@ -45,7 +45,7 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Admin");
                 entity.Property(e => e.AdminId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("admin_id");
 
                 entity.Property(e => e.AdminDob)
@@ -83,7 +83,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("Answer");
 
                 entity.Property(e => e.AnwserId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("anwser_id ");
 
 
@@ -111,7 +111,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("District");
 
                 entity.Property(e => e.DistricId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("distric_id");
 
                 entity.Property(e => e.DistricName)
@@ -133,7 +133,7 @@ namespace ProjectIoePrn.Models
 
 
                 entity.Property(e => e.GradeId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("grade_id");
 
                 entity.Property(e => e.GradeName)
@@ -158,7 +158,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("Individual Result Detail");
 
                 entity.Property(e => e.IndividualResultId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("individual_result_id");
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
@@ -191,7 +191,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("Level of school");
 
                 entity.Property(e => e.LevelSchoolId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("levelSchool_id");
 
                 entity.Property(e => e.LevelName)
@@ -205,7 +205,7 @@ namespace ProjectIoePrn.Models
 
 
                 entity.Property(e => e.PartId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("part_id");
 
                 entity.Property(e => e.PartCreateDate)
@@ -248,7 +248,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("Present Part Result Detail");
 
                 entity.Property(e => e.PartResultDetailId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("part_result_detail_id ");
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
@@ -277,7 +277,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("Province");
 
                 entity.Property(e => e.ProvinceId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("province_id");
 
                 entity.Property(e => e.ProvinceName)
@@ -290,7 +290,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("Question");
 
                 entity.Property(e => e.QuestionId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("question_id ");
 
                 entity.Property(e => e.PartId).HasColumnName("part_id");
@@ -318,7 +318,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("Round");
 
                 entity.Property(e => e.RoundId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("round_id");
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_id");
@@ -346,7 +346,7 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("School");
                 entity.Property(e => e.SchoolId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("school_id");
 
                 entity.Property(e => e.DistrictId).HasColumnName("district_id");
@@ -374,7 +374,7 @@ namespace ProjectIoePrn.Models
             {
                 entity.ToTable("Student");
                 entity.Property(e => e.StudentId)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("student_id");
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_ID");
@@ -434,7 +434,7 @@ namespace ProjectIoePrn.Models
                 entity.ToTable("Type of question");
 
                 entity.Property(e => e.TypeOfQuestion1)
-                    .ValueGeneratedNever()
+                    .ValueGeneratedOnAdd()
                     .HasColumnName("type_of_question");
 
                 entity.Property(e => e.TypeOfQuestionName)

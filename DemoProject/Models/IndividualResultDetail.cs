@@ -10,7 +10,7 @@ namespace ProjectIoePrn.Models
         {
             PresentPartResultDetails = new HashSet<PresentPartResultDetail>();
         }
-
+        
         public int IndividualResultId { get; set; }
         public int RoundScore { get; set; }
         public int CompleteTime { get; set; }

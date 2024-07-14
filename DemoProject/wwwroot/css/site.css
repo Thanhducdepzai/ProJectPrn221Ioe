@@ -1690,7 +1690,7 @@ label.valid {
     color: #333333;
     margin-bottom: 20px;
 }
-
+/*
 .form-group {
     margin-bottom: 20px;
 }
@@ -1703,7 +1703,7 @@ label.valid {
         box-sizing: border-box;
         font-size: 16px;
     }
-
+    */
 .confirm-button {
     background-color: #007BFF;
     color: #ffffff;

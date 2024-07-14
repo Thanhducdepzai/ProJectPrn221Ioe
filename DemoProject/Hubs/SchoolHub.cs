@@ -1,4 +1,4 @@
-﻿using DemoProject.Models;
+﻿using ProjectIoePrn.Models;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.EntityFrameworkCore;
 using NuGet.Protocol.Plugins;

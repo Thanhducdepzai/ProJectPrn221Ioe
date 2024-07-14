@@ -1,5 +1,5 @@
-using DemoProject.Hubs;
-using DemoProject.Models;
+
+using ProjectIoePrn.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,11 +18,9 @@ namespace DemoProject.Pages
     public class RegisterModel : PageModel
     {
         private readonly IOE_Project_Clone_PRN221Context _context;
-        private readonly IHubContext<SchoolHub> _hubContext;
-        public RegisterModel (IOE_Project_Clone_PRN221Context context, IHubContext<SchoolHub>hub)
+        public RegisterModel (IOE_Project_Clone_PRN221Context context)
         {
             _context = context;
-            _hubContext = hub;
         } 
         public void OnGet()
         {

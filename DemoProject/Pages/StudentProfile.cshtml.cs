@@ -1,3 +1,4 @@
+using GoldBracelet_HE172196_HoangThuPhuong;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
@@ -22,11 +23,10 @@ namespace ProjectIoePrn.Pages
 
         public void OnGet()
         {
-            push();
-            var studentJson2 = HttpContext.Session.GetString("Student");
-            if (!string.IsNullOrEmpty(studentJson2))
+            var studentJson2 = HttpContext.Session.GetObjectFromJson<Student>("Student");
+            if (studentJson2!=null)
             {
-                stu = JsonConvert.DeserializeObject<Student>(studentJson2);
+                stu = studentJson2;
                 school = _context.Schools.FirstOrDefault(x => x.SchoolId == stu.SchoolId);
                 studentRank = GetStudentRank(stu.StudentId);
                 ViewData["StudentRank"] = studentRank;
@@ -47,17 +47,6 @@ namespace ProjectIoePrn.Pages
         .OrderByDescending(ird => ird.RoundId)
         .Select(ird => ird.RoundId)
         .FirstOrDefault();
-        }
-
-        public void push()
-        {
-            stuTest = _context.Students.FirstOrDefault(x => x.StudentId == 1);
-            if (stuTest != null)
-            {
-                var studentJson = JsonConvert.SerializeObject(stuTest);
-                HttpContext.Session.SetString("Student", studentJson);
-                ViewData["CurrentRound"] = GetCurrentRound(stuTest.StudentId);
-            }
         }
 
         private int GetStudentRank(int studentId)

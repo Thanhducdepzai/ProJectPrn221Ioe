@@ -1,3 +1,4 @@
+﻿using GoldBracelet_HE172196_HoangThuPhuong;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
@@ -27,19 +28,12 @@ namespace ProjectIoePrn.Pages
         public IList<Round> Rounds { get; set; }
         public int CurrentRoundId { get; set; }
 
-        public async Task OnGetAsync(int? studentId)
+        public async Task OnGetAsync()
         {
-            if (studentId == null)
-            {
-                return;
-            }
-
-            Student = await _context.Students
-                                    .Include(s => s.School)
-                                    .FirstOrDefaultAsync(s => s.StudentId == studentId);
-
+            var studentSession = HttpContext.Session.GetObjectFromJson<Student>("Student");
+            Student = _context.Students.Include(a => a.School).Where(a => a.StudentId == studentSession.StudentId).FirstOrDefault();
             IndividualStudyResults = await _context.IndividualResultDetails
-                                             .Where(ir => ir.UserId == studentId)
+                                             .Where(ir => ir.UserId == Student.StudentId && ir.RoundScore >=0)
                                              .ToListAsync();
 
             Parts = await _context.Parts.ToListAsync();
@@ -49,7 +43,34 @@ namespace ProjectIoePrn.Pages
             // Determine the current round
             var completedRounds = IndividualStudyResults.Select(ir => ir.RoundId).Distinct().ToList();
             CurrentRoundId = completedRounds.Count > 0 ? completedRounds.Max() + 1 : 1;
-
+            var individualResultDetailCurrentRound = await _context.IndividualResultDetails
+                                             .Where(ir => ir.UserId == Student.StudentId && ir.RoundId == CurrentRoundId)
+                                             .FirstOrDefaultAsync();
+            if(individualResultDetailCurrentRound == null)
+            {
+                IndividualResultDetail individualResultDetail = new IndividualResultDetail
+                {
+                    RoundScore = -1,
+                    CompleteTime = -1,
+                    UserId = Student.StudentId,
+                    RoundId = CurrentRoundId
+                };
+                _context.IndividualResultDetails.Add(individualResultDetail);
+                await _context.SaveChangesAsync();
+                var PartOfCurrentRound = _context.Parts.Include(a => a.Round).Where(a => a.RoundId == CurrentRoundId).ToList();
+                foreach (var part in PartOfCurrentRound)
+                {
+                    PresentPartResultDetail presentPartResultDetail = new PresentPartResultDetail
+                    {
+                        Score = -1,
+                        CompleteTime = -1,
+                        PartId = part.PartId,
+                        IndividualResultId = individualResultDetail.IndividualResultId
+                    };
+                    _context.PresentPartResultDetails.Add(presentPartResultDetail);
+                    await _context.SaveChangesAsync();
+                }
+            }
             // Check if all parts of the current round are completed
             var allPartsInCurrentRound = await _context.Parts
                                                        .Where(p => p.RoundId == CurrentRoundId)
@@ -58,7 +79,7 @@ namespace ProjectIoePrn.Pages
             var partResultsInCurrentRound = await _context.PresentPartResultDetails
                                                           .Include(pprd => pprd.IndividualResult)
                                                           .ThenInclude(ir => ir.Round)
-                                                          .Where(pprd => pprd.IndividualResult.UserId == studentId && pprd.IndividualResult.RoundId == CurrentRoundId)
+                                                          .Where(pprd => pprd.IndividualResult.UserId == Student.StudentId && pprd.IndividualResult.RoundId == CurrentRoundId)
                                                           .ToListAsync();
 
             bool allPartsCompleted = allPartsInCurrentRound.All(part => partResultsInCurrentRound.Any(r => r.PartId == part.PartId && r.Score != -1 && r.CompleteTime != -1));

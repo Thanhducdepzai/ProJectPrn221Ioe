@@ -1,4 +1,4 @@
-﻿using DemoProject.Models;
+﻿using ProjectIoePrn.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Principal;

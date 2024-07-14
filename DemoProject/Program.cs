@@ -2,8 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectIoePrn.Models;
 var builder = WebApplication.CreateBuilder(args);
-builder.Services.AddDbContext<IOE_Project_Clone_PRN221Context>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("value")));
+builder.Services.AddDbContext<IOE_Project_Clone_PRN221Context>();
 // Add services to the container.
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddRazorPages();
