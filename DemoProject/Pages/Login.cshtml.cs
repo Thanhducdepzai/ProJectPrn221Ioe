@@ -35,7 +35,7 @@ namespace DemoProject.Pages
                 if (student != null)
                 {
                     HttpContext.Session.SetObjectAsJson("Student", student);                   
-                    return RedirectToPage("/HomeStudent");
+                    return RedirectToPage("/Index1");
                 }
                 else
                 {
