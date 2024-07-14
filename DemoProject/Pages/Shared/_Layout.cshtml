@@ -10,6 +10,7 @@
     <title>@ViewData["Title"] - My Quiz App</title>
     <link rel="stylesheet" href="~/css/site.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="~/fonts/material-icon/css/material-design-iconic-font.min.css">
 </head>
 <body>
 
@@ -19,10 +20,10 @@
         <header class="home-header">
             <img src="~/images/logo.png" alt="Logo" class="logo" />
             <nav class="right-nav">
-                <a href="/TuLuyen">Tự luyện</a>
+                <a asp-page="OverviewExams">Tự luyện</a>
                 <a href="/HocCungIDE">Học cùng IDE</a>
-                <a href="#" class="login-link">Đăng nhập</a>
-                <a href="#" class="register-link">Đăng ký</a>
+                <a asp-page="Login" class="login-link">Đăng nhập</a>
+                <a asp-page="Register" class="register-link">Đăng ký</a>
             </nav>
         </header>
     }
@@ -50,9 +51,9 @@
 
     <footer class="footer">
         <div class="footer-content">
-            <span>Tổng Công ty trường đại học FPT</span>
-            <span>Địa chỉ: Trường đại học FPT Hà Nội</span>
-            <span>Project môn PRN221</span>
+            <span>IOE Việt Nam</span>
+            <span>Trường đại học FPT Hà Nội</span>
+            <span>SĐT:0808666888</span>
         </div>
     </footer>
 
