@@ -13,12 +13,12 @@ namespace DemoProject.Models
         public int StudentId { get; set; }
         public string StudentName { get; set; } = null!;
         public string StudentGmail { get; set; } = null!;
-        public DateTime? StudentDob { get; set; }
-        public string? StudentUsername { get; set; } = null!;
+        public DateTime StudentDob { get; set; }
+        public string StudentUsername { get; set; } = null!;
         public string StudentPassword { get; set; } = null!;
-        public string? StudentClass { get; set; } = null!;
-        public int? SchoolId { get; set; }
-        public int? GradeId { get; set; }
+        public string StudentClass { get; set; } = null!;
+        public int SchoolId { get; set; }
+        public int GradeId { get; set; }
 
         public virtual Grade Grade { get; set; } = null!;
         public virtual School School { get; set; } = null!;

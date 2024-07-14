@@ -1,6 +1,6 @@
 ﻿/* Layout styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Times New Roman';
     margin: 0;
     padding: 0;
     background: url('/images/background.png') no-repeat center center fixed;
@@ -238,11 +238,11 @@ footer {
         background-color: #218838; /* Màu xanh đậm */
         transform: scale(1.05);
     }
-<<<<<<< HEAD
+
 
 /* Synonym page styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Times New Roman;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -315,7 +315,7 @@ body {
     margin-left: 20px; /* Tạo khoảng cách với lưới ô */
 }
 body {
-    font-family: Arial, sans-serif;
+    font-family: Times New Roman;
    
     color: white;
     margin: 0;
@@ -423,7 +423,7 @@ th {
     }
     /*student test page*/
 body {
-    font-family: Arial, sans-serif;
+    font-family: Times New Roman;
     background: #f7f7f7;
     margin: 0;
     padding: 0;
@@ -520,7 +520,7 @@ body {
         /*noi tu page*/
  /* CSS styles */
 body {
-    font-family: Arial, sans-serif;
+    font-family: Times New Roman;
     background: #f7f7f7;
     margin: 0;
     padding: 0;
@@ -625,7 +625,7 @@ body {
         /*Admin3*/
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Times New Roman;
     background: #f7f7f7;
     margin: 0;
     padding: 0;
@@ -728,7 +728,7 @@ body {
 
         /*StudentHomePage*/
 body {
-    font-family: Arial, sans-serif;
+    font-family: Times New Roman;
     background: #f7f7f7;
     margin: 0;
     padding: 0;
@@ -912,7 +912,7 @@ body {
     align-items: center;
     margin-bottom: 10px;
 }
-.form-group label {
+.form-group label,select {
     width: auto;
 }
 
@@ -1671,3 +1671,95 @@ label.valid {
 }
 
 /*# sourceMappingURL=style.css.map */
+.container {
+    background-color: #ffffff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px 30px;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+.email-confirmation h1 {
+    color: #007BFF;
+    margin-bottom: 20px;
+}
+
+.email-confirmation p {
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+.confirm-button {
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+    .confirm-button:hover {
+        background-color: #0056b3;
+    }
+
+.password-reset h1 {
+    color: #007BFF;
+    margin-bottom: 20px;
+}
+
+.password-reset p {
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+.form-group1 {
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+    .form-group1 label {
+        display: block;
+        margin-bottom: 5px;
+        color: #333333;
+    }
+
+    .form-group1 input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+    }
+
+.reset-button {
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+    .reset-button:hover {
+        background-color: #0056b3;
+    }

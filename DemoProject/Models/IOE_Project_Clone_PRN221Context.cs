@@ -36,7 +36,6 @@ namespace DemoProject.Models
             var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
 
             if (!optionsBuilder.IsConfigured) { optionsBuilder.UseSqlServer(config.GetConnectionString("value")); }
-
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,9 +44,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Admin");
 
-                entity.Property(e => e.AdminId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("admin_id");
+                entity.Property(e => e.AdminId).HasColumnName("admin_id");
 
                 entity.Property(e => e.AdminDob)
                     .HasColumnType("date")
@@ -79,13 +76,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<Answer>(entity =>
             {
                 entity.HasKey(e => e.AnwserId)
-                    .HasName("PK__Answer__4B78FF671AB654F7");
+                    .HasName("PK__Answer__4B78FF67CA9B6AEF");
 
                 entity.ToTable("Answer");
 
-                entity.Property(e => e.AnwserId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("anwser_id ");
+                entity.Property(e => e.AnwserId).HasColumnName("anwser_id ");
 
                 entity.Property(e => e.AnswerText)
                     .HasMaxLength(100)
@@ -105,13 +100,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<District>(entity =>
             {
                 entity.HasKey(e => e.DistricId)
-                    .HasName("PK__District__17728AEEB64CEECB");
+                    .HasName("PK__District__17728AEE8D8C7BB3");
 
                 entity.ToTable("District");
 
-                entity.Property(e => e.DistricId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("distric_id");
+                entity.Property(e => e.DistricId).HasColumnName("distric_id");
 
                 entity.Property(e => e.DistricName)
                     .HasMaxLength(50)
@@ -130,9 +123,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Grade");
 
-                entity.Property(e => e.GradeId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("grade_id");
+                entity.Property(e => e.GradeId).HasColumnName("grade_id");
 
                 entity.Property(e => e.GradeName)
                     .HasMaxLength(50)
@@ -150,13 +141,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<IndividualResultDetail>(entity =>
             {
                 entity.HasKey(e => e.IndividualResultId)
-                    .HasName("PK__Individu__003B1E2EA826615E");
+                    .HasName("PK__Individu__003B1E2E5D62B1C2");
 
                 entity.ToTable("Individual Result Detail");
 
-                entity.Property(e => e.IndividualResultId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("individual_result_id");
+                entity.Property(e => e.IndividualResultId).HasColumnName("individual_result_id");
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
 
@@ -182,13 +171,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<LevelOfSchool>(entity =>
             {
                 entity.HasKey(e => e.LevelSchoolId)
-                    .HasName("PK__Level of__63E29240B23C583B");
+                    .HasName("PK__Level of__63E29240D54BAB39");
 
                 entity.ToTable("Level of school");
 
-                entity.Property(e => e.LevelSchoolId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("levelSchool_id");
+                entity.Property(e => e.LevelSchoolId).HasColumnName("levelSchool_id");
 
                 entity.Property(e => e.LevelName)
                     .HasMaxLength(50)
@@ -199,9 +186,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Part");
 
-                entity.Property(e => e.PartId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("part_id");
+                entity.Property(e => e.PartId).HasColumnName("part_id");
 
                 entity.Property(e => e.PartCreateDate)
                     .HasColumnType("date")
@@ -237,13 +222,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<PresentPartResultDetail>(entity =>
             {
                 entity.HasKey(e => e.PartResultDetailId)
-                    .HasName("PK__Present __2008258DD0855D79");
+                    .HasName("PK__Present __2008258D6145B910");
 
                 entity.ToTable("Present Part Result Detail");
 
-                entity.Property(e => e.PartResultDetailId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("part_result_detail_id ");
+                entity.Property(e => e.PartResultDetailId).HasColumnName("part_result_detail_id ");
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
 
@@ -270,9 +253,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Province");
 
-                entity.Property(e => e.ProvinceId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("province_id");
+                entity.Property(e => e.ProvinceId).HasColumnName("province_id");
 
                 entity.Property(e => e.ProvinceName)
                     .HasMaxLength(150)
@@ -283,9 +264,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Question");
 
-                entity.Property(e => e.QuestionId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("question_id ");
+                entity.Property(e => e.QuestionId).HasColumnName("question_id ");
 
                 entity.Property(e => e.PartId).HasColumnName("part_id");
 
@@ -311,9 +290,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Round");
 
-                entity.Property(e => e.RoundId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("round_id");
+                entity.Property(e => e.RoundId).HasColumnName("round_id");
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_id");
 
@@ -340,9 +317,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("School");
 
-                entity.Property(e => e.SchoolId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("school_id");
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
 
                 entity.Property(e => e.DistrictId).HasColumnName("district_id");
 
@@ -369,9 +344,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Student");
 
-                entity.Property(e => e.StudentId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("student_id");
+                entity.Property(e => e.StudentId).HasColumnName("student_id");
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_ID");
 
@@ -425,13 +398,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<TypeOfQuestion>(entity =>
             {
                 entity.HasKey(e => e.TypeOfQuestion1)
-                    .HasName("PK__Type of __8D14B5FDF4A41D0D");
+                    .HasName("PK__Type of __8D14B5FD51B142CB");
 
                 entity.ToTable("Type of question");
 
-                entity.Property(e => e.TypeOfQuestion1)
-                    .ValueGeneratedNever()
-                    .HasColumnName("type_of_question");
+                entity.Property(e => e.TypeOfQuestion1).HasColumnName("type_of_question");
 
                 entity.Property(e => e.TypeOfQuestionName)
                     .HasMaxLength(450)

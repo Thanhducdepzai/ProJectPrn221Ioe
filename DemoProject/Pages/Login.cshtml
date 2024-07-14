@@ -10,7 +10,7 @@
         <div class="signin-content">
             <div class="signin-image">
                 <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
-                <a asp-page="Register" class="signup-image-link">Create an account</a>
+                <a asp-page="Register" class="signup-image-link">Tạo tài khoản thi</a>
             </div>
 
             <div class="signin-form">
@@ -18,22 +18,22 @@
                 <form method="POST" class="register-form" id="login-form">
                     <div class="form-group">
                         <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input type="text" name="your_name" id="your_name" placeholder="Your Name" />
+                        <input type="text" name="studentUsername" id="studentUsername" placeholder="Nhập tên người dùng..." />
                     </div>
                     <div class="form-group">
                         <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
-                        <input type="password" name="your_pass" id="your_pass" placeholder="Password" />
+                        <input type="password" name="studentPassword" id="studentPassword" placeholder="Nhập mật khẩu ..." />
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" name="select-role-admin" id="select-role-admin" class="agree-term" />
-                        <label for="select-role-admin" class="label-agree-term"><span><span></span></span>You login as admin</label>
+                        <input type="checkbox" name="isAdmin" id="select-role-admin" class="agree-term" asp-for="IsAdmin"/>
+                        <label for="select-role-admin" class="label-agree-term"><span><span></span></span>Đăng nhập với tài khoản là admin</label>
                     </div>
                     <div class="form-group">
-                        <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
-                        <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                        <span style="color:red; font-size:medium; font-style:italic">@ViewBag.error</span>
                     </div>
                     <div class="form-group form-button">
-                        <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Đăng nhập" />
+                        <a asp-page="ConfirmEmail" class="signup-image-link" style="color:cornflowerblue">Quên mật khẩu, bấm vào đây.</a>
                     </div>
                 </form>
                 
