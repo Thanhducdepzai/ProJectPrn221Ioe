@@ -33,7 +33,7 @@
     <div class="info-container">
         <div class="scoreboard">
             <div class="score">Score: <span id="score">0</span></div>
-            <div class="timer">Time: <span id="timer">01:00</span></div>
+            <div class="timer">Time: <span id="timer">20:00</span></div> <!-- Update with your initial time -->
             <div class="user-info">
                 <p>Hoang Thu Phuong</p>
                 <p>ID: 986045960</p>
@@ -41,6 +41,11 @@
         </div>
     </div>
 </div>
+
+<form id="quizForm" method="post">
+    <input type="hidden" id="finalScore" name="FinalScore" value="0" />
+    <input type="hidden" id="timeSpent" name="TimeSpent" value="0" />
+</form>
 
 <style>
     .active {
@@ -81,6 +86,7 @@
                 updateTime();
             } else {
                 clearInterval(timerInterval);
+                gameOver(); // Call gameOver function when time runs out
                 // Handle end of game
                 alert("Time's up! Game over!");
             }
@@ -132,6 +138,33 @@
                 }
             });
         });
+
+        function checkGameCompletion() {
+            var allCellsDisappeared = true;
+            cells.forEach(function (cell) {
+                if (!cell.classList.contains("disappear")) {
+                    allCellsDisappeared = false;
+                    return;
+                }
+            });
+
+            if (allCellsDisappeared || timeLeft <= 0) {
+                gameOver(); // Call gameOver function when all cells have disappeared or time runs out
+            }
+        }
+
+        function gameOver() {
+            clearInterval(timerInterval); // Stop the timer
+
+            // Update hidden fields with final score and time spent
+            document.getElementById("finalScore").value = score;
+            document.getElementById("timeSpent").value = 1200 - timeLeft; // Assuming 1200 is the initial time in seconds
+
+            // Submit the form
+            document.getElementById("quizForm").submit();
+        }
+
+        setInterval(checkGameCompletion, 1000); // Check game completion every second
 
         updateTime(); // Cập nhật hiển thị thời gian ban đầu
     });

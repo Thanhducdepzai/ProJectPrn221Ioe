@@ -123,7 +123,7 @@
         });
 
         if (selectedOption === correctAnswer) {
-            score++;
+            score+=10;
             document.getElementById('score').textContent = `Score: ${score}`;
         }
 
@@ -156,7 +156,7 @@
     function endQuiz() {
         clearInterval(timerInterval);
         document.getElementById('finalScore').value = score;
-        document.getElementById('timeSpent').value = 120 - timeLeft; // Time spent in seconds
+        document.getElementById('timeSpent').value = 1200 - timeLeft; // Time spent in seconds
         document.getElementById('quizForm').submit();
     }
 

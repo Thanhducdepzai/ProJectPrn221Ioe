@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.EntityFrameworkCore;
 using ProjectIoePrn.Models;
 
 namespace ProjectIoePrn.Pages
@@ -8,15 +9,17 @@ namespace ProjectIoePrn.Pages
     {
         private readonly IOE_Project_Clone_PRN221Context _context;
         public List<Question> ListQuestions { get; set; }
-        
+        [BindProperty(SupportsGet = true)]
+        public int PartId { get; set; }
 
         public QuizModel(IOE_Project_Clone_PRN221Context context)
         {
             _context = context;
         }
-        public void OnGet()
+        public async Task OnGetAsync()
         {
-            ListQuestions = _context.Questions.Where(q => q.QuestionId >= 25 && q.QuestionId <= 26).ToList();
+
+            //ListQuestions = _context.Questions.Where(q => q.QuestionId >= 25 && q.QuestionId <= 26).ToList();
             //foreach (Question q in ListQuestions)
             //{
             //    data.Add(q.QuestionMetadata);
@@ -24,14 +27,32 @@ namespace ProjectIoePrn.Pages
             //}
 
             // ViewData["data"] = data;
+
+            ListQuestions = await _context.Questions
+                .Where(q => q.PartId == PartId)
+                .OrderBy(q => EF.Functions.Random())
+                .Take(10)
+                .ToListAsync();
             ViewData["list"] = ListQuestions;
         }
 
-        public IActionResult OnPost(int FinalScore, int TimeSpent)
+        public async Task<IActionResult> OnPostAsync(int finalScore, int timeSpent)
         {
             
+            
 
-            return Page();
+            var partResultDetail = await _context.PresentPartResultDetails
+                .FirstOrDefaultAsync(p => p.PartId == PartId );
+
+            if (partResultDetail != null)
+            {
+                partResultDetail.Score = finalScore;
+                partResultDetail.CompleteTime = timeSpent;
+
+                await _context.SaveChangesAsync();
+            }
+
+            return RedirectToPage("/OverviewExams");
         }
     }
 }

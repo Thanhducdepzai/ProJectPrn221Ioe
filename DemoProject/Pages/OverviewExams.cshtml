@@ -23,11 +23,10 @@
             <li>Mỗi vòng Tự luyện gồm 3 bài thi, trong đó:</li>
             <ul>
                 <li>Bài thi số 1-2-3: Bạn cần đạt ít nhất 75% số điểm mỗi bài thi để hoàn thành</li>
-
             </ul>
             <li>Kết quả của một lần Tự luyện được tính bằng tổng điểm và tổng thời gian làm bài của 3 bài thi 1-2-3-.</li>
-            <li>1 phần thi sẽ có 10 cau hỏi, mỗi câu 10 điểm</li>
-            <li> Phần matching word sẽ có 2 từ chọn đúng sẽ được 20 điểm</li>
+            <li>1 phần thi sẽ có 10 câu hỏi, mỗi câu 10 điểm</li>
+            <li>Phần matching word sẽ có 2 từ chọn đúng sẽ được 20 điểm</li>
         </ul>
         <p>(*) Hướng dẫn thi:</p>
         <ul>
@@ -36,7 +35,6 @@
             <li>Nối từ: Chọn 2 từ tiếng Việt, tiếng Anh đồng nghĩa</li>
         </ul>
         <p>Học sinh bắt buộc phải thi hết 3 bài thi mới được sang vòng tiếp theo.</p>
-
     </div>
 }
 
@@ -63,7 +61,22 @@
                     <td>
                         @if (result.CompleteTime == -1)
                         {
-                            <button onclick="location.href='@Url.Page("/Test", new { partId = result.Part.PartId })'">Làm bài</button>
+                            
+                                string pageUrl;
+                                switch (result.Part.TypeOfQuestionId % 3)
+                                {
+                                    case 1:
+                                        pageUrl = Url.Page("/Synomym", new { partId = result.Part.PartId });
+                                        break;
+                                    case 2:
+                                    pageUrl = Url.Page("/Quiz", new { partId = result.Part.PartId });
+                                        break;
+                                    default:
+                                        pageUrl = Url.Page("/FillBlank", new { partId = result.Part.PartId });
+                                        break;
+                                }
+                            
+                            <button onclick="location.href='@pageUrl'">Làm bài</button>
                         }
                         else
                         {
@@ -127,6 +140,7 @@
         }
     </tbody>
 </table>
+
 
 
 
