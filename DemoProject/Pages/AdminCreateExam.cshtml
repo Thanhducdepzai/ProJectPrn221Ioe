@@ -4,7 +4,8 @@
 }
 <div class="test-page-container">
     <div class="header">
-        <h2>Vòng tự luyện: 35</h2>
+            <h2 id="roundNameHeader"></h2>
+            <p id="examDateDisplay"></p>
     </div>
 
     <div class="test-info">
@@ -47,8 +48,8 @@
             </select>
         </div>
 
-        <label for="thoigian">Thời gian (phút):</label>
-        <input type="number" id="thoigian" name="thoigian" value="20" min="1" max="60">
+        <label for="thoigian"><strong>Thời gian (phút): 20</strong></label>
+     <!--<input type="number" id="thoigian" name="thoigian" value="20" min="1" max="60">-->
     </div>
 
     <div class="user-info">
@@ -118,22 +119,53 @@
                         <td class="equals-sign">=</td>
                         <td><input type="text" id="tuanh4" /></td>
                     </tr>
-                                        <tr>
+                    <tr>
                         <td><input type="text" id="tuviet5" /></td>
                         <td class="equals-sign">=</td>
                         <td><input type="text" id="tuanh5" /></td>
+                    </tr>
+                    <tr>
+                        <td><input type="text" id="tuviet6" /></td>
+                        <td class="equals-sign">=</td>
+                        <td><input type="text" id="tuanh6" /></td>
+                    </tr>
+                     <tr>
+                        <td><input type="text" id="tuviet7" /></td>
+                        <td class="equals-sign">=</td>
+                        <td><input type="text" id="tuanh7" /></td>
+                    </tr>
+                     <tr>
+                        <td><input type="text" id="tuviet8" /></td>
+                        <td class="equals-sign">=</td>
+                        <td><input type="text" id="tuanh8" /></td>
                     </tr>
             </tbody>
         </table>
     </div>
 
-    <div class="buttons">
-        <button class="create-button">Tạo đề</button>
-        <button class="save-button" onclick="saveCurrentQuestion()">Lưu</button>
-    </div>
+<div class="buttons">
+    <button class="create-button" onclick="saveAndValidateBeforeCreate()">Tạo đề</button>
+    <button class="save-button" onclick="saveCurrentQuestion()">Lưu</button>
+</div>
 </div>
 
 <script>
+
+        // Retrieve exam details from local storage and store in global variables
+        var roundName = localStorage.getItem('roundName');
+        var examDate = localStorage.getItem('examDate');
+
+        // Display the round name, exam date, and exam time
+        if (roundName) {
+            document.getElementById('roundNameHeader').textContent = 'Vòng tự luyện: ' + roundName;
+        } else {
+            document.getElementById('roundNameHeader').textContent = 'Vòng tự luyện: N/A'; // Default value if round name is not found
+        }
+
+        if (examDate) {
+            document.getElementById('examDateDisplay').textContent = 'Ngày thi: ' + examDate;
+        }
+
     const questionsPart1 = {
         1: { name: "", answer: "" },
         2: { name: "", answer: "" },
@@ -163,7 +195,10 @@
         2: { vietnamese: "", english: "" },
         3: { vietnamese: "", english: "" },
         4: { vietnamese: "", english: "" },
-        5: { vietnamese: "", english: "" }
+        5: { vietnamese: "", english: "" },
+        6: { vietnamese: "", english: "" },
+        7: { vietnamese: "", english: "" },
+        8: { vietnamese: "", english: "" }
     };
 
     let currentQuestion = 1;
@@ -198,33 +233,34 @@
         }
     }
 
-   function saveCurrentQuestionPart2() {
-    const questionContainer = document.getElementById('quizContainer');
-    const name = questionContainer.querySelector('#quizName').value;
-    const choice1 = questionContainer.querySelector('#choice1').value;
-    const choice2 = questionContainer.querySelector('#choice2').value;
-    const choice3 = questionContainer.querySelector('#choice3').value;
-    const choice4 = questionContainer.querySelector('#choice4').value;
+    function saveCurrentQuestionPart2() {
+        const questionContainer = document.getElementById('quizContainer');
+        const name = questionContainer.querySelector('#quizName').value;
+        const choice1 = questionContainer.querySelector('#choice1').value;
+        const choice2 = questionContainer.querySelector('#choice2').value;
+        const choice3 = questionContainer.querySelector('#choice3').value;
+        const choice4 = questionContainer.querySelector('#choice4').value;
 
-    let radioCorrectValue = "";
-    const radioCorrect = questionContainer.querySelector('input[name="answer"]:checked');
-    if (radioCorrect) {
-        radioCorrectValue = radioCorrect.value;
+        let radioCorrectValue = "";
+        const radioCorrect = questionContainer.querySelector('input[name="answer"]:checked');
+        if (radioCorrect) {
+            radioCorrectValue = radioCorrect.value;
+        }
+
+        questionsPart2[currentQuestion].name = name;
+        questionsPart2[currentQuestion]["1"] = choice1;
+        questionsPart2[currentQuestion]["2"] = choice2;
+        questionsPart2[currentQuestion]["3"] = choice3;
+        questionsPart2[currentQuestion]["4"] = choice4;
+        questionsPart2[currentQuestion].correct = radioCorrectValue;
     }
 
-    questionsPart2[currentQuestion].name = name;
-    questionsPart2[currentQuestion]["1"] = choice1;
-    questionsPart2[currentQuestion]["2"] = choice2;
-    questionsPart2[currentQuestion]["3"] = choice3;
-    questionsPart2[currentQuestion]["4"] = choice4;
-    questionsPart2[currentQuestion].correct = radioCorrectValue;
-}
 
 
     function saveCurrentQuestionPart3() {
         const questionContainer = document.getElementById('wordMatchingContainer');
         if (questionContainer.style.display === 'block') {
-            for (let i = 1; i <= 5; i++) {
+            for (let i = 1; i <= 8; i++) {
                 questionsPart3[i].vietnamese = questionContainer.querySelector(`#tuviet${i}`).value;
                 questionsPart3[i].english = questionContainer.querySelector(`#tuanh${i}`).value;
             }
@@ -247,19 +283,21 @@ function loadQuestionPart2(questionNumber) {
     questionContainer.querySelector('#choice4').value = questionsPart2[questionNumber]["4"];
 
     const correctAnswer = questionsPart2[questionNumber].correct;
-    const radioCorrect = questionContainer.querySelector(`input[name="answer"][value="${correctAnswer}"]`);
-    if (radioCorrect) {
-        radioCorrect.checked = true;
+    if (correctAnswer === "") {
+        // No correct answer set, check the first radio button by default
+        questionContainer.querySelector('input[name="answer"][value="1"]').checked = true;
     } else {
-        // Handle the case where correctAnswer does not match any radio button value
-        console.error(`Radio button with value '${correctAnswer}' not found.`);
+        const radioCorrect = questionContainer.querySelector(`input[name="answer"][value="${correctAnswer}"]`);
+        if (radioCorrect) {
+            radioCorrect.checked = true;
+        }
     }
 }
 
 
     function loadQuestionPart3() {
         const questionContainer = document.getElementById('wordMatchingContainer');
-        for (let i = 1; i <= 5; i++) {
+        for (let i = 1; i <= 8; i++) {
             questionContainer.querySelector(`#tuviet${i}`).value = questionsPart3[i].vietnamese;
             questionContainer.querySelector(`#tuanh${i}`).value = questionsPart3[i].english;
         }
@@ -313,6 +351,159 @@ function loadQuestionPart2(questionNumber) {
             // No need to update label for Part 3 since it doesn't have a question selector
         }
     }
+        function logArrayData() {
+        console.log("Part 1 Questions:");
+        console.log(questionsPart1);
+        console.log("Part 2 Questions:");
+        console.log(questionsPart2);
+        console.log("Part 3 Questions:");
+        console.log(questionsPart3);
+    }
+
+    // Function to validate all questions are filled
+    function validateAllQuestionsFilled() {
+        let allFilled = true;
+
+        // Check Part 1
+        Object.values(questionsPart1).forEach(question => {
+            if (question.name.trim() === '' || question.answer.trim() === '') {
+                allFilled = false;
+            }
+        });
+
+        // Check Part 2
+        Object.values(questionsPart2).forEach(question => {
+            if (Object.values(question).some(val => val.trim() === '')) {
+                allFilled = false;
+            }
+        });
+
+        // Check Part 3
+        Object.values(questionsPart3).forEach(question => {
+            if (question.vietnamese.trim() === '' || question.english.trim() === '') {
+                allFilled = false;
+            }
+        });
+
+        return allFilled;
+    }
+
+    // Function to alert admin if not all questions are filled
+    function alertIncompleteQuestions() {
+        if (!validateAllQuestionsFilled()) {
+            alert("Bạn chưa điền thông tin cho tất cả câu hỏi! Vui lòng điền nốt!");
+            return false;
+        }
+        return true;
+    }
+
+    // Function to save all questions and validate before exam creation for button "Tạo đề"
+function saveAndValidateBeforeCreate() {
+    // Step 1: Save all questions first
+    saveCurrentQuestionPart1();
+    saveCurrentQuestionPart2();
+    saveCurrentQuestionPart3();
+    
+    // Step 2: After saving, check arrays
+    let allFilled = true;
+
+    // Check Part 1
+    Object.values(questionsPart1).forEach(question => {
+        if (question.name.trim() === '' || question.answer.trim() === '') {
+            allFilled = false;
+        }
+    });
+
+        // Check Part 2
+    Object.values(questionsPart2).forEach(question => {
+        if (
+            question.name.trim() === '' ||
+            question["1"].trim() === '' ||
+            question["2"].trim() === '' ||
+            question["3"].trim() === '' ||
+            question["4"].trim() === '' ||
+            question.correct.trim() === ''
+        ) {
+            allFilled = false;
+        }
+    });
+
+    // Check Part 3
+    Object.values(questionsPart3).forEach(question => {
+        if (question.vietnamese.trim() === '' || question.english.trim() === '') {
+            allFilled = false;
+        }
+    });
+
+    // Step 3: If arrays have any object with null or empty attributes, alert message
+    if (!allFilled) {
+        alert("Bạn chưa điền thông tin cho tất cả câu hỏi! Vui lòng điền nốt!");
+        return;
+    }
+
+    // Proceed with exam creation logic here if all questions are filled
+    // For example, submit form, navigate to next page, etc.
+    logArrayData();
+    console.log("All questions are filled. Proceeding with exam creation...");
+    createExam("True");
+}
+
+    // Save current questions without validation for button "Lưu"
+    function saveCurrentQuestion() {
+        saveCurrentQuestionPart1();
+        saveCurrentQuestionPart2();
+        saveCurrentQuestionPart3();
+        logArrayData();
+        createExam("False");
+    }
+
+
+function createExam(isPublic) {
+    const roundName = localStorage.getItem('roundName');
+    const examDate = localStorage.getItem('examDate');
+
+    // Prepare the request body as an object
+    const requestBody = {
+        roundName: roundName,
+        examDate: examDate,
+        isPublic: isPublic,
+        questionsPart1: questionsPart1, // Send as object
+        questionsPart2: questionsPart2, // Send as object
+        questionsPart3: questionsPart3  // Send as object
+    };
+
+    fetch('/AdminCreateExam', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody) // Stringify the whole object
+    })
+.then(response => {
+    console.log('Response Status:', response.status); // Log response status
+    if (!response.ok) {
+        return response.text().then(text => { throw new Error(text); }); // Capture error response
+    }
+    return response.json();
+})
+    .then(data => {
+        if (data.success) {
+            console.log(data); // Log the JSON response to the console
+            alert("Bạn đã tạo vòng thi mới thành công!");
+            window.location.href = `AdminCreateExam?AdminId=${@Model.Admin.AdminId}`; // Redirect to the specified page
+        } else {
+            alert("Error creating exam: " + data.message);
+        }
+    })
+    .catch(error => {
+        alert("Tạo vòng thi không thành công!");
+        console.error('Error:', error);
+        console.log('Request Body:', JSON.stringify(requestBody)); // Log the request body
+        alert("An error occurred while creating the exam.");
+    });
+}
+
+
 
     // Initial setup
     document.addEventListener('DOMContentLoaded', () => {

@@ -1,33 +1,165 @@
 ﻿@page
-@model QuizModel
+@model ProjectIoePrn.Pages.QuizModel
 @{
     ViewData["Title"] = "Quiz";
+    var list = ViewData["list"] as List<ProjectIoePrn.Models.Question>;
+    string ParseQuestionMetaData(string metaData, out Dictionary<int, string> options, out int correctAnswer)
+    {
+        options = new Dictionary<int, string>();
+        correctAnswer = -1;
+        var parts = metaData.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
+        foreach (var part in parts)
+        {
+            var keyValue = part.Split(':');
+            if (keyValue.Length == 2)
+            {
+                var key = keyValue[0].Trim();
+                var value = keyValue[1].Trim();
+                if (key.Equals("Correct", StringComparison.OrdinalIgnoreCase))
+                {
+                    correctAnswer = int.Parse(value);
+                }
+                else if (int.TryParse(key, out int optionNumber))
+                {
+                    options[optionNumber] = value;
+                }
+            }
+        }
+        return null;
+    }
 }
-
 <div class="quiz-page-container quiz-background">
-    <div class="quiz-content">
+    <div id="quiz-content" class="quiz-content">
         <div class="quiz-main">
             <div class="question-box">
-                <p class="question">..., tui là công túa chinh đẹp.</p>
-                <div class="options">
-                    <button class="option-button large-option-button">A. </button>
-                    <button class="option-button large-option-button">B. </button>
-                    <button class="option-button large-option-button">C. </button>
-                    <button class="option-button large-option-button">D. </button>
+                <p id="question" class="question"></p>
+                <div id="options" class="options">
                 </div>
             </div>
         </div>
-
         <div class="quiz-sidebar">
             <div class="score-box">
-                <p>Score: 0</p>
+                <p id="score">Score: 0</p>
+                <p id="timer">Time: 02:00</p>
                 <p>Name: </p>
                 <p>ID: </p>
             </div>
         </div>
     </div>
 </div>
+@* <div>
+    <h3>Post Submission Data</h3>
+    <p>FinalScore: @ViewData["FinalScore"]</p>
+    <p>TimeSpent: @ViewData["TimeSpent"]</p>
+</div> *@
+<form id="quizForm" method="post">
+    <input type="hidden" id="finalScore" name="FinalScore" value="0" />
+    <input type="hidden" id="timeSpent" name="TimeSpent" value="0" />
+</form>
 
-<head>
+<style>
+    .correct {
+        color: green;
+        font-weight: bold;
+    }
 
-</head>
+    .incorrect {
+        color: red;
+        font-weight: lighter;
+    }
+</style>
+<script>
+    const questions = @Json.Serialize(list);
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timeLeft = 1200; // 120 seconds = 2 minutes
+    let timerInterval;
+
+    function displayQuestion() {
+        const question = questions[currentQuestionIndex];
+        console.log('Questions:', questions);
+        document.getElementById('question').textContent = question.questionText;
+
+        const optionsContainer = document.getElementById('options');
+        optionsContainer.innerHTML = '';
+
+        const { options, correctAnswer } = parseQuestionMetaData(question.questionMetadata);
+
+        Object.entries(options).sort((a, b) => a[0] - b[0]).forEach(([key, value]) => {
+            const button = document.createElement('button');
+            button.className = 'option-button large-option-button';
+            button.textContent = `${String.fromCharCode(64 + parseInt(key))}. ${value}`;
+            button.onclick = () => selectOption(parseInt(key), correctAnswer);
+            optionsContainer.appendChild(button);
+        });
+    }
+
+    function parseQuestionMetaData(metaData) {
+        const options = {};
+        let correctAnswer = -1;
+        const parts = metaData.split(';');
+        parts.forEach(part => {
+            const [key, value] = part.split(':').map(s => s.trim());
+            if (key.toLowerCase() === 'correct') {
+                correctAnswer = parseInt(value);
+            } else if (!isNaN(key)) {
+                options[key] = value;
+            }
+        });
+        return { options, correctAnswer };
+    }
+
+    function selectOption(selectedOption, correctAnswer) {
+        const buttons = document.querySelectorAll('.option-button');
+        buttons.forEach(button => {
+            button.disabled = true;
+            const buttonOption = parseInt(button.textContent[0].charCodeAt(0) - 64);
+            if (buttonOption === correctAnswer) {
+                button.classList.add('correct');
+            }
+            if (buttonOption === selectedOption && selectedOption !== correctAnswer) {
+                button.classList.add('incorrect');
+            }
+        });
+
+        if (selectedOption === correctAnswer) {
+            score+=10;
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        setTimeout(() => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                endQuiz();
+            }
+        }, 1500);
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                endQuiz();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer').textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function endQuiz() {
+        clearInterval(timerInterval);
+        document.getElementById('finalScore').value = score;
+        document.getElementById('timeSpent').value = 1200 - timeLeft; // Time spent in seconds
+        document.getElementById('quizForm').submit();
+    }
+
+    displayQuestion();
+    startTimer();
+</script>

@@ -29,13 +29,8 @@
                     <label for="exam-date">Ngày thi:</label>
                     <input type="date" id="exam-date" required>
                 </div>
-                <div class="form-group">
-                    <label for="exam-time">Thời điểm:</label>
-                    <input type="datetime-local" id="exam-time" required>
-                </div>
                 <div>
                     <button type="button" id="createExamButton" onclick="createExam()">Tạo kỳ thi mới</button>
-                    <button type="button" onclick="saveExam()">Lưu</button>
                 </div>
             </form>
         </div>
@@ -55,13 +50,22 @@
         });
 
         if (allFilled) {
-            window.location.href = 'AdminCreateExam/?AdminId=@Model.Admin.AdminId'; // Redirect to StudentTestPage.cshtml
+            const examName = document.getElementById('exam-name').value;
+            const examDate = document.getElementById('exam-date').value;
+
+            // Store exam details in localStorage
+            localStorage.setItem('roundName', examName);
+            localStorage.setItem('examDate', examDate);
+
+            // Redirect to the create exam page
+            window.location.href = 'AdminCreateExam?AdminId=@Model.Admin.AdminId';
         } else {
             alert('You must fill all fields!');
         }
     }
-
+    /*
     function saveExam() {
         alert('Form saved.');
     }
+    */
 </script>

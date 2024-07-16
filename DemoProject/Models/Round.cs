@@ -16,7 +16,9 @@ namespace ProjectIoePrn.Models
         public DateTime RoundCreateDate { get; set; }
         public DateTime RoundUpdateDate { get; set; }
         public int GradeId { get; set; }
+
         public string isPublic { get; set; }
+
 
         public virtual Grade Grade { get; set; } = null!;
         public virtual ICollection<IndividualResultDetail> IndividualResultDetails { get; set; }
