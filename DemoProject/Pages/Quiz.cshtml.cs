@@ -18,16 +18,6 @@ namespace ProjectIoePrn.Pages
         }
         public async Task OnGetAsync()
         {
-
-            //ListQuestions = _context.Questions.Where(q => q.QuestionId >= 25 && q.QuestionId <= 26).ToList();
-            //foreach (Question q in ListQuestions)
-            //{
-            //    data.Add(q.QuestionMetadata);
-            //    data.Add(q.QuestionText);
-            //}
-
-            // ViewData["data"] = data;
-
             ListQuestions = await _context.Questions
                 .Where(q => q.PartId == PartId)
                 .OrderBy(q => EF.Functions.Random())
@@ -38,19 +28,31 @@ namespace ProjectIoePrn.Pages
 
         public async Task<IActionResult> OnPostAsync(int finalScore, int timeSpent)
         {
-            
-            
-
             var partResultDetail = await _context.PresentPartResultDetails
-                .FirstOrDefaultAsync(p => p.PartId == PartId );
-
+                .FirstOrDefaultAsync(p => p.PartId == PartId);
+            //var individualResultDetail = await _context.IndividualResultDetails.Where(a => a.IndividualResultId == partResultDetail.IndividualResultId).FirstOrDefaultAsync();
             if (partResultDetail != null)
             {
                 partResultDetail.Score = finalScore;
                 partResultDetail.CompleteTime = timeSpent;
-
                 await _context.SaveChangesAsync();
             }
+            /*
+             * var roundScore = individualResultDetail.RoundScore;
+            var completeTime = individualResultDetail.CompleteTime;
+            if (roundScore == -1)
+            {
+                roundScore = 0;
+            }
+            roundScore += finalScore;
+            completeTime += timeSpent;
+            if (individualResultDetail != null)
+            {
+                individualResultDetail.CompleteTime = completeTime;
+                individualResultDetail.RoundScore = roundScore;
+                await _context.SaveChangesAsync();
+            }
+             */
 
             return RedirectToPage("/OverviewExams");
         }

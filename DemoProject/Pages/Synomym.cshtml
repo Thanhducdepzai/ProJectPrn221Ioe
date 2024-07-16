@@ -2,7 +2,6 @@
 @model ProjectIoePrn.Pages.SynomymModel
 @{
     ViewData["Title"] = "Synonym Matching Game";
-    var data = ViewData["data"] as List<string>;
     var list = ViewData["list"] as List<ProjectIoePrn.Models.Question>;
 
     var combinedList = new List<(string Content, string Id)>();
@@ -13,8 +12,6 @@
             combinedList.Add((dataItem.QuestionMetadata, $"metadata-{dataItem.QuestionId}"));
             combinedList.Add((dataItem.QuestionText, $"text-{dataItem.QuestionId}"));
         }
-
-        // Shuffle the combined list
         var rnd = new Random();
         combinedList = combinedList.OrderBy(x => rnd.Next()).ToList();
     }
@@ -33,7 +30,7 @@
     <div class="info-container">
         <div class="scoreboard">
             <div class="score">Score: <span id="score">0</span></div>
-            <div class="timer">Time: <span id="timer">20:00</span></div> <!-- Update with your initial time -->
+            <div class="timer">Time: <span id="timer">20:00</span></div> 
             <div class="user-info">
                 <p>Hoang Thu Phuong</p>
                 <p>ID: 986045960</p>
@@ -66,7 +63,7 @@
         var cells = document.querySelectorAll(".cell");
         var firstSelectedCell = null;
         var score = 0;
-        var timeLeft = 1200; // Time in seconds
+        var timeLeft = 1200; 
 
         function updateScore() {
             document.getElementById("score").textContent = score;
@@ -86,8 +83,7 @@
                 updateTime();
             } else {
                 clearInterval(timerInterval);
-                gameOver(); // Call gameOver function when time runs out
-                // Handle end of game
+                gameOver();
                 alert("Time's up! Game over!");
             }
         }
@@ -96,35 +92,23 @@
 
         cells.forEach(function (cell) {
             cell.addEventListener("click", function () {
-                // Nếu cell hiện tại đã bị ẩn, không làm gì cả
                 if (cell.classList.contains("disappear")) return;
-
-                // Nếu không có cell nào đang được chọn, chọn cell hiện tại
                 if (!firstSelectedCell) {
                     this.classList.add("active");
                     firstSelectedCell = this;
                 } else {
-                    // Nếu đã có cell được chọn trước đó và cell đó không phải là cell hiện tại, xử lý nối từ
                     if (firstSelectedCell !== this) {
                         this.classList.add("active");
-
-                        // Kiểm tra nếu id của hai cell giống nhau (bỏ qua tiền tố "metadata-" hoặc "text-")
                         var firstId = firstSelectedCell.id.split('-')[1];
                         var secondId = cell.id.split('-')[1];
-
                         if (firstId === secondId) {
-                            // Thêm lớp disappear để ẩn chúng và loại bỏ lớp active
                             firstSelectedCell.classList.add("disappear");
                             firstSelectedCell.classList.remove("active");
                             cell.classList.add("disappear");
                             cell.classList.remove("active");
-
-                            // Tăng điểm và cập nhật hiển thị
                             score += 10;
                             updateScore();
                         }
-
-                        // Sau khi kiểm tra, xóa lớp active khỏi cả hai cell nếu không trùng khớp
                         setTimeout(function () {
                             if (!firstSelectedCell.classList.contains("disappear")) {
                                 firstSelectedCell.classList.remove("active");
@@ -133,7 +117,7 @@
                                 cell.classList.remove("active");
                             }
                             firstSelectedCell = null;
-                        }, 100); // Xóa lớp active sau 1 giây để thấy rõ
+                        }, 100);
                     }
                 }
             });
@@ -149,23 +133,19 @@
             });
 
             if (allCellsDisappeared || timeLeft <= 0) {
-                gameOver(); // Call gameOver function when all cells have disappeared or time runs out
+                gameOver();
             }
         }
 
         function gameOver() {
-            clearInterval(timerInterval); // Stop the timer
-
-            // Update hidden fields with final score and time spent
+            clearInterval(timerInterval);
             document.getElementById("finalScore").value = score;
-            document.getElementById("timeSpent").value = 1200 - timeLeft; // Assuming 1200 is the initial time in seconds
-
-            // Submit the form
+            document.getElementById("timeSpent").value = 1200 - timeLeft;
             document.getElementById("quizForm").submit();
         }
 
-        setInterval(checkGameCompletion, 1000); // Check game completion every second
+        setInterval(checkGameCompletion, 1000);
 
-        updateTime(); // Cập nhật hiển thị thời gian ban đầu
+        updateTime(); 
     });
 </script>

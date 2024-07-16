@@ -2,6 +2,12 @@ using ProjectIoePrn.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+
+
+using Microsoft.AspNetCore.SignalR;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -70,7 +76,7 @@ namespace DemoProject.Pages
             return RedirectToPage("./Login");
         }
 
-        // Method to fetch districts based on province selection
+       
         public async Task<JsonResult> OnGetDistrictsAsync(int provinceId)
         {
             var districts = await _context.Districts
@@ -81,14 +87,12 @@ namespace DemoProject.Pages
             return new JsonResult(districts);
         }
 
-        // Method to fetch schools based on level of school and district selection
         public async Task<JsonResult> OnGetSchoolsAsync(int levelOfSchoolId, int districtId)
         {
             var schools = await _context.Schools
                 .Where(s => s.LevelSchoolId == levelOfSchoolId && s.DistrictId == districtId)
                 .Select(s => new { s.SchoolId, s.SchoolName })
                 .ToListAsync();
-
             return new JsonResult(schools);
         }
     }

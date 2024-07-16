@@ -2,26 +2,116 @@
 @model DemoProject.Pages.FillBlankModel
 @{
     ViewData["Title"] = "Fill Blank";
+    var list = ViewData["list"] as List<ProjectIoePrn.Models.Question>;
+    }
 }
 
 <div class="quiz-page-container quiz-background">
     <div class="quiz-content">
         <div class="quiz-main">
             <div class="question-box">
-                <p class="question">..., tui là công túa chinh đẹp.</p>
-                <form method="post">
-                    <input type="text" name="Answer" class="answer-input" placeholder="Type your answer here" />
-                    <button type="submit" class="submit-button">Answer</button>
+                <p class="question" id="question"></p>
+                <form id="answerForm" onsubmit="checkAnswer(event)">
+                    <input type="text" id="answerInput" name="Answer" class="answer-input" placeholder="Type your answer here" />
+                    <button type="submit" class="submit-button">Kiểm tra</button>
                 </form>
             </div>
         </div>
 
         <div class="quiz-sidebar">
             <div class="score-box">
-                <p>Score: 0</p>
+                <p id="score">Score: 0</p>
+                <p id="timer">Time: 02:00</p>
                 <p>Name: </p>
                 <p>ID: </p>
             </div>
         </div>
     </div>
 </div>
+<form id="quizForm" method="post">
+    <input type="hidden" id="finalScore" name="FinalScore" value="0" />
+    <input type="hidden" id="timeSpent" name="TimeSpent" value="0" />
+</form>
+
+<style>
+    .correct {
+        color: green;
+        font-weight: bold;
+    }
+
+    .incorrect {
+        color: red;
+        font-weight: lighter;
+    }
+</style>
+
+<script>
+    const questions = @Json.Serialize(list);
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let timeLeft = 1200;
+    let timerInterval;
+
+    function displayQuestion() {
+        const question = questions[currentQuestionIndex];
+        document.getElementById('question').textContent = question.questionText;
+        document.getElementById('answerInput').value = ''; // Clear the previous answer
+    }
+
+    function parseQuestionMetaData(metaData) {
+        const [key, value] = metaData.split(':').map(s => s.trim());
+        let correctAnswer = '';
+
+        if (key.toLowerCase() === 'correct') {
+            correctAnswer = value;
+        }
+        return { correctAnswer };
+    }
+
+    function checkAnswer(event) {
+        event.preventDefault(); // Prevent the form from submitting
+        const userAnswer = document.getElementById('answerInput').value.trim();
+        const question = questions[currentQuestionIndex];
+        const { correctAnswer } = parseQuestionMetaData(question.questionMetadata);
+
+        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+            score += 10;
+            document.getElementById('score').textContent = `Score: ${score}`;
+        }
+
+        currentQuestionIndex++;
+        if (currentQuestionIndex < questions.length) {
+            displayQuestion();
+        } else {
+            endQuiz();
+        }
+    }
+
+    function startTimer() {
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            updateTimerDisplay();
+            if (timeLeft <= 0) {
+                endQuiz();
+            }
+        }, 1000);
+    }
+
+    function updateTimerDisplay() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        document.getElementById('timer').textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    }
+
+    function endQuiz() {
+        clearInterval(timerInterval);
+        document.getElementById('finalScore').value = score;
+        document.getElementById('timeSpent').value = 1200 - timeLeft; // Time spent in seconds
+        document.getElementById('quizForm').submit();
+    }
+
+    document.getElementById('answerForm').addEventListener('submit', checkAnswer);
+
+    displayQuestion();
+    startTimer();
+</script>

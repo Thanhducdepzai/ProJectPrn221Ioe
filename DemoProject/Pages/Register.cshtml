@@ -116,6 +116,28 @@
                         });
                     }
                 }
+                function updateSchools() {
+                    const levelOfSchool = $('#LevelOfSchool').val();
+                    const districtId = $('#districtSelect').val();
+                    if (levelOfSchool && districtId) {
+                        $.ajax({
+                            url: '@Url.Page("Register", "Schools")',
+                            type: 'GET',
+                            data: { levelOfSchoolId: levelOfSchool, districtId: districtId },
+                            success: function (data) {
+                                const schoolSelect = $('#School');
+                                schoolSelect.empty();
+                                schoolSelect.append('<option value="">--Chọn Trường Học--</option>');
+                                data.forEach(function (school) {
+                                    schoolSelect.append(`<option value="${school.schoolId}">${school.schoolName}</option>`);
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching schools:', error);
+                            }
+                        });
+                    }
+                }
             </script>
         }
     </div>
