@@ -19,37 +19,24 @@ namespace ProjectIoePrn.Pages
         }
         public async Task OnGetAsync()
         {
-            //ListQuestions =  _context.Questions.Where(q => q.QuestionId >= 1 && q.QuestionId <= 8).ToList();
-            //foreach (Question q in ListQuestions)
-            //{
-            //    data.Add(q.QuestionMetadata);
-            //    data.Add(q.QuestionText);
-            //}
             ListQuestions = await _context.Questions
                 .Where(q => q.PartId == PartId)
                 .OrderBy(q => EF.Functions.Random())
                 .Take(8)
                 .ToListAsync();
-            //ViewData["data"] = data;
             ViewData["list"] = ListQuestions;
         }
 
         public async Task<IActionResult> OnPostAsync(int finalScore, int timeSpent)
         {
-
-
-
             var partResultDetail = await _context.PresentPartResultDetails
                 .FirstOrDefaultAsync(p => p.PartId == PartId);
-
             if (partResultDetail != null)
             {
                 partResultDetail.Score = finalScore;
                 partResultDetail.CompleteTime = timeSpent;
-
                 await _context.SaveChangesAsync();
             }
-
             return RedirectToPage("/OverviewExams");
         }
 
