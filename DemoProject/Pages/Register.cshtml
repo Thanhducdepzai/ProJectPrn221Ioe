@@ -22,28 +22,34 @@
                         <select class="form-control" asp-for="levelOfSchool.LevelSchoolId" asp-items="ViewBag.LevelOfSchool" id="LevelOfSchool" onchange="updateSchools()">
                             <option value="">--Chọn Cấp Học Giáo Dục--</option>
                         </select>
-                    </div>
+                    </div>                   
                     <div class="form-group">
                         <select class="form-control" asp-for="province.ProvinceId" asp-items="ViewBag.Province" id="ProvinceId" onchange="ProvinceChanged()">
                             <option value="">--Chọn Tỉnh Thành--</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <select class="form-control" id="districtSelect" onchange="updateSchools()">
+                        <select class="form-control" id="districtSelect" asp-for="district.DistricId" onchange="updateSchools()">
                             <option value="">--Chọn Thành phố, Huyện--</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        
-                        <select class="form-control" id="grade" asp-for="student.GradeId" asp-items="@(new SelectList(Model.Grades, nameof(ProjectIoePrn.Models.Grade.GradeId), nameof(ProjectIoePrn.Models.Grade.GradeName)))">
-                            <option value="">--Chọn Lớp Học--</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
                         <select class="form-control" id="School" asp-for="student.SchoolId">
                             <option value="">--Chọn Trường Học--</option>
                         </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" asp-for="student.GradeId" asp-items="ViewBag.Grade" id="Grade">
+                            <option value="">--Chọn Khối Học--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="student.StudentClass" for="class"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input asp-for="student.StudentName" type="text" name="class" id="class" placeholder="Nhập lớp của bạn" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="student.StudentUsername" for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input asp-for="student.StudentUsername" type="text" name="username" id="username" placeholder="Nhập tên người dùng của bạn" />
                     </div>
                     <div class="form-group">
                         <label asp-for="student.StudentGmail" for="email"><i class="zmdi zmdi-email"></i></label>
@@ -67,6 +73,15 @@
             <div class="signup-image">
                 <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
                 <a asp-page="Login" class="signup-image-link">Tôi đã có tài khoản.</a>
+                <p>Check Information</p>
+                <p>@ViewBag.ModelStateIsValid</p>
+                <p>@ViewBag.Students</p>
+                <p>@ViewBag.student</p>
+                <p>@ViewBag.Date</p>
+                <p>@ViewBag.School1</p>
+                <p>@ViewBag.Grade1</p>
+                <p>@ViewBag.Email1</p>
+                <p>@ViewBag.Password1</p>
             </div>
         </div>
         @section Scripts {
@@ -125,19 +140,29 @@
                             type: 'GET',
                             data: { levelOfSchoolId: levelOfSchool, districtId: districtId },
                             success: function (data) {
+                                // Update schools
                                 const schoolSelect = $('#School');
                                 schoolSelect.empty();
                                 schoolSelect.append('<option value="">--Chọn Trường Học--</option>');
-                                data.forEach(function (school) {
+                                data.schools.forEach(function (school) {
                                     schoolSelect.append(`<option value="${school.schoolId}">${school.schoolName}</option>`);
+                                });
+
+                                // Update grades
+                                const gradeSelect = $('#Grade');
+                                gradeSelect.empty();
+                                gradeSelect.append('<option value="">--Chọn Lớp Học--</option>');
+                                data.grades.forEach(function (grade) {
+                                    gradeSelect.append(`<option value="${grade.gradeId}">${grade.gradeName}</option>`);
                                 });
                             },
                             error: function (xhr, status, error) {
-                                console.error('Error fetching schools:', error);
+                                console.error('Error fetching data:', error);
                             }
                         });
                     }
                 }
+
             </script>
         }
     </div>

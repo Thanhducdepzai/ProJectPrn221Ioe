@@ -19,10 +19,10 @@ namespace ProjectIoePrn.Pages
         public async Task OnGetAsync()
         {
             ListQuestions = await _context.Questions
-                .Where(q => q.PartId == PartId)
-                .OrderBy(q => EF.Functions.Random())
-                .Take(10)
-                .ToListAsync();
+            .Where(q => q.PartId == PartId)
+            .OrderBy(q => Guid.NewGuid())
+            .Take(10)
+            .ToListAsync();
             ViewData["list"] = ListQuestions;
         }
 
