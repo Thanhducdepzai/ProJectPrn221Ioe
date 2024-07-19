@@ -53,20 +53,7 @@ namespace DemoProject.Pages
         // OnPost method for form submission
         public async Task<IActionResult> OnPostAsync()
         {         
-            if (!ModelState.IsValid || _context.Students == null ||  student == null)
-            {
-                ViewData["ModelStateIsValid"] = "ModelState.IsValid is " + !ModelState.IsValid + ModelState.Values;
-                ViewData["Students"] = "_context.Students is " + (_context.Students == null);
-                ViewData["student"] = "student is " + (student == null);
-                ViewData["Name"] = "Name" + student.StudentName;
-                ViewData["Date"] = "Date" + student.StudentDob;
-                ViewData["School1"] = "School" + student.SchoolId;
-                ViewData["Grade1"] = "Grade" + grade.GradeId;
-                ViewData["Email1"] = "Email"+ student.StudentGmail;
-                ViewData["Password1"] ="Password" +  student.StudentPassword;
-
-                return Page();
-            }
+            
 
             _context.Students.Add(student);
             await _context.SaveChangesAsync();

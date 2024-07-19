@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-
 namespace DemoProject.Models
 {
     public partial class IOE_Project_Clone_PRN221Context : DbContext
@@ -21,6 +20,7 @@ namespace DemoProject.Models
         public virtual DbSet<Answer> Answers { get; set; } = null!;
         public virtual DbSet<District> Districts { get; set; } = null!;
         public virtual DbSet<Grade> Grades { get; set; } = null!;
+        public virtual DbSet<HistoryExam> HistoryExams { get; set; } = null!;
         public virtual DbSet<IndividualResultDetail> IndividualResultDetails { get; set; } = null!;
         public virtual DbSet<LevelOfSchool> LevelOfSchools { get; set; } = null!;
         public virtual DbSet<Part> Parts { get; set; } = null!;
@@ -34,9 +34,11 @@ namespace DemoProject.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
-
-            if (!optionsBuilder.IsConfigured) { optionsBuilder.UseSqlServer(config.GetConnectionString("value")); }
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Data Source=LAPTOP-0E04AKRD\\NAMSQL;Initial Catalog=IOE_Project_Clone_PRN221;User ID=sa;Password=nam12345");
+            }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -45,9 +47,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Admin");
 
-                entity.Property(e => e.AdminId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("admin_id");
+                entity.Property(e => e.AdminId).HasColumnName("admin_id");
 
                 entity.Property(e => e.AdminDob)
                     .HasColumnType("date")
@@ -60,7 +60,7 @@ namespace DemoProject.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.AdminName)
-.HasMaxLength(50)
+                    .HasMaxLength(50)
                     .HasColumnName("admin_name");
 
                 entity.Property(e => e.AdminPassword)
@@ -79,18 +79,17 @@ namespace DemoProject.Models
             modelBuilder.Entity<Answer>(entity =>
             {
                 entity.HasKey(e => e.AnwserId)
-                    .HasName("PK__Answer__4B78FF676C4C43AF");
+                    .HasName("PK__Answer__4B78FF672BEC0641");
 
                 entity.ToTable("Answer");
 
-                entity.Property(e => e.AnwserId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("anwser_id ");
+                entity.Property(e => e.AnwserId).HasColumnName("anwser_id ");
+
                 entity.Property(e => e.AnswerText)
-                                    .HasMaxLength(100)
-                                    .IsUnicode(false)
-                                    .HasColumnName("answer_text")
-                                    .IsFixedLength();
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("answer_text")
+                    .IsFixedLength();
 
                 entity.Property(e => e.QuestionId).HasColumnName("question_id");
 
@@ -104,13 +103,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<District>(entity =>
             {
                 entity.HasKey(e => e.DistricId)
-                    .HasName("PK__District__17728AEE2BB99170");
+                    .HasName("PK__District__17728AEE46C99020");
 
                 entity.ToTable("District");
 
-                entity.Property(e => e.DistricId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("distric_id");
+                entity.Property(e => e.DistricId).HasColumnName("distric_id");
 
                 entity.Property(e => e.DistricName)
                     .HasMaxLength(50)
@@ -129,9 +126,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Grade");
 
-                entity.Property(e => e.GradeId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("grade_id");
+                entity.Property(e => e.GradeId).HasColumnName("grade_id");
 
                 entity.Property(e => e.GradeName)
                     .HasMaxLength(50)
@@ -142,20 +137,37 @@ namespace DemoProject.Models
                 entity.HasOne(d => d.LevelSchool)
                     .WithMany(p => p.Grades)
                     .HasForeignKey(d => d.LevelSchoolId)
-.OnDelete(DeleteBehavior.ClientSetNull)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Grade.levelSchool_id");
+            });
+
+            modelBuilder.Entity<HistoryExam>(entity =>
+            {
+                entity.ToTable("HistoryExam");
+
+                entity.Property(e => e.HistoryExamId).HasColumnName("history_exam_id");
+
+                entity.Property(e => e.ListQuestionId).HasColumnName("list_question_id");
+
+                entity.Property(e => e.ListUserAnswer).HasColumnName("list_user_answer");
+
+                entity.Property(e => e.PartResultDetailId).HasColumnName("part_result_detail_id");
+
+                entity.HasOne(d => d.PartResultDetail)
+                    .WithMany(p => p.HistoryExams)
+                    .HasForeignKey(d => d.PartResultDetailId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_HistoryExam_PartResultDetail");
             });
 
             modelBuilder.Entity<IndividualResultDetail>(entity =>
             {
                 entity.HasKey(e => e.IndividualResultId)
-                    .HasName("PK__Individu__003B1E2ED4FC3639");
+                    .HasName("PK__Individu__003B1E2EB50EDF91");
 
                 entity.ToTable("Individual Result Detail");
 
-                entity.Property(e => e.IndividualResultId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("individual_result_id");
+                entity.Property(e => e.IndividualResultId).HasColumnName("individual_result_id");
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
 
@@ -166,7 +178,7 @@ namespace DemoProject.Models
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.Round)
-.WithMany(p => p.IndividualResultDetails)
+                    .WithMany(p => p.IndividualResultDetails)
                     .HasForeignKey(d => d.RoundId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Individual Result Detail.round_id");
@@ -181,13 +193,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<LevelOfSchool>(entity =>
             {
                 entity.HasKey(e => e.LevelSchoolId)
-                    .HasName("PK__Level of__63E29240346AEA9E");
+                    .HasName("PK__Level of__63E29240779124AC");
 
                 entity.ToTable("Level of school");
 
-                entity.Property(e => e.LevelSchoolId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("levelSchool_id");
+                entity.Property(e => e.LevelSchoolId).HasColumnName("levelSchool_id");
 
                 entity.Property(e => e.LevelName)
                     .HasMaxLength(50)
@@ -198,9 +208,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Part");
 
-                entity.Property(e => e.PartId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("part_id");
+                entity.Property(e => e.PartId).HasColumnName("part_id");
 
                 entity.Property(e => e.PartCreateDate)
                     .HasColumnType("date")
@@ -219,11 +227,12 @@ namespace DemoProject.Models
                 entity.Property(e => e.RoundId).HasColumnName("round_id");
 
                 entity.Property(e => e.TypeOfQuestionId).HasColumnName("type_of_question_id");
+
                 entity.HasOne(d => d.Round)
-                                    .WithMany(p => p.Parts)
-                                    .HasForeignKey(d => d.RoundId)
-                                    .OnDelete(DeleteBehavior.ClientSetNull)
-                                    .HasConstraintName("FK_Part.round_id");
+                    .WithMany(p => p.Parts)
+                    .HasForeignKey(d => d.RoundId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Part.round_id");
 
                 entity.HasOne(d => d.TypeOfQuestion)
                     .WithMany(p => p.Parts)
@@ -235,13 +244,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<PresentPartResultDetail>(entity =>
             {
                 entity.HasKey(e => e.PartResultDetailId)
-                    .HasName("PK__Present __2008258DDF971C7A");
+                    .HasName("PK__Present __2008258D5B8CADC8");
 
                 entity.ToTable("Present Part Result Detail");
 
-                entity.Property(e => e.PartResultDetailId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("part_result_detail_id ");
+                entity.Property(e => e.PartResultDetailId).HasColumnName("part_result_detail_id ");
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
 
@@ -268,9 +275,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Province");
 
-                entity.Property(e => e.ProvinceId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("province_id");
+                entity.Property(e => e.ProvinceId).HasColumnName("province_id");
 
                 entity.Property(e => e.ProvinceName)
                     .HasMaxLength(150)
@@ -281,9 +286,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Question");
 
-                entity.Property(e => e.QuestionId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("question_id ");
+                entity.Property(e => e.QuestionId).HasColumnName("question_id ");
 
                 entity.Property(e => e.PartId).HasColumnName("part_id");
 
@@ -294,7 +297,7 @@ namespace DemoProject.Models
 
                 entity.Property(e => e.QuestionText)
                     .HasMaxLength(200)
-.IsUnicode(false)
+                    .IsUnicode(false)
                     .HasColumnName("question_text ")
                     .IsFixedLength();
 
@@ -309,22 +312,33 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Round");
 
-                entity.Property(e => e.RoundId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("round_id");
+                entity.Property(e => e.RoundId).HasColumnName("round_id");
+
+                entity.Property(e => e.AdminId).HasColumnName("admin_Id");
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_id");
+
+                entity.Property(e => e.IsPublic)
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("isPublic");
 
                 entity.Property(e => e.RoundCreateDate)
                     .HasColumnType("date")
                     .HasColumnName("round_create_date");
+
                 entity.Property(e => e.RoundName)
-                                    .HasMaxLength(50)
-                                    .HasColumnName("round_name");
+                    .HasMaxLength(50)
+                    .HasColumnName("round_name");
 
                 entity.Property(e => e.RoundUpdateDate)
                     .HasColumnType("date")
                     .HasColumnName("round_update_date");
+
+                entity.HasOne(d => d.Admin)
+                    .WithMany(p => p.Rounds)
+                    .HasForeignKey(d => d.AdminId)
+                    .HasConstraintName("FK_Round_Admin");
 
                 entity.HasOne(d => d.Grade)
                     .WithMany(p => p.Rounds)
@@ -337,9 +351,7 @@ namespace DemoProject.Models
             {
                 entity.ToTable("School");
 
-                entity.Property(e => e.SchoolId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("school_id");
+                entity.Property(e => e.SchoolId).HasColumnName("school_id");
 
                 entity.Property(e => e.DistrictId).HasColumnName("district_id");
 
@@ -366,18 +378,17 @@ namespace DemoProject.Models
             {
                 entity.ToTable("Student");
 
-                entity.Property(e => e.StudentId)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("student_id");
+                entity.Property(e => e.StudentId).HasColumnName("student_id");
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_ID");
 
                 entity.Property(e => e.SchoolId).HasColumnName("school_ID");
+
                 entity.Property(e => e.StudentClass)
-                                    .HasMaxLength(10)
-                                    .IsUnicode(false)
-                                    .HasColumnName("student_class")
-                                    .IsFixedLength();
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("student_class")
+                    .IsFixedLength();
 
                 entity.Property(e => e.StudentDob)
                     .HasColumnType("date")
@@ -395,7 +406,7 @@ namespace DemoProject.Models
 
                 entity.Property(e => e.StudentPassword)
                     .HasMaxLength(50)
-.IsUnicode(false)
+                    .IsUnicode(false)
                     .HasColumnName("student_password")
                     .IsFixedLength();
 
@@ -421,13 +432,11 @@ namespace DemoProject.Models
             modelBuilder.Entity<TypeOfQuestion>(entity =>
             {
                 entity.HasKey(e => e.TypeOfQuestion1)
-                    .HasName("PK__Type of __8D14B5FDDF98A526");
+                    .HasName("PK__Type of __8D14B5FD281911A7");
 
                 entity.ToTable("Type of question");
 
-                entity.Property(e => e.TypeOfQuestion1)
-                    .ValueGeneratedOnAdd()
-                    .HasColumnName("type_of_question");
+                entity.Property(e => e.TypeOfQuestion1).HasColumnName("type_of_question");
 
                 entity.Property(e => e.TypeOfQuestionName)
                     .HasMaxLength(450)
@@ -438,3 +447,5 @@ namespace DemoProject.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+    }
+}

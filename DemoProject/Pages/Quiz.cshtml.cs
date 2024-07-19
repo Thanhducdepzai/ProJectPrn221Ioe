@@ -21,12 +21,12 @@ namespace DemoProject.Pages
             ListQuestions = await _context.Questions
             .Where(q => q.PartId == PartId)
             .OrderBy(q => Guid.NewGuid())
-            .Take(10)
+            .Take(5)
             .ToListAsync();
             ViewData["list"] = ListQuestions;
         }
 
-        public async Task<IActionResult> OnPostAsync(int finalScore, int timeSpent)
+        public async Task<IActionResult> OnPostAsync(int finalScore, int timeSpent, string History,string QuestionIds)
         {
             var partResultDetail = await _context.PresentPartResultDetails
                 .FirstOrDefaultAsync(p => p.PartId == PartId);
@@ -36,6 +36,8 @@ namespace DemoProject.Pages
                 partResultDetail.Score = finalScore;
                 partResultDetail.CompleteTime = timeSpent;
                 await _context.SaveChangesAsync();
+
+
             }
             /*
              * var roundScore = individualResultDetail.RoundScore;

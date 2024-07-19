@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 
 namespace DemoProject.Models
-
 {
     public partial class IndividualResultDetail
     {

@@ -94,8 +94,8 @@ namespace DemoProject.Pages
                     RoundCreateDate = RoundCreateDate,
                     RoundUpdateDate = DateTime.Now,
                     GradeId = GradeChoosingId,
-                    isPublic = "False", // Assuming default isPublic value
-                    admin_id = AdminId
+                    IsPublic = "False", // Assuming default isPublic value
+                    AdminId = AdminId
                 };
                 _logger.LogInformation("Inserting Round: {@Round}", round);
 
