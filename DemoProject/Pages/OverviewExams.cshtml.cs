@@ -29,7 +29,9 @@ namespace DemoProject.Pages
         public int CurrentRoundId { get; set; }
 
         public async Task OnGetAsync()
+
         {
+            
             var numberRound = await _context.Rounds.Where(a => a.IsPublic == "True").ToListAsync();
 
             var studentSession = HttpContext.Session.GetObjectFromJson<Student>("Student");
@@ -136,6 +138,8 @@ namespace DemoProject.Pages
                               CompleteTime = partResultsInCurrentRound.FirstOrDefault(r => r.PartId == part.PartId)?.CompleteTime ?? -1,
                               IndividualResultId = partResultsInCurrentRound.FirstOrDefault(r => r.PartId == part.PartId)?.IndividualResultId ?? -1
                           }).ToList();
+
+            ViewData["rid"] = CurrentRoundId;
         }
     }
 }

@@ -3,30 +3,6 @@
 @{
     ViewData["Title"] = "Quiz";
     var list = ViewData["list"] as List<DemoProject.Models.Question>;
-    string ParseQuestionMetaData(string metaData, out Dictionary<int, string> options, out int correctAnswer)
-    {
-        options = new Dictionary<int, string>();
-        correctAnswer = -1;
-        var parts = metaData.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries);
-        foreach (var part in parts)
-        {
-            var keyValue = part.Split(':');
-            if (keyValue.Length == 2)
-            {
-                var key = keyValue[0].Trim();
-                var value = keyValue[1].Trim();
-                if (key.Equals("Correct", StringComparison.OrdinalIgnoreCase))
-                {
-                    correctAnswer = int.Parse(value);
-                }
-                else if (int.TryParse(key, out int optionNumber))
-                {
-                    options[optionNumber] = value;
-                }
-            }
-        }
-        return null;
-    }
 }
 <div class="quiz-page-container quiz-background">
     <div id="quiz-content" class="quiz-content">
@@ -72,7 +48,7 @@
     let timeLeft = 120; // 120 seconds = 2 minutes
     let timerInterval;
     let history = '';
-    let questionIds = '';
+    let questionIds = [];
 
     function displayQuestion() {
         const question = questions[currentQuestionIndex];
@@ -87,12 +63,12 @@
             const button = document.createElement('button');
             button.className = 'option-button large-option-button';
             button.textContent = `${String.fromCharCode(64 + parseInt(key))}. ${value}`;
-            button.onclick = () => selectOption(parseInt(key), correctAnswer);
+            button.onclick = () => selectOption(parseInt(key), value, correctAnswer); // Pass the option value
             optionsContainer.appendChild(button);
         });
 
-        // Add the current question ID to the questionIds string
-        questionIds += question.id + ',';
+        // Add the current question ID to the questionIds array
+        questionIds.push(question.questionId); // Ensure 'questionId' matches the actual property name in your model
     }
 
     function parseQuestionMetaData(metaData) {
@@ -110,7 +86,7 @@
         return { options, correctAnswer };
     }
 
-    function selectOption(selectedOption, correctAnswer) {
+    function selectOption(selectedOption, selectedOptionValue, correctAnswer) {
         const buttons = document.querySelectorAll('.option-button');
         buttons.forEach(button => {
             button.disabled = true;
@@ -123,12 +99,13 @@
             }
         });
 
-        history += selectedOption + ',';
-
         if (selectedOption === correctAnswer) {
             score += 10;
             document.getElementById('score').textContent = `Score: ${score}`;
         }
+
+        // Append selected answer content to history
+        history += `${selectedOptionValue},`;
 
         setTimeout(() => {
             currentQuestionIndex++;
@@ -161,7 +138,7 @@
         document.getElementById('finalScore').value = score;
         document.getElementById('timeSpent').value = 120 - timeLeft; // Time spent in seconds
         document.getElementById('history').value = history.slice(0, -1); // Remove the trailing comma
-        document.getElementById('questionIds').value = questionIds.slice(0, -1); // Remove the trailing comma
+        document.getElementById('questionIds').value = questionIds.join(','); // Convert array to comma-separated string
         document.getElementById('quizForm').submit();
     }
 
