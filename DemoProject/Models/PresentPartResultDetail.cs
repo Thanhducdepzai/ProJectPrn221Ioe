@@ -5,6 +5,11 @@ namespace DemoProject.Models
 {
     public partial class PresentPartResultDetail
     {
+        public PresentPartResultDetail()
+        {
+            HistoryExams = new HashSet<HistoryExam>();
+        }
+
         public int PartResultDetailId { get; set; }
         public int Score { get; set; }
         public int CompleteTime { get; set; }
@@ -13,5 +18,6 @@ namespace DemoProject.Models
 
         public virtual IndividualResultDetail IndividualResult { get; set; } = null!;
         public virtual Part Part { get; set; } = null!;
+        public virtual ICollection<HistoryExam> HistoryExams { get; set; }
     }
 }

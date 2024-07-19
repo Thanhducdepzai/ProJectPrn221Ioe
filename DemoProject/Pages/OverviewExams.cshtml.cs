@@ -30,7 +30,7 @@ namespace DemoProject.Pages
 
         public async Task OnGetAsync()
         {
-            var numberRound = await _context.Rounds.Where(a => a.isPublic == "True").ToListAsync();
+            var numberRound = await _context.Rounds.Where(a => a.IsPublic == "True").ToListAsync();
 
             var studentSession = HttpContext.Session.GetObjectFromJson<Student>("Student");
             Student = _context.Students.Include(a => a.School).Where(a => a.StudentId == studentSession.StudentId).FirstOrDefault();

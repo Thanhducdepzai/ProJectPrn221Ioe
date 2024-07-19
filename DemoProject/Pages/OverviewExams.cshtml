@@ -2,6 +2,8 @@
 @model DemoProject.Pages.OverviewExamsModel
 @{
     ViewData["Title"] = "Overview Exams";
+    var historyExamUrl = Url.Page("/HistoryExam");
+    var reDoExamUrl = Url.Page("/HistoryExam");
 }
 
 <h2>Vòng tự luyện</h2>
@@ -118,6 +120,8 @@
             <th>Vòng</th>
             <th>Điểm</th>
             <th>Thời gian (giây)</th>
+            <th>Xem lại bài làm</th>
+            <th>Làm lại bài làm</th>
         </tr>
     </thead>
     <tbody>
@@ -131,6 +135,8 @@
                     <td>@result.RoundId</td>
                     <td>@result.RoundScore</td>
                     <td>@result.CompleteTime</td>
+                    <td><button class="buttonDoQuiz" onclick="location.href='@historyExamUrl'">Xem lại kết quả thi</button></td>
+                    <td><button class="buttonDoQuiz" onclick="location.href='@reDoExamUrl'">Làm lại bài thi</button></td>
                 </tr>
                 index++;
             }
@@ -199,8 +205,18 @@
             background-color: blue;
         }
 
-    .info-user {
-        margin-top: 30px
+    .buttonDoQuiz{
+        border: none;
+        width: 150px;
+        font-size: small;
+        padding: 20px;
+        background-color: rgba(0, 123, 255, 0.8);
+        border-radius: 5px;
+        color: white;
+    }
+
+    .buttonDoQuiz:hover {
+        background-color: blue;
     }
 
     .rank-info {

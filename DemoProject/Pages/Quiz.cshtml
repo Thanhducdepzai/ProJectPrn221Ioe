@@ -47,14 +47,11 @@
         </div>
     </div>
 </div>
-@* <div>
-    <h3>Post Submission Data</h3>
-    <p>FinalScore: @ViewData["FinalScore"]</p>
-    <p>TimeSpent: @ViewData["TimeSpent"]</p>
-</div> *@
 <form id="quizForm" method="post">
     <input type="hidden" id="finalScore" name="FinalScore" value="0" />
     <input type="hidden" id="timeSpent" name="TimeSpent" value="0" />
+    <input type="hidden" id="history" name="History" value="" />
+    <input type="hidden" id="questionIds" name="QuestionIds" value="" />
 </form>
 
 <style>
@@ -72,12 +69,13 @@
     const questions = @Json.Serialize(list);
     let currentQuestionIndex = 0;
     let score = 0;
-    let timeLeft = 1200; // 120 seconds = 2 minutes
+    let timeLeft = 120; // 120 seconds = 2 minutes
     let timerInterval;
+    let history = '';
+    let questionIds = '';
 
     function displayQuestion() {
         const question = questions[currentQuestionIndex];
-        console.log('Questions:', questions);
         document.getElementById('question').textContent = question.questionText;
 
         const optionsContainer = document.getElementById('options');
@@ -92,6 +90,9 @@
             button.onclick = () => selectOption(parseInt(key), correctAnswer);
             optionsContainer.appendChild(button);
         });
+
+        // Add the current question ID to the questionIds string
+        questionIds += question.id + ',';
     }
 
     function parseQuestionMetaData(metaData) {
@@ -122,8 +123,10 @@
             }
         });
 
+        history += selectedOption + ',';
+
         if (selectedOption === correctAnswer) {
-            score+=10;
+            score += 10;
             document.getElementById('score').textContent = `Score: ${score}`;
         }
 
@@ -156,7 +159,9 @@
     function endQuiz() {
         clearInterval(timerInterval);
         document.getElementById('finalScore').value = score;
-        document.getElementById('timeSpent').value = 1200 - timeLeft; // Time spent in seconds
+        document.getElementById('timeSpent').value = 120 - timeLeft; // Time spent in seconds
+        document.getElementById('history').value = history.slice(0, -1); // Remove the trailing comma
+        document.getElementById('questionIds').value = questionIds.slice(0, -1); // Remove the trailing comma
         document.getElementById('quizForm').submit();
     }
 

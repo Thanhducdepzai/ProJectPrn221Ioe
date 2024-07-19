@@ -43,7 +43,7 @@ namespace DemoProject.Pages
             if (Admin != null)
             {
                 IQueryable<Round> query = _context.Rounds
-                                                  .Where(r => r.admin_id == AdminId && r.isPublic == "True");
+                                                  .Where(r => r.AdminId == AdminId && r.IsPublic == "True");
                 if (!string.IsNullOrEmpty(SearchRoundName))
                 {
                     query = query.Where(r => r.RoundName.Contains(SearchRoundName));

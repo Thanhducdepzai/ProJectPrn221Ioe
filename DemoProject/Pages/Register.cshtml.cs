@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+
+
 
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -52,21 +52,8 @@ namespace DemoProject.Pages
 
         // OnPost method for form submission
         public async Task<IActionResult> OnPostAsync()
-        {         
-            //if (!ModelState.IsValid || _context.Students == null ||  student == null)
-            //{
-            //    ViewData["ModelStateIsValid"] = "ModelState.IsValid is " + !ModelState.IsValid + ModelState.Values;
-            //    ViewData["Students"] = "_context.Students is " + (_context.Students == null);
-            //    ViewData["student"] = "student is " + (student == null);
-            //    ViewData["Name"] = "Name" + student.StudentName;
-            //    ViewData["Date"] = "Date" + student.StudentDob;
-            //    ViewData["School1"] = "School" + student.SchoolId;
-            //    ViewData["Grade1"] = "Grade" + grade.GradeId;
-            //    ViewData["Email1"] = "Email"+ student.StudentGmail;
-            //    ViewData["Password1"] ="Password" +  student.StudentPassword;
+        {
 
-            //    return Page();
-            //}
 
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
@@ -74,7 +61,7 @@ namespace DemoProject.Pages
             return RedirectToPage("./Login");
         }
 
-       
+
         public async Task<JsonResult> OnGetDistrictsAsync(int provinceId)
         {
             var districts = await _context.Districts
@@ -88,12 +75,12 @@ namespace DemoProject.Pages
         public async Task<JsonResult> OnGetSchoolsAsync(int levelOfSchoolId, int districtId)
         {
             var schools = await _context.Schools
-                .Include(a=>a.District)
+                .Include(a => a.District)
                 .Where(s => s.LevelSchoolId == levelOfSchoolId && s.DistrictId == districtId)
                 .Select(s => new { s.SchoolId, s.SchoolName })
                 .ToListAsync();
             var grades = await _context.Grades
-                .Include(s=>s.Students)
+                .Include(s => s.Students)
                 .Where(s => s.LevelSchoolId == levelOfSchoolId)
                 .Select(s => new { s.GradeId, s.GradeName })
                 .ToListAsync();
