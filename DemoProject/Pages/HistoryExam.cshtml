@@ -1,0 +1,87 @@
+﻿@page
+@model DemoProject.Pages.HistoryExamModel
+@{
+    ViewData["Title"] = "Xem lại lịch sử bài thi";
+
+}
+
+<h2>Xem lại lịch sử bài thi</h2>
+
+<div>
+    @*
+    @foreach (var exam in Model.Exams)
+    {
+    <button id="btnExam@exam.ExamId" onclick="showForm(@exam.TypeOfQuestionId)">Bài thi số @exam.ExamId</button>
+    }
+    *@
+</div>
+
+<div id="fillWordSection" style="display: none;">
+    <h3>Part 1</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Câu hỏi</th>
+                <th>Đáp án đã chọn</th>
+                <th>Đáp án đúng</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Fill Word content goes here -->
+        </tbody>
+    </table>
+</div>
+
+<div id="singleChoiceSection" style="display: none;">
+    <h3>Single Choice</h3>
+    <!-- Nội dung cho Single Choice sẽ được thêm vào sau -->
+</div>
+
+<div id="matchingWordSection" style="display: none;">
+    <h3>Matching Word</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Từ</th>
+                <th>Cặp từ đúng</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Matching Word content goes here -->
+        </tbody>
+    </table>
+</div>
+
+<script>
+    function showForm(typeOfQuestionId) {
+        switch (typeOfQuestionId % 3) {
+            case 1:
+                showFillWord();
+                break;
+            case 2:
+                showSingleChoice();
+                break;
+            default:
+                showMatchingWord();
+                break;
+        }
+    }
+
+    function showFillWord() {
+        document.getElementById('fillWordSection').style.display = 'block';
+        document.getElementById('singleChoiceSection').style.display = 'none';
+        document.getElementById('matchingWordSection').style.display = 'none';
+    }
+
+    function showSingleChoice() {
+        document.getElementById('fillWordSection').style.display = 'none';
+        document.getElementById('singleChoiceSection').style.display = 'block';
+        document.getElementById('matchingWordSection').style.display = 'none';
+    }
+
+    function showMatchingWord() {
+        document.getElementById('fillWordSection').style.display = 'none';
+        document.getElementById('singleChoiceSection').style.display = 'none';
+        document.getElementById('matchingWordSection').style.display = 'block';
+    }
+</script>
