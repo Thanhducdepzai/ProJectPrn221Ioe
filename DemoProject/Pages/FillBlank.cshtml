@@ -29,6 +29,7 @@
     <input type="hidden" id="finalScore" name="FinalScore" value="0" />
     <input type="hidden" id="timeSpent" name="TimeSpent" value="0" />
 </form>
+
 <style>
     .correct {
         color: green;
@@ -47,81 +48,101 @@
         text-align: center;
     }
 </style>
+
 <script>
-    const questions = @Json.Serialize(list);
-    let currentQuestionIndex = 0;
-    let score = 0;
-    let timeLeft = 1200;
-    let timerInterval;
-    function displayQuestion() {
-        const question = questions[currentQuestionIndex];
-        document.getElementById('question').textContent = question.questionText;
-        createAnswerInputs(question);
-    }
-    function parseQuestionMetaData(metaData) {
-        const [key, value] = metaData.split(':').map(s => s.trim());
-        let correctAnswer = '';
-        if (key.toLowerCase() === 'correct') {
-            correctAnswer = value;
+    document.addEventListener('DOMContentLoaded', () => {
+        const questions = @Html.Raw(Json.Serialize(list));
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let timeLeft = 1200;
+        let timerInterval;
+
+        function displayQuestion() {
+            const question = questions[currentQuestionIndex];
+            document.getElementById('question').textContent = question.questionText;
+            createAnswerInputs(question);
         }
-        return { correctAnswer };
-    }
-    function createAnswerInputs(question) {
-        const { correctAnswer } = parseQuestionMetaData(question.questionMetadata);
-        const answerInputsDiv = document.getElementById('answerInputs');
-        answerInputsDiv.innerHTML = '';
-        for (let i = 0; i < correctAnswer.length; i++) {
-            const input = document.createElement('input');
-            input.type = 'text';
-            input.className = 'answer-input';
-            input.maxLength = 1;
-            if (i === 0) {
-                input.value = correctAnswer[0];
-                input.readOnly = true;
+
+        function parseQuestionMetaData(metaData) {
+            const [key, value] = metaData.split(':').map(s => s.trim());
+            let correctAnswer = '';
+            if (key.toLowerCase() === 'correct') {
+                correctAnswer = value;
             }
-            answerInputsDiv.appendChild(input);
+            return { correctAnswer };
         }
-    }
-    function checkAnswer(event) {
-        event.preventDefault();
-        const userAnswer = Array.from(document.querySelectorAll('.answer-input'))
-            .map(input => input.value)
-            .join('')
-            .trim();
-        const question = questions[currentQuestionIndex];
-        const { correctAnswer } = parseQuestionMetaData(question.questionMetadata);
-        if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-            score += 10;
-            document.getElementById('score').textContent = `Score: ${score}`;
+
+        function createAnswerInputs(question) {
+            const { correctAnswer } = parseQuestionMetaData(question.questionMetadata);
+            const answerInputsDiv = document.getElementById('answerInputs');
+            answerInputsDiv.innerHTML = '';
+            for (let i = 0; i < correctAnswer.length; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.className = 'answer-input';
+                input.maxLength = 1;
+                input.value = i === 0 ? correctAnswer.charAt(i) : ''; // Hiển thị chữ cái đầu tiên nếu là ô đầu tiên
+                input.placeholder = i === 0 ? correctAnswer.charAt(i) : '';
+                answerInputsDiv.appendChild(input);
+            }
         }
-        currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
-            displayQuestion();
-        } else {
-            endQuiz();
-        }
-    }
-    function startTimer() {
-        timerInterval = setInterval(() => {
-            timeLeft--;
-            updateTimerDisplay();
-            if (timeLeft <= 0) {
+
+        function checkAnswer(event) {
+            event.preventDefault();
+            const userAnswer = Array.from(document.querySelectorAll('.answer-input'))
+                .map(input => input.value)
+                .join('')
+                .trim();
+            const question = questions[currentQuestionIndex];
+            const { correctAnswer } = parseQuestionMetaData(question.questionMetadata);
+            if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
+                score += 10;
+                document.getElementById('score').textContent = `Score: ${score}`;
+                Array.from(document.querySelectorAll('.answer-input')).forEach(input => {
+                    input.classList.add('correct');
+                });
+            } else {
+                Array.from(document.querySelectorAll('.answer-input')).forEach((input, index) => {
+                    if (input.value.toLowerCase() !== correctAnswer.charAt(index).toLowerCase()) {
+                        input.classList.add('incorrect');
+                    } else {
+                        input.classList.add('correct');
+                    }
+                });
+            }
+            currentQuestionIndex++;
+            if (currentQuestionIndex < questions.length) {
+                displayQuestion();
+            } else {
                 endQuiz();
             }
-        }, 1000);
-    }
-    function updateTimerDisplay() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        document.getElementById('timer').textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-    function endQuiz() {
-        clearInterval(timerInterval);
-        document.getElementById('finalScore').value = score;
-        document.getElementById('timeSpent').value = 1200 - timeLeft;
-        document.getElementById('quizForm').submit();
-    }
-    document.getElementById('answerForm').addEventListener('submit', checkAnswer);
-    displayQuestion();
-    startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function endQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('finalScore').value = score;
+            document.getElementById('timeSpent').value = 1200 - timeLeft;
+            document.getElementById('quizForm').submit();
+        }
+
+        document.getElementById('answerForm').addEventListener('submit', checkAnswer);
+        displayQuestion();
+        startTimer();
+    });
 </script>

@@ -9,20 +9,20 @@
     align-items: center;
     height: 100vh;
     margin: 0;">
-<div class="container">
-    <div class="email-confirmation">
-        <h1>Xác nhận email của bạn</h1>
-        <p>Hãy nhập địa chỉ email để chúng tôi gửi bạn đường dẫn cài đặt lại mật khẩu</p>
-        <form method="POST" id="confirm-email-form">
-                <input type="email" id="email" name="email" placeholder="Enter your email..." required>
+    <div class="container">
+        <div class="email-confirmation">
+            <h1>Xác nhận email của bạn</h1>
+            <p>Hãy nhập địa chỉ email để chúng tôi gửi bạn đường dẫn cài đặt lại mật khẩu</p>
+            <form method="post" id="confirm-email-form">
+                <input type="email" id="email" name="email" placeholder="Nhập email của bạn" required>
                 <div class="form-group">
                     <input type="checkbox" name="isAdmin" id="select-role-admin" class="agree-term" asp-for="IsAdmin" />
                     <label for="select-role-admin" class="label-agree-term"><span><span></span></span>Tôi là admin</label>
                 </div>
-                <span style="color:green"> @ViewBag.message</span>
-                <span style="color:red"> @ViewBag.error</span>
-            <button type="submit" class="confirm-button">Gửi email</button>
-        </form>
+                <span style="color:green;">@ViewData["message"]</span>
+                <span style="color:red;">@ViewData["error"]</span>
+                <button type="submit" class="confirm-button">Gửi email</button>
+            </form>
+        </div>
     </div>
-</div>
 </tbody>
