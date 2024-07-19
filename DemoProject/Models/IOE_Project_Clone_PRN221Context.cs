@@ -7,13 +7,13 @@ namespace DemoProject.Models
 {
     public partial class IOE_Project_Clone_PRN221Context : DbContext
     {
+        public static IOE_Project_Clone_PRN221Context INSTANCE = new IOE_Project_Clone_PRN221Context();
         public IOE_Project_Clone_PRN221Context()
         {
-        }
-
-        public IOE_Project_Clone_PRN221Context(DbContextOptions<IOE_Project_Clone_PRN221Context> options)
-            : base(options)
-        {
+            if (INSTANCE == null)
+            {
+                INSTANCE = this;
+            }
         }
 
         public virtual DbSet<Admin> Admins { get; set; } = null!;
@@ -447,3 +447,4 @@ namespace DemoProject.Models
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
+

@@ -52,9 +52,7 @@ namespace DemoProject.Pages
 
         // OnPost method for form submission
         public async Task<IActionResult> OnPostAsync()
-        {
-
-
+        {  
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
