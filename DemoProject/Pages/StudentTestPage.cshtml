@@ -10,13 +10,28 @@
     </div>
 
     <div class="test-info">
-        <label for="bai">Bài:</label>
-        <input type="number" id="bai" name="bai" value="5" min="1" max="100">
-
-        <label for="dangkibai">Dạng bài:</label>
-        <select id="dangkibai" name="dangkibai">
-            <!-- Options here -->
+        <label for="question">Câu:</label>
+        <select id="question" name="question" onchange="saveAndLoadQuestion(this.value)">
+            <option value="1">Câu 1</option>
+            <option value="2">Câu 2</option>
+            <option value="3">Câu 3</option>
+            <option value="4">Câu 4</option>
+            <option value="5">Câu 5</option>
+            <option value="6">Câu 6</option>
+            <option value="7">Câu 7</option>
+            <option value="8">Câu 8</option>
+            <option value="9">Câu 9</option>
+            <option value="10">Câu 10</option>
         </select>
+
+        <div>
+            <label for="exam-part">Dạng bài:</label>
+            <select id="exam-part" onchange="switchPage(this.value)">
+                <option value="StudentTestPage">Điền từ</option>
+                <option value="Admin2">Quiz</option>
+                <option value="Admin3">Nối từ</option>
+            </select>
+        </div>
 
         <label for="thoigian">Thời gian (phút):</label>
         <input type="number" id="thoigian" name="thoigian" value="20" min="1" max="60">
@@ -30,17 +45,71 @@
         </div>
     </div>
 
-    <div class="question-container">
-        <label for="cauhoi1">Câu 1:</label>
-        <textarea id="cauhoi1" name="cauhoi1" rows="4" cols="50">Nam usually go to school...bus</textarea>
+    <div id="question-container" class="question-container">
+        <label id="question-label" for="cauhoi">Câu 1:</label>
+        <textarea id="cauhoi" name="cauhoi" rows="4" cols="50"></textarea>
 
         <label for="dapan">Đáp án:</label>
         <input type="text" id="dapan" name="dapan">
     </div>
 
     <div class="buttons">
-        <button class="add-button">Thêm</button>
         <button class="create-button">Tạo đề</button>
-        <button class="save-button">Lưu</button>
+        <button class="save-button" onclick="saveCurrentQuestion()">Lưu</button>
     </div>
 </div>
+
+<script>
+    const questions = {
+        1: { text: "", answer: "" },
+        2: { text: "", answer: "" },
+        3: { text: "", answer: "" },
+        4: { text: "", answer: "" },
+        5: { text: "", answer: "" },
+        6: { text: "", answer: "" },
+        7: { text: "", answer: "" },
+        8: { text: "", answer: "" },
+        9: { text: "", answer: "" },
+        10: { text: "", answer: "" }
+    };
+
+    let currentQuestion = 1;
+
+    function saveAndLoadQuestion(questionNumber) {
+        saveCurrentQuestion();
+        loadQuestion(questionNumber);
+        currentQuestion = questionNumber;
+        updateQuestionLabel(questionNumber);
+    }
+
+    function saveCurrentQuestion() {
+        const questionContainer = document.getElementById('question-container');
+        const questionText = questionContainer.querySelector('#cauhoi').value;
+        const questionAnswer = questionContainer.querySelector('#dapan').value;
+        questions[currentQuestion].text = questionText;
+        questions[currentQuestion].answer = questionAnswer;
+    }
+
+    function loadQuestion(questionNumber) {
+        const questionContainer = document.getElementById('question-container');
+        questionContainer.querySelector('#cauhoi').value = questions[questionNumber].text;
+        questionContainer.querySelector('#dapan').value = questions[questionNumber].answer;
+    }
+
+    function updateQuestionLabel(questionNumber) {
+        const questionLabel = document.getElementById('question-label');
+        questionLabel.textContent = `Câu ${questionNumber}:`;
+    }
+
+    function switchPage(page) {
+        if (window.location.href.includes(page)) {
+            return;
+        }
+        window.location.href = page;
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        loadQuestion(currentQuestion);
+        updateQuestionLabel(currentQuestion);
+    });
+</script>

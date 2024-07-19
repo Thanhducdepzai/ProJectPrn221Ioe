@@ -1,0 +1,72 @@
+﻿@page
+@model ProjectIoePrn.Pages.AdminEditExamModel
+@{
+    ViewData["Title"] = "Edit Exam";
+}
+
+<h1>Edit Exam</h1>
+
+<div>
+    <form method="post">
+        <div>
+            <label>Round Name:</label>
+            <input type="text" asp-for="RoundName" />
+        </div>
+        <div>
+            <label>Round Create Date:</label>
+            <input type="date" asp-for="RoundCreateDate" />
+        </div>
+        <div>
+            <h4>Part 1: Fill in the Blanks</h4>
+            @for (int i = 0; i < Model.QuestionsPart1.Count; i++)
+            {
+                <div>
+                    <input type="hidden" name="QuestionsPart1[@i].QuestionId" value="@Model.QuestionsPart1[i].QuestionId" />
+                    <label>Question:</label>
+                    <input type="text" name="QuestionsPart1[@i].Name" value="@Model.QuestionsPart1[i].Name" />
+                    <label>Answer:</label>
+                    <input type="text" name="QuestionsPart1[@i].Answer" value="@Model.QuestionsPart1[i].Answer" />
+                </div>
+            }
+        </div>
+        <div>
+            <h4>Part 2: Multiple Choice</h4>
+            @for (int i = 0; i < Model.QuestionsPart2.Count; i++)
+            {
+                <div>
+                    <input type="hidden" name="QuestionsPart2[@i].QuestionId" value="@Model.QuestionsPart2[i].QuestionId" />
+                    <label>Question:</label>
+                    <input type="text" name="QuestionsPart2[@i].Name" value="@Model.QuestionsPart2[i].Name" />
+                    <label>Choice 1:</label>
+                    <input type="text" name="QuestionsPart2[@i].Choice1" value="@Model.QuestionsPart2[i].Choice1" />
+                    <label>Choice 2:</label>
+                    <input type="text" name="QuestionsPart2[@i].Choice2" value="@Model.QuestionsPart2[i].Choice2" />
+                    <label>Choice 3:</label>
+                    <input type="text" name="QuestionsPart2[@i].Choice3" value="@Model.QuestionsPart2[i].Choice3" />
+                    <label>Choice 4:</label>
+                    <input type="text" name="QuestionsPart2[@i].Choice4" value="@Model.QuestionsPart2[i].Choice4" />
+                    <label>Correct:</label>
+                    <input type="text" name="QuestionsPart2[@i].Answer" value="@Model.QuestionsPart2[i].Answer" />
+                </div>
+            }
+        </div>
+
+        <div>
+            <h4>Part 3: Matching</h4>
+            @for (int i = 0; i < Model.QuestionsPart3.Count; i++)
+            {
+                <div>
+                    <input type="hidden" name="QuestionsPart3[@i].QuestionId" value="@Model.QuestionsPart3[i].QuestionId" />
+                    <label>Question:</label>
+                    <input type="text" name="QuestionsPart3[@i].Name" value="@Model.QuestionsPart3[i].Name" />
+                    <label>Answer:</label>
+                    <input type="text" name="QuestionsPart3[@i].Answer" value="@Model.QuestionsPart3[i].Answer" />
+                </div>
+            }
+        </div>
+
+        <div>
+            <button type="submit">Save Changes</button>
+        </div>
+    </form>
+</div>

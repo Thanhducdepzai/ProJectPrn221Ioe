@@ -1,134 +1,135 @@
 ﻿@page
 @model ProjectIoePrn.Pages.OverviewExamsModel
 @{
+    ViewData["Title"] = "Overview Exams";
 }
-<div class="de">
-    <br />
-    <h3>Vòng tự luyện:</h3>
-</div>
-<div class="TaoDe">
 
-    <div class="info">
-        <div class="info-vong">
-            <p>Khối bạn đang dự thi: </p>
-            <p>Số vòng thi IOE đang mở: </p>
-            <p>Vòng thi hiện tại của bạn: </p>
+<h2>Vòng tự luyện</h2>
 
-        </div>
-        <div class="noiquy">
-            <p>Nội quy: </p>
-            <p>b</p>
-            <p>c</p>
-            <p>d</p>
-
-        </div>
-        <div class="table-thi">
-            <h3>Bài thi của bạn</h3>
-            <table>
-                <tr style="background-color: lightgray">
-                    <th>STT</th>
-                    <th>Bài thi</th>
-                    <th>Điểm</th>
-                    <th>Thời gian (giây)</th>
-
-                </tr>
-
-                <tr>
-                    <td>1</td>
-                    <td>Bài thi 1 hoàn th</td>
-                    <td>100</td>
-                    <td>150</td>
-
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Bài thi 1 hoàn th</td>
-                    <td>100</td>
-                    <td>150</td>
-
-                </tr>
-                <tr>
-                    <td>1</td>
-                    <td>Bài thi 1 hoàn th</td>
-                    <td>100</td>
-                    <td>150</td>
-
-                </tr>
-
-                <tr style="color:red">
-                    <td></td>
-                    <td>Kết quả tự luyện</td>
-                    <td>300</td>
-                    <td>350</td>
-
-                </tr>
-            </table>
-        </div>
-        <div class="tuluyen">
-            <h3>Tổng hợp kết quả tự luyện</h3>
-            <div class="table-thi">
-                <table>
-                    <tr style="background-color: lightgray">
-                        <th>STT</th>
-                        <th>Vòng</th>
-                        <th>Thời gian(giây)</th>
-                        <th>Điểm</th>
-
-                    </tr>
-
-                    <tr>
-                        <td>1</td>
-                        <td>1</td>
-                        <td>100</td>
-                        <td style="color:rgba(0, 123, 255, 0.8)"><b>150</b></td>
-
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>2</td>
-                        <td>100</td>
-                        <td style="color:rgba(0, 123, 255, 0.8)"><b>150</b></td>
-
-                    </tr>
-
-                </table>
-            </div>
-        </div>
-        <div>
-            <h2>Xin chúc mừng ...</h2>
-            <button>Nhận chứng chỉ</button>
-        </div>
+@if (Model.Student != null)
+{
+    <div>
+        <h3>Thông tin học sinh</h3>
+        <p>ID: @Model.Student.StudentId</p>
+        <p>Tài khoản: @Model.Student.StudentName</p>
+        <p>Lớp: @Model.Student.StudentClass</p>
+        <p>Trường: @Model.Student.School.SchoolName</p>
+        <p>Vòng hiện tại: @Model.CurrentRoundId</p>
+        <!-- Add more student details as needed -->
     </div>
+    <div class="noiquy">
+        <p>Nội quy:</p>
+        <p><strong>Lưu ý</strong></p>
+        <ul>
+            <li>Mỗi vòng Tự luyện gồm 3 bài thi, trong đó:</li>
+            <ul>
+                <li>Bài thi số 1-2-3: Bạn cần đạt ít nhất 75% số điểm mỗi bài thi để hoàn thành</li>
 
-    <div class="info-user">
-        <div class="side-info-text">
-            <p>Xin chào</p>
-            <p>Nguyen Hoai Nam</p>
-            <p>ID: Admin</p>
-            <p>Tài khoản: NguyenHoaiNam00#</p>
-        </div>
+            </ul>
+            <li>Kết quả của một lần Tự luyện được tính bằng tổng điểm và tổng thời gian làm bài của 3 bài thi 1-2-3-.</li>
+            <li>1 phần thi sẽ có 10 cau hỏi, mỗi câu 10 điểm</li>
+            <li> Phần matching word sẽ có 2 từ chọn đúng sẽ được 20 điểm</li>
+        </ul>
+        <p>(*) Hướng dẫn thi:</p>
+        <ul>
+            <li>Trắc nghiệm: chọn đáp án đúng</li>
+            <li>Điền từ: Điền từ vào ô trống</li>
+            <li>Nối từ: Chọn 2 từ tiếng Việt, tiếng Anh đồng nghĩa</li>
+        </ul>
+        <p>Học sinh bắt buộc phải thi hết 3 bài thi mới được sang vòng tiếp theo.</p>
 
-        <div class="rank-info">
-            <div class="title">
-                Điểm cao nhất quốc gia lớp
-            </div>
-
-            <div class="card-item">
-                Học viên:<b>Nguyen Hoai Nam</b> : 10000<br />
-                Trường ... - Huyện ... - ...
-            </div>
-            <div class="card-item">
-                Học viên:<b>Nguyen Hoai Nam</b> : 10000<br />
-                Trường ... - Huyện ... - ...
-            </div>
-            <div class="card-item">
-                Học viên:<b>Nguyen Hoai Nam</b> : 10000<br />
-                Trường ... - Huyện ... - ...
-            </div>
-        </div>
     </div>
+}
 
-</div>
+<h3>Làm bài thi</h3>
+<table>
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Bài thi</th>
+            <th>Thời gian (giây)</th>
+            <th>Điểm</th>
+            <th>Vòng</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.PartResults != null && Model.PartResults.Any())
+        {
+            int index = 1;
+            foreach (var result in Model.PartResults)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@result.Part.PartName</td>
+                    <td>
+                        @if (result.CompleteTime == -1)
+                        {
+                            <button onclick="location.href='@Url.Page("/Test", new { partId = result.Part.PartId })'">Làm bài</button>
+                        }
+                        else
+                        {
+                            @result.CompleteTime
+                        }
+                    </td>
+                    <td>
+                        @if (result.Score == -1)
+                        {
+                            <p>N/A</p>
+                        }
+                        else
+                        {
+                            @result.Score
+                        }
+                    </td>
+                    <td>@result.Part.RoundId</td>
+                </tr>
+                index++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="5">No part results found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h3>Kết quả các vòng tự luyện</h3>
+<table>
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Vòng</th>
+            <th>Điểm</th>
+            <th>Thời gian (giây)</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model.IndividualStudyResults != null && Model.IndividualStudyResults.Any())
+        {
+            int index = 1;
+            foreach (var result in Model.IndividualStudyResults)
+            {
+                <tr>
+                    <td>@index</td>
+                    <td>@result.RoundId</td>
+                    <td>@result.RoundScore</td>
+                    <td>@result.CompleteTime</td>
+                </tr>
+                index++;
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4">No self-study results found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
 
 <style>
     .TaoDe {

@@ -1,0 +1,239 @@
+﻿@page
+@model ProjectIoePrn.Pages.AdminCreateExamModel
+@{
+    ViewData["Title"] = "Tạo Vòng Thi";
+}
+<div class="test-page-container">
+    @if (TempData["AlertMessage"] != null)
+    {
+        <div class="alert alert-info" id="alertMessage">
+            @TempData["AlertMessage"]
+        </div>
+    }
+    <form method="post">
+        <div class="header">
+            <h2 id="roundNameHeader">
+                Vòng thi:
+                <input type="text" id="RoundNameInput" asp-for="RoundName" />
+            </h2>
+            <p id="roundCreateDateDisplay">
+                Ngày thi:
+                <input type="date" id="RoundCreateDateInput" asp-for="RoundCreateDate" />
+            </p>
+        </div>
+
+        <div class="test-info">
+            <div>
+                <label for="question" id="question-number">Câu:</label>
+                <!-- Only show this when switching to fill blanks questions container, else hide it -->
+                <select id="questionListPart1" name="question" onchange="saveAndLoadQuestionPart1(this.value)">
+                    <option value="1">Câu 1</option>
+                    <option value="2">Câu 2</option>
+                    <option value="3">Câu 3</option>
+                    <option value="4">Câu 4</option>
+                    <option value="5">Câu 5</option>
+                    <option value="6">Câu 6</option>
+                    <option value="7">Câu 7</option>
+                    <option value="8">Câu 8</option>
+                    <option value="9">Câu 9</option>
+                    <option value="10">Câu 10</option>
+                </select>
+
+                <!-- Only show this when switching to quiz questions container, else hide it -->
+                <select id="questionListPart2" name="question" onchange="saveAndLoadQuestionPart2(this.value)" style="display: none;">
+                    <option value="1">Câu 1</option>
+                    <option value="2">Câu 2</option>
+                    <option value="3">Câu 3</option>
+                    <option value="4">Câu 4</option>
+                    <option value="5">Câu 5</option>
+                    <option value="6">Câu 6</option>
+                    <option value="7">Câu 7</option>
+                    <option value="8">Câu 8</option>
+                    <option value="9">Câu 9</option>
+                    <option value="10">Câu 10</option>
+                </select>
+            </div>
+            <div>
+                <label for="exam-part">Dạng bài:</label>
+                <select id="exam-part" onchange="switchContainer(this.value)">
+                    <option value="fillBlanks">Điền từ</option>
+                    <option value="quiz">Quiz</option>
+                    <option value="wordMatching">Nối từ</option>
+                </select>
+            </div>
+
+            <label for="thoigian"><strong>Thời gian (phút): 20</strong></label>
+        </div>
+
+        <div class="user-info">
+            <div class="user-details">
+                <p style="font-weight: bold">Tên: @Model.Admin.AdminName</p>
+                <p style="font-weight: bold">Role: ADMIN</p>
+                <p style="font-weight: bold">ID: @Model.Admin.AdminId</p>
+            </div>
+        </div>
+
+        <input type="hidden" id="AdminIdInput" asp-for="AdminId" />
+
+        <div id="fillBlanksContainer" class="question-container">
+            <h3>Phần 1: Điền vào chỗ trống</h3>
+            @for (int i = 0; i < 10; i++)
+            {
+                <div class="question-part1" style="display: none;">
+                    <label>Câu @(i + 1):</label>
+                    <textarea asp-for="QuestionsPart1[i].Name" rows="4" cols="50"></textarea>
+                    <label>Đáp án:</label>
+                    <input asp-for="QuestionsPart1[i].Answer" />
+                </div>
+            }
+        </div>
+
+        <div id="quizContainer" class="question-container" style="display: none;">
+            <h3>Phần 2: Trắc nghiệm</h3>
+            @for (int i = 0; i < 10; i++)
+            {
+                <div class="question-part2" style="display: none;">
+                    <label>Câu @(i + 1):</label>
+                    <textarea asp-for="QuestionsPart2[i].Name" rows="4" cols="50"></textarea>
+                    <div class="answer-options">
+                        <input asp-for="QuestionsPart2[i].Answer" type="radio" value="1">
+                        <label>A) <input asp-for="QuestionsPart2[i].Choice1" /></label><br>
+                        <input asp-for="QuestionsPart2[i].Answer" type="radio" value="2">
+                        <label>B) <input asp-for="QuestionsPart2[i].Choice2" /></label><br>
+                        <input asp-for="QuestionsPart2[i].Answer" type="radio" value="3">
+                        <label>C) <input asp-for="QuestionsPart2[i].Choice3" /></label><br>
+                        <input asp-for="QuestionsPart2[i].Answer" type="radio" value="4">
+                        <label>D) <input asp-for="QuestionsPart2[i].Choice4" /></label><br>
+                    </div>
+                </div>
+            }
+        </div>
+
+        <div id="wordMatchingContainer" class="question-container" style="display: none;">
+            <h3>Phần 3: Nối từ</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Tiếng Việt</th>
+                        <th></th>
+                        <th>Tiếng Anh</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < 8; i++)
+                    {
+                        <tr>
+                            <td><input asp-for="QuestionsPart3[i].Name" /></td>
+                            <td class="equals-sign">=</td>
+                            <td><input asp-for="QuestionsPart3[i].Answer" /></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="buttons">
+            <button type="submit">Tạo</button>
+        </div>
+    </form>
+
+    @section Scripts {
+    <script>
+
+        // Function to get the value of a query parameter by name
+        function getQueryParam(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
+        // Get the values from the URL
+        const roundName = getQueryParam('RoundName');
+        const roundCreateDate = getQueryParam('RoundCreateDate');
+
+        /*
+        // Set the values to the header elements
+        document.getElementById('roundNameHeader').innerText = roundName ? `Vòng thi: ${decodeURIComponent(roundName)}` : '';
+        document.getElementById('roundCreateDateDisplay').innerText = roundCreateDate ? `Ngày thi: ${decodeURIComponent(roundCreateDate)}` : '';
+        */
+
+        // Also set the values to the hidden inputs if needed
+        document.getElementById('RoundNameInput').value = roundName ? decodeURIComponent(roundName) : '';
+        document.getElementById('RoundCreateDateInput').value = roundCreateDate ? decodeURIComponent(roundCreateDate) : '';
+
+        function switchContainer(value) {
+            var fillBlanksContainer = document.getElementById('fillBlanksContainer');
+            var quizContainer = document.getElementById('quizContainer');
+            var wordMatchingContainer = document.getElementById('wordMatchingContainer');
+
+            var questionListPart1 = document.getElementById('questionListPart1');
+            var questionListPart2 = document.getElementById('questionListPart2');
+            var questionNumber = document.getElementById('question-number');
+
+            // Hide all containers and question lists
+            fillBlanksContainer.style.display = 'none';
+            quizContainer.style.display = 'none';
+            wordMatchingContainer.style.display = 'none';
+            questionListPart1.style.display = 'none';
+            questionListPart2.style.display = 'none';
+            questionNumber.style.display = 'none';
+
+            // Reset selectors to the first option
+            questionListPart1.selectedIndex = 0;
+            questionListPart2.selectedIndex = 0;
+
+            // Show the selected container and question list
+            if (value === 'fillBlanks') {
+                fillBlanksContainer.style.display = 'block';
+                questionListPart1.style.display = 'block';
+                questionNumber.style.display = 'block';
+                saveAndLoadQuestionPart1(1); // Show the first question by default
+            } else if (value === 'quiz') {
+                quizContainer.style.display = 'block';
+                questionListPart2.style.display = 'block';
+                questionNumber.style.display = 'block';
+                saveAndLoadQuestionPart2(1); // Show the first question by default
+            } else if (value === 'wordMatching') {
+                wordMatchingContainer.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            // Initial setup: hide all questions except the first one in each container
+            saveAndLoadQuestionPart1(1);
+            saveAndLoadQuestionPart2(1);
+        });
+
+        function saveAndLoadQuestionPart1(value) {
+            // Logic to save current question and load selected question for Part 1
+            var questionsPart1 = document.querySelectorAll('.question-part1');
+            questionsPart1.forEach(function (question, index) {
+                if (index == value - 1) {
+                    question.style.display = 'block';
+                } else {
+                    question.style.display = 'none';
+                }
+            });
+        }
+
+        function saveAndLoadQuestionPart2(value) {
+            // Logic to save current question and load selected question for Part 2
+            var questionsPart2 = document.querySelectorAll('.question-part2');
+            questionsPart2.forEach(function (question, index) {
+                if (index == value - 1) {
+                    question.style.display = 'block';
+                } else {
+                    question.style.display = 'none';
+                }
+            });
+        }
+            // Hide the alert message after a few seconds
+            document.addEventListener('DOMContentLoaded', function () {
+                const alertMessage = document.getElementById('alertMessage');
+                if (alertMessage) {
+                    setTimeout(() => {
+                        alertMessage.style.display = 'none';
+                    }, 5000); // Hide after 5 seconds
+                }
+            });
+    </script>
+    }

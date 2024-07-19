@@ -1,45 +1,142 @@
 ﻿@page
 @model ProjectIoePrn.Pages.WaitingExamsModel
 @{
+    var nextPage = Model.CurrentPage + 1;
+    var prevPage = Model.CurrentPage - 1;
 }
 <div class="de-thi">
     <div class="side-info">
-        <div class="side-info-text">
-            <p>Xin chào</p>
-            <p>Nguyen Hoai Nam</p>
-            <p>ID: Admin</p>
-            <p>Tài khoản: NguyenHoaiNam00#</p>
+        <br /><br /><br />
+        <div class="side-info-text" style="background-color: lightskyblue; border-radius: 10px;">
+            <p>Xin chào: @Model.Admin?.AdminName</p> <!--Admin Name here-->
+            <p>ID: @Model.Admin?.AdminId</p> <!--Admin Id here-->
+            <p>Tài khoản: @Model.Admin?.AdminUsername</p> <!-- Admin Username here-->
         </div>
+        <br />
         <div class="side-info-btn">
-            <button>Danh sách kỳ thi của bạn</button>
-            <button>Danh sách kỳ thi đang chờ</button>
-
+            <a href="/ListExams?AdminId=@Model.Admin.AdminId">
+            <button>Danh sách kỳ thi công khai</button>
+            </a>
+            <a href="/CreateExam?AdminId=@Model.Admin.AdminId">
+            <button>Tạo đề thi</button>
+            </a>
         </div>
     </div>
 
     <div class="create-dethi">
-        <h3>Danh sách kỳ thi đang chờ</h3>
-        <div class="create-dethi-moi">
-            <p>Tên kỳ thi:</p>
-            <p>Ngày thi:</p>
-            <p>Thời gian diễn ra: </p>
-            <div>
-                <button><i class="fa-regular fa-eye"></i></button>
-                <button><i class="fa-solid fa-trash"></i></button>
-                <button><i class="fa-solid fa-pen"></i></button>
-
-            </div>
+        <div class="searchExamContainer">
+            <form method="get">
+                <input type="hidden" asp-for="AdminId" /> <!-- Value has to be the id of admin-->
+                <input type="text" asp-for="SearchRoundName" placeholder="Search by Round Name" />
+                <input type="date" asp-for="MinRoundCreateDate" />
+                <input type="date" asp-for="MaxRoundCreateDate" />
+                <button type="submit">Search</button>
+            </form>
         </div>
+        <h3>Danh sách kỳ thi công khai</h3>
+        @foreach (var round in Model.Rounds)
+        {
+            <div style="display:flex" class="examRoundContainer">
+                <div>
+                    <input type="checkbox" name="selectedRounds" value="@round.RoundId">
+                </div>
+                <div class="create-dethi-moi" style="background-color:aliceblue; border: 1px solid;">
+                    <p>Tên kỳ thi: @round.RoundName</p>
+                    <p>Ngày thi: @round.RoundCreateDate.ToString("dd/MM/yyyy")</p>
+                    <p>Thời gian diễn ra: @round.RoundUpdateDate.ToString("dd/MM/yyyy")</p>
+                    <div>
+                        <a href="/AdminDetailsExam?RoundId=@round.RoundId&AdminId=@Model.Admin.AdminId">
+                            <button><i class="fa-regular fa-eye"></i></button>
+                        </a>
+                        <a href="/AdminEditExam?Id=@round.RoundId">
+                        <button type="button"><i class="fa-solid fa-pen"></i></button>
+                        </a>
+                        <form method="post" asp-page-handler="DeleteRound" asp-route-roundId="@round.RoundId" asp-route-adminId="@Model.Admin.AdminId" onsubmit="return confirm('Bạn có chắc chắn xóa phòng thi này không?!');">
+                            <button type="submit"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <br />
+
+            <br />
+
+            <br />
+        }
         <div class="dethi-page">
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>4</button>
+            @if (Model.CurrentPage > 1)
+            {
+                <a href="@Url.Page("./WaitingExams",
+                    new { AdminId = Model.Admin.AdminId, pageNumber = prevPage, SearchRoundName = Model.SearchRoundName, MinRoundCreateDate = Model.MinRoundCreateDate, MaxRoundCreateDate = Model.MaxRoundCreateDate })">
+                    <button>&laquo; Previous</button>
+                </a>
+            }
 
+            @for (int i = 1; i <= Model.TotalPages; i++)
+            {
+                <a href="@Url.Page("./WaitingExams",
+                    new { AdminId = Model.Admin.AdminId, pageNumber = i, SearchRoundName = Model.SearchRoundName, MinRoundCreateDate = Model.MinRoundCreateDate, MaxRoundCreateDate = Model.MaxRoundCreateDate })">
+                    <button class="@(i == Model.CurrentPage ? "active" : "")">@i</button>
+                </a>
+            }
 
-
+            @if (Model.CurrentPage < Model.TotalPages)
+            {
+                <a href="@Url.Page("./WaitingExams",
+                    new { AdminId = Model.Admin.AdminId, pageNumber = nextPage, SearchRoundName = Model.SearchRoundName, MinRoundCreateDate = Model.MinRoundCreateDate, MaxRoundCreateDate = Model.MaxRoundCreateDate })">
+                    <button>Next &raquo;</button>
+                </a>
+            }
         </div>
     </div>
-
-
 </div>
+
+<style>
+    input[type="checkbox"] {
+        appearance: none;
+        width: 35px;
+        height: 35px;
+        margin-right: 40px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        outline: none;
+        cursor: pointer;
+        position: relative;
+        margin-top: 100px;
+    }
+
+        input[type="checkbox"]:checked {
+            background-color: mediumpurple;
+        }
+
+        input[type="checkbox"]::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"%3E%3Cpath d="M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2z" fill="white"/%3E%3C/svg%3E');
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0;
+        }
+
+        input[type="checkbox"]:checked::before {
+            opacity: 1;
+        }
+
+        .searchExamContainer{
+        height: 150px;
+        border-bottom: 1px solid silver;
+        border-top: 1px solid silver;
+        margin-left: 0px;
+        width: 980px;
+        margin-bottom: 50px;
+        margin-top: 50px;
+        }
+</style>
+
+@* <button><i class="fa-regular fa-eye"></i></button> *@
+@* <button><i class="fa-solid fa-chart-line"></i></button> *@
