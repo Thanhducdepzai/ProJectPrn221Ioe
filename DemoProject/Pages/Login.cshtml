@@ -1,0 +1,43 @@
+﻿@page
+@model DemoProject.Pages.LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<!-- Sign in  Form -->
+<section class="sign-in">
+    <div class="container">
+        <div class="signin-content">
+            <div class="signin-image">
+                <figure><img src="images/signin-image.jpg" alt="sing up image"></figure>
+                <a asp-page="Register" class="signup-image-link">Tạo tài khoản thi</a>
+            </div>
+
+            <div class="signin-form">
+                <h2 class="form-title">Sign up</h2>
+                <form method="POST" class="register-form" id="login-form">
+                    <div class="form-group">
+                        <label for="your_name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input type="text" name="studentUsername" id="studentUsername" placeholder="Nhập tên người dùng..." />
+                    </div>
+                    <div class="form-group">
+                        <label for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input type="password" name="studentPassword" id="studentPassword" placeholder="Nhập mật khẩu ..." />
+                    </div>
+                    <div class="form-group">
+                        <input type="checkbox" name="isAdmin" id="select-role-admin" class="agree-term" asp-for="IsAdmin"/>
+                        <label for="select-role-admin" class="label-agree-term"><span><span></span></span>Đăng nhập với tài khoản là admin</label>
+                    </div>
+                    <div class="form-group">
+                        <span style="color:red; font-size:medium; font-style:italic">@ViewBag.error</span>
+                    </div>
+                    <div class="form-group form-button">
+                        <input type="submit" name="signin" id="signin" class="form-submit" value="Đăng nhập" />
+                        <a asp-page="ConfirmEmail" class="signup-image-link" style="color:cornflowerblue">Quên mật khẩu, bấm vào đây.</a>
+                    </div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+</section>

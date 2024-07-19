@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ProjectIoePrn.Models
+namespace DemoProject.Models
 {
     public partial class Round
     {
@@ -16,8 +16,14 @@ namespace ProjectIoePrn.Models
         public DateTime RoundCreateDate { get; set; }
         public DateTime RoundUpdateDate { get; set; }
         public int GradeId { get; set; }
+
         public string isPublic { get; set; }
         public int admin_id { get; set; }
+
+
+       
+
+
 
         public virtual Grade Grade { get; set; } = null!;
         public virtual ICollection<IndividualResultDetail> IndividualResultDetails { get; set; }

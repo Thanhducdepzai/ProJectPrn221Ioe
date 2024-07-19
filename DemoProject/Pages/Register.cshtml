@@ -1,0 +1,169 @@
+﻿@page
+@model DemoProject.Pages.RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+<!-- Sign up form -->
+<section class="signup">
+    <div class="container">
+        <div class="signup-content">
+            <div class="signup-form">
+                <h2 class="form-title">Đăng Ký Tài Khoản Thi</h2>
+                <form method="POST" class="register-form" id="register-form">
+                    <div class="form-group">
+                        <label asp-for="student.StudentName" for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input asp-for="student.StudentName" type="text" name="name" id="name" placeholder="Nhập tên của bạn" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="student.StudentDob" for="dob"><i class="zmdi zmdi-cake"></i></label>
+                        <input asp-for="student.StudentDob" type="date" name="dob" id="dob" placeholder="Nhập ngày sinh của bạn" />
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" asp-for="levelOfSchool.LevelSchoolId" asp-items="ViewBag.LevelOfSchool" id="LevelOfSchool" onchange="updateSchools()">
+                            <option value="">--Chọn Cấp Học Giáo Dục--</option>
+                        </select>
+                    </div>                   
+                    <div class="form-group">
+                        <select class="form-control" asp-for="province.ProvinceId" asp-items="ViewBag.Province" id="ProvinceId" onchange="ProvinceChanged()">
+                            <option value="">--Chọn Tỉnh Thành--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="districtSelect" asp-for="district.DistricId" onchange="updateSchools()">
+                            <option value="">--Chọn Thành phố, Huyện--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="School" asp-for="student.SchoolId">
+                            <option value="">--Chọn Trường Học--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" asp-for="student.GradeId" asp-items="ViewBag.Grade" id="Grade">
+                            <option value="">--Chọn Khối Học--</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="student.StudentClass" for="class"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input asp-for="student.StudentName" type="text" name="class" id="class" placeholder="Nhập lớp của bạn" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="student.StudentUsername" for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
+                        <input asp-for="student.StudentUsername" type="text" name="username" id="username" placeholder="Nhập tên người dùng của bạn" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="student.StudentGmail" for="email"><i class="zmdi zmdi-email"></i></label>
+                        <input asp-for="student.StudentGmail" type="email" name="email" id="email" placeholder="Nhập địa chỉ email của bạn" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="student.StudentPassword" for="pass"><i class="zmdi zmdi-lock"></i></label>
+                        <input asp-for="student.StudentPassword" type="password" name="pass" id="pass" placeholder="Nhập mật khẩu của bạn" />
+                    </div>
+                    <div class="form-group">
+                        <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
+                        <input type="password" name="re_pass" id="re_pass" placeholder="Nhập lại mật khẩu của bạn" /> <i class="zmdi zmdi-eye-off"></i>
+                    </div>
+                   
+
+                    <div class="form-group form-button">
+                        <input type="submit" name="signup" id="signup" class="form-submit" value="Đăng Ký" />
+                    </div>
+                </form>
+            </div>
+            <div class="signup-image">
+                <figure><img src="images/signup-image.jpg" alt="sing up image"></figure>
+                <a asp-page="Login" class="signup-image-link">Tôi đã có tài khoản.</a>
+                <p>Check Information</p>
+                <p>@ViewBag.ModelStateIsValid</p>
+                <p>@ViewBag.Students</p>
+                <p>@ViewBag.student</p>
+                <p>@ViewBag.Date</p>
+                <p>@ViewBag.School1</p>
+                <p>@ViewBag.Grade1</p>
+                <p>@ViewBag.Email1</p>
+                <p>@ViewBag.Password1</p>
+            </div>
+        </div>
+        @section Scripts {
+            <script src="~/lib/jquery/dist/jquery.min.js"></script>
+            <script>
+                function ProvinceChanged() {
+                    const provinceId = $('#ProvinceId').val();
+                    if (provinceId) {
+                        $.ajax({
+                            url: '@Url.Page("Register", "Districts")',
+                            type: 'GET',
+                            data: { provinceId: provinceId },
+                            success: function (data) {
+                                const districtSelect = $('#districtSelect');
+                                districtSelect.empty();
+                                districtSelect.append('<option value="">--Chọn Thành phố, Huyện--</option>');
+                                data.forEach(function (district) {
+                                    districtSelect.append(`<option value="${district.districId}">${district.districName}</option>`);
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching districts:', error);
+                            }
+                        });
+                    }
+                }
+
+                function updateSchools() {
+                    const levelOfSchool = $('#LevelOfSchool').val();
+                    const districtId = $('#districtSelect').val();
+                    if (levelOfSchool && districtId) {
+                        $.ajax({
+                            url: '@Url.Page("Register", "Schools")',
+                            type: 'GET',
+                            data: { levelOfSchoolId: levelOfSchool, districtId: districtId },
+                            success: function (data) {
+                                const schoolSelect = $('#School');
+                                schoolSelect.empty();
+                                schoolSelect.append('<option value="">--Chọn Trường Học--</option>');
+                                data.forEach(function (school) {
+                                    schoolSelect.append(`<option value="${school.schoolId}">${school.schoolName}</option>`);
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching schools:', error);
+                            }
+                        });
+                    }
+                }
+                function updateSchools() {
+                    const levelOfSchool = $('#LevelOfSchool').val();
+                    const districtId = $('#districtSelect').val();
+                    if (levelOfSchool && districtId) {
+                        $.ajax({
+                            url: '@Url.Page("Register", "Schools")',
+                            type: 'GET',
+                            data: { levelOfSchoolId: levelOfSchool, districtId: districtId },
+                            success: function (data) {
+                                // Update schools
+                                const schoolSelect = $('#School');
+                                schoolSelect.empty();
+                                schoolSelect.append('<option value="">--Chọn Trường Học--</option>');
+                                data.schools.forEach(function (school) {
+                                    schoolSelect.append(`<option value="${school.schoolId}">${school.schoolName}</option>`);
+                                });
+
+                                // Update grades
+                                const gradeSelect = $('#Grade');
+                                gradeSelect.empty();
+                                gradeSelect.append('<option value="">--Chọn Lớp Học--</option>');
+                                data.grades.forEach(function (grade) {
+                                    gradeSelect.append(`<option value="${grade.gradeId}">${grade.gradeName}</option>`);
+                                });
+                            },
+                            error: function (xhr, status, error) {
+                                console.error('Error fetching data:', error);
+                            }
+                        });
+                    }
+                }
+
+            </script>
+        }
+    </div>
+</section>

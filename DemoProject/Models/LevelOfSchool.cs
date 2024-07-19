@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ProjectIoePrn.Models
+namespace DemoProject.Models
 {
     public partial class LevelOfSchool
     {

@@ -2,31 +2,35 @@
 @model DemoProject.Pages.SynomymModel
 @{
     ViewData["Title"] = "Synonym Matching Game";
+    var list = ViewData["list"] as List<DemoProject.Models.Question>;
+
+    var combinedList = new List<(string Content, string Id)>();
+    if (list != null)
+    {
+        foreach (var dataItem in list)
+        {
+            combinedList.Add((dataItem.QuestionMetadata, $"metadata-{dataItem.QuestionId}"));
+            combinedList.Add((dataItem.QuestionText, $"text-{dataItem.QuestionId}"));
+        }
+        var rnd = new Random();
+        combinedList = combinedList.OrderBy(x => rnd.Next()).ToList();
+    }
 }
 
 <div class="game-container">
     <div class="grid">
-        <div class="cell" id="cell-1">Word 1</div>
-        <div class="cell" id="cell-2">Word 2</div>
-        <div class="cell" id="cell-3">Word 3</div>
-        <div class="cell" id="cell-4">Word 4</div>
-        <div class="cell" id="cell-5">Word 5</div>
-        <div class="cell" id="cell-6">Word 6</div>
-        <div class="cell" id="cell-7">Word 7</div>
-        <div class="cell" id="cell-8">Word 8</div>
-        <div class="cell" id="cell-9">Word 9</div>
-        <div class="cell" id="cell-10">Word 10</div>
-        <div class="cell" id="cell-11">Word 11</div>
-        <div class="cell" id="cell-12">Word 12</div>
-        <div class="cell" id="cell-13">Word 13</div>
-        <div class="cell" id="cell-14">Word 14</div>
-        <div class="cell" id="cell-15">Word 15</div>
-        <div class="cell" id="cell-16">Word 16</div>
+        @if (combinedList != null)
+        {
+            @foreach (var item in combinedList)
+            {
+                <div class="cell" id="@item.Id">@item.Content</div>
+            }
+        }
     </div>
     <div class="info-container">
         <div class="scoreboard">
-            <div class="score">Score: 0</div>
-            <div class="timer">20:00</div>
+            <div class="score">Score: <span id="score">0</span></div>
+            <div class="timer">Time: <span id="timer">20:00</span></div> 
             <div class="user-info">
                 <p>Hoang Thu Phuong</p>
                 <p>ID: 986045960</p>
@@ -34,3 +38,114 @@
         </div>
     </div>
 </div>
+
+<form id="quizForm" method="post">
+    <input type="hidden" id="finalScore" name="FinalScore" value="0" />
+    <input type="hidden" id="timeSpent" name="TimeSpent" value="0" />
+</form>
+
+<style>
+    .active {
+        border: 3px solid yellow;
+    }
+
+    .game-container {
+        margin-top: 100px;
+    }
+
+    .disappear {
+        visibility: hidden;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var cells = document.querySelectorAll(".cell");
+        var firstSelectedCell = null;
+        var score = 0;
+        var timeLeft = 1200; 
+
+        function updateScore() {
+            document.getElementById("score").textContent = score;
+        }
+
+        function updateTime() {
+            var minutes = Math.floor(timeLeft / 60);
+            var seconds = timeLeft % 60;
+            document.getElementById("timer").textContent =
+                (minutes < 10 ? "0" : "") + minutes + ":" +
+                (seconds < 10 ? "0" : "") + seconds;
+        }
+
+        function countdown() {
+            if (timeLeft > 0) {
+                timeLeft--;
+                updateTime();
+            } else {
+                clearInterval(timerInterval);
+                gameOver();
+                alert("Time's up! Game over!");
+            }
+        }
+
+        var timerInterval = setInterval(countdown, 1000);
+
+        cells.forEach(function (cell) {
+            cell.addEventListener("click", function () {
+                if (cell.classList.contains("disappear")) return;
+                if (!firstSelectedCell) {
+                    this.classList.add("active");
+                    firstSelectedCell = this;
+                } else {
+                    if (firstSelectedCell !== this) {
+                        this.classList.add("active");
+                        var firstId = firstSelectedCell.id.split('-')[1];
+                        var secondId = cell.id.split('-')[1];
+                        if (firstId === secondId) {
+                            firstSelectedCell.classList.add("disappear");
+                            firstSelectedCell.classList.remove("active");
+                            cell.classList.add("disappear");
+                            cell.classList.remove("active");
+                            score += 10;
+                            updateScore();
+                        }
+                        setTimeout(function () {
+                            if (!firstSelectedCell.classList.contains("disappear")) {
+                                firstSelectedCell.classList.remove("active");
+                            }
+                            if (!cell.classList.contains("disappear")) {
+                                cell.classList.remove("active");
+                            }
+                            firstSelectedCell = null;
+                        }, 100);
+                    }
+                }
+            });
+        });
+
+        function checkGameCompletion() {
+            var allCellsDisappeared = true;
+            cells.forEach(function (cell) {
+                if (!cell.classList.contains("disappear")) {
+                    allCellsDisappeared = false;
+                    return;
+                }
+            });
+
+            if (allCellsDisappeared || timeLeft <= 0) {
+                gameOver();
+            }
+        }
+
+        function gameOver() {
+            clearInterval(timerInterval);
+            document.getElementById("finalScore").value = score;
+            document.getElementById("timeSpent").value = 1200 - timeLeft;
+            document.getElementById("quizForm").submit();
+        }
+
+        setInterval(checkGameCompletion, 1000);
+
+        updateTime(); 
+    });
+</script>

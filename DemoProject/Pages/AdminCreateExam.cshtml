@@ -1,5 +1,5 @@
 ﻿@page
-@model ProjectIoePrn.Pages.AdminCreateExamModel
+@model DemoProject.Pages.AdminCreateExamModel
 @{
     ViewData["Title"] = "Tạo Vòng Thi";
 }
@@ -138,94 +138,93 @@
     </form>
 
     @section Scripts {
-    <script>
+        <script>
 
-        // Function to get the value of a query parameter by name
-        function getQueryParam(name) {
-            const urlParams = new URLSearchParams(window.location.search);
-            return urlParams.get(name);
-        }
-
-        // Get the values from the URL
-        const roundName = getQueryParam('RoundName');
-        const roundCreateDate = getQueryParam('RoundCreateDate');
-
-        /*
-        // Set the values to the header elements
-        document.getElementById('roundNameHeader').innerText = roundName ? `Vòng thi: ${decodeURIComponent(roundName)}` : '';
-        document.getElementById('roundCreateDateDisplay').innerText = roundCreateDate ? `Ngày thi: ${decodeURIComponent(roundCreateDate)}` : '';
-        */
-
-        // Also set the values to the hidden inputs if needed
-        document.getElementById('RoundNameInput').value = roundName ? decodeURIComponent(roundName) : '';
-        document.getElementById('RoundCreateDateInput').value = roundCreateDate ? decodeURIComponent(roundCreateDate) : '';
-
-        function switchContainer(value) {
-            var fillBlanksContainer = document.getElementById('fillBlanksContainer');
-            var quizContainer = document.getElementById('quizContainer');
-            var wordMatchingContainer = document.getElementById('wordMatchingContainer');
-
-            var questionListPart1 = document.getElementById('questionListPart1');
-            var questionListPart2 = document.getElementById('questionListPart2');
-            var questionNumber = document.getElementById('question-number');
-
-            // Hide all containers and question lists
-            fillBlanksContainer.style.display = 'none';
-            quizContainer.style.display = 'none';
-            wordMatchingContainer.style.display = 'none';
-            questionListPart1.style.display = 'none';
-            questionListPart2.style.display = 'none';
-            questionNumber.style.display = 'none';
-
-            // Reset selectors to the first option
-            questionListPart1.selectedIndex = 0;
-            questionListPart2.selectedIndex = 0;
-
-            // Show the selected container and question list
-            if (value === 'fillBlanks') {
-                fillBlanksContainer.style.display = 'block';
-                questionListPart1.style.display = 'block';
-                questionNumber.style.display = 'block';
-                saveAndLoadQuestionPart1(1); // Show the first question by default
-            } else if (value === 'quiz') {
-                quizContainer.style.display = 'block';
-                questionListPart2.style.display = 'block';
-                questionNumber.style.display = 'block';
-                saveAndLoadQuestionPart2(1); // Show the first question by default
-            } else if (value === 'wordMatching') {
-                wordMatchingContainer.style.display = 'block';
+            // Function to get the value of a query parameter by name
+            function getQueryParam(name) {
+                const urlParams = new URLSearchParams(window.location.search);
+                return urlParams.get(name);
             }
-        }
 
-        document.addEventListener('DOMContentLoaded', function () {
-            // Initial setup: hide all questions except the first one in each container
-            saveAndLoadQuestionPart1(1);
-            saveAndLoadQuestionPart2(1);
-        });
+            // Get the values from the URL
+            const roundName = getQueryParam('RoundName');
+            const roundCreateDate = getQueryParam('RoundCreateDate');
 
-        function saveAndLoadQuestionPart1(value) {
-            // Logic to save current question and load selected question for Part 1
-            var questionsPart1 = document.querySelectorAll('.question-part1');
-            questionsPart1.forEach(function (question, index) {
-                if (index == value - 1) {
-                    question.style.display = 'block';
-                } else {
-                    question.style.display = 'none';
+            /*
+            // Set the values to the header elements
+            document.getElementById('roundNameHeader').innerText = roundName ? `Vòng thi: ${decodeURIComponent(roundName)}` : '';
+            document.getElementById('roundCreateDateDisplay').innerText = roundCreateDate ? `Ngày thi: ${decodeURIComponent(roundCreateDate)}` : '';
+            */
+
+            // Also set the values to the hidden inputs if needed
+            document.getElementById('RoundNameInput').value = roundName ? decodeURIComponent(roundName) : '';
+            document.getElementById('RoundCreateDateInput').value = roundCreateDate ? decodeURIComponent(roundCreateDate) : '';
+
+            function switchContainer(value) {
+                var fillBlanksContainer = document.getElementById('fillBlanksContainer');
+                var quizContainer = document.getElementById('quizContainer');
+                var wordMatchingContainer = document.getElementById('wordMatchingContainer');
+
+                var questionListPart1 = document.getElementById('questionListPart1');
+                var questionListPart2 = document.getElementById('questionListPart2');
+                var questionNumber = document.getElementById('question-number');
+
+                // Hide all containers and question lists
+                fillBlanksContainer.style.display = 'none';
+                quizContainer.style.display = 'none';
+                wordMatchingContainer.style.display = 'none';
+                questionListPart1.style.display = 'none';
+                questionListPart2.style.display = 'none';
+                questionNumber.style.display = 'none';
+
+                // Reset selectors to the first option
+                questionListPart1.selectedIndex = 0;
+                questionListPart2.selectedIndex = 0;
+
+                // Show the selected container and question list
+                if (value === 'fillBlanks') {
+                    fillBlanksContainer.style.display = 'block';
+                    questionListPart1.style.display = 'block';
+                    questionNumber.style.display = 'block';
+                    saveAndLoadQuestionPart1(1); // Show the first question by default
+                } else if (value === 'quiz') {
+                    quizContainer.style.display = 'block';
+                    questionListPart2.style.display = 'block';
+                    questionNumber.style.display = 'block';
+                    saveAndLoadQuestionPart2(1); // Show the first question by default
+                } else if (value === 'wordMatching') {
+                    wordMatchingContainer.style.display = 'block';
                 }
+            }
+            document.addEventListener('DOMContentLoaded', function () {
+                // Initial setup: hide all questions except the first one in each container
+                saveAndLoadQuestionPart1(1);
+                saveAndLoadQuestionPart2(1);
             });
-        }
 
-        function saveAndLoadQuestionPart2(value) {
-            // Logic to save current question and load selected question for Part 2
-            var questionsPart2 = document.querySelectorAll('.question-part2');
-            questionsPart2.forEach(function (question, index) {
-                if (index == value - 1) {
-                    question.style.display = 'block';
-                } else {
-                    question.style.display = 'none';
-                }
-            });
-        }
+            function saveAndLoadQuestionPart1(value) {
+                // Logic to save current question and load selected question for Part 1
+                var questionsPart1 = document.querySelectorAll('.question-part1');
+                questionsPart1.forEach(function (question, index) {
+                    if (index == value - 1) {
+                        question.style.display = 'block';
+                    } else {
+                        question.style.display = 'none';
+                    }
+                });
+            }
+
+            function saveAndLoadQuestionPart2(value) {
+                // Logic to save current question and load selected question for Part 2
+                var questionsPart2 = document.querySelectorAll('.question-part2');
+                questionsPart2.forEach(function (question, index) {
+                    if (index == value - 1) {
+                        question.style.display = 'block';
+                    } else {
+                        question.style.display = 'none';
+                    }
+                });
+            }
             // Hide the alert message after a few seconds
             document.addEventListener('DOMContentLoaded', function () {
                 const alertMessage = document.getElementById('alertMessage');
@@ -235,5 +234,5 @@
                     }, 5000); // Hide after 5 seconds
                 }
             });
-    </script>
+        </script>
     }

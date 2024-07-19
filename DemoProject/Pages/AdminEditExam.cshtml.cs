@@ -5,15 +5,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ProjectIoePrn.Models;
+using DemoProject.Models;
 
-namespace ProjectIoePrn.Pages
+namespace DemoProject.Pages
 {
     public class AdminEditExamModel : PageModel
     {
-        private readonly ProjectIoePrn.Models.IOE_Project_Clone_PRN221Context _context;
+        private readonly DemoProject.Models.IOE_Project_Clone_PRN221Context _context;
 
-        public AdminEditExamModel(ProjectIoePrn.Models.IOE_Project_Clone_PRN221Context context)
+        public AdminEditExamModel(DemoProject.Models.IOE_Project_Clone_PRN221Context context)
         {
             _context = context;
         }

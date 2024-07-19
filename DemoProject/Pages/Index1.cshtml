@@ -1,7 +1,6 @@
 ﻿@page
 @model DemoProject.Pages.Index1Model
-@{
-}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -39,35 +38,35 @@
             z-index: 1; /* Đảm bảo nó ở trên background */
         }
 
-            .main-content .left, .main-content .right {
-                flex: 1;
-                margin: 10px;
-            }
+        .main-content .left, .main-content .right {
+            flex: 1;
+            margin: 10px;
+        }
 
-            .main-content .left {
-                background-color: #dfffe0; /* Màu xanh lá */
-                padding: 40px;
-                border-radius: 10px;
-                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            }
+        .main-content .left {
+            background-color: #dfffe0; /* Màu xanh lá */
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
 
-                .main-content .left h1, .main-content .left h2, .main-content .left h3 {
-                    margin: 0;
-                    color: #333;
-                }
+        .main-content .left h1, .main-content .left h2, .main-content .left h3 {
+            margin: 0;
+            color: #333;
+        }
 
-            .main-content .buttons {
-                margin-top: 20px;
-            }
+        .main-content .buttons {
+            margin-top: 20px;
+        }
 
-            .main-content button {
-                border: none;
-                padding: 15px 30px;
-                font-size: 18px;
-                margin: 10px;
-                cursor: pointer;
-                border-radius: 5px;
-            }
+        .main-content button {
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            margin: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
 
         .green-button {
             background-color: #4CAF50;
@@ -144,16 +143,20 @@
                 </div>
             </div>
             <div class="right support-info">
-                <h4>Họ và Tên: Nguyễn Thành Đức</h4>
-                <h4>Id:</h4>
-                <h4>Khối: 3 </h4>
-                <h4>Lớp: 3c</h4>
+
+
+                <h4>Họ và Tên: @Model.stu?.StudentName</h4>
+                <h4>Id: @Model.stu?.StudentId</h4>
+                <h4>Lớp: @Model.stu?.StudentClass</h4>
+                <h4>Khối: @Model.stu?.Grade?.GradeName</h4>
+
                 <div class="hotline">
-                    <p>Trường: Tiểu học Vũ Phúc</p>
-                    <p>Huyện: Thành phố Thái Bình</p>
-                    <p>Thành phố: Thái Bình</p>
+                    <p>Trường: @Model.school?.SchoolName</p>
+                    <p>Huyện: @Model.school?.District?.DistricName</p>
+                    <p>Thành phố: @Model.school?.District?.Province?.ProvinceName</p>
                 </div>
             </div>
+
 
         </div>
     </div>

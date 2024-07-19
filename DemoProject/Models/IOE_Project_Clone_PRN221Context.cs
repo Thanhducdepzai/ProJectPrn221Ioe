@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace ProjectIoePrn.Models
+
+namespace DemoProject.Models
 {
     public partial class IOE_Project_Clone_PRN221Context : DbContext
     {
@@ -59,7 +60,7 @@ namespace ProjectIoePrn.Models
                     .IsFixedLength();
 
                 entity.Property(e => e.AdminName)
-                    .HasMaxLength(50)
+.HasMaxLength(50)
                     .HasColumnName("admin_name");
 
                 entity.Property(e => e.AdminPassword)
@@ -142,7 +143,7 @@ namespace ProjectIoePrn.Models
                 entity.HasOne(d => d.LevelSchool)
                     .WithMany(p => p.Grades)
                     .HasForeignKey(d => d.LevelSchoolId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
+.OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Grade.levelSchool_id");
             });
 
@@ -219,12 +220,11 @@ namespace ProjectIoePrn.Models
                 entity.Property(e => e.RoundId).HasColumnName("round_id");
 
                 entity.Property(e => e.TypeOfQuestionId).HasColumnName("type_of_question_id");
-
                 entity.HasOne(d => d.Round)
-                    .WithMany(p => p.Parts)
-                    .HasForeignKey(d => d.RoundId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Part.round_id");
+                                    .WithMany(p => p.Parts)
+                                    .HasForeignKey(d => d.RoundId)
+                                    .OnDelete(DeleteBehavior.ClientSetNull)
+                                    .HasConstraintName("FK_Part.round_id");
 
                 entity.HasOne(d => d.TypeOfQuestion)
                     .WithMany(p => p.Parts)
@@ -295,7 +295,7 @@ namespace ProjectIoePrn.Models
 
                 entity.Property(e => e.QuestionText)
                     .HasMaxLength(200)
-                    .IsUnicode(false)
+.IsUnicode(false)
                     .HasColumnName("question_text ")
                     .IsFixedLength();
 
@@ -375,12 +375,11 @@ namespace ProjectIoePrn.Models
                 entity.Property(e => e.GradeId).HasColumnName("grade_ID");
 
                 entity.Property(e => e.SchoolId).HasColumnName("school_ID");
-
                 entity.Property(e => e.StudentClass)
-                    .HasMaxLength(10)
-                    .IsUnicode(false)
-                    .HasColumnName("student_class")
-                    .IsFixedLength();
+                                    .HasMaxLength(10)
+                                    .IsUnicode(false)
+                                    .HasColumnName("student_class")
+                                    .IsFixedLength();
 
                 entity.Property(e => e.StudentDob)
                     .HasColumnType("date")

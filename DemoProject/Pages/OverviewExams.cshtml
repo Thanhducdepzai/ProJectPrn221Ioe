@@ -1,5 +1,5 @@
 ﻿@page
-@model ProjectIoePrn.Pages.OverviewExamsModel
+@model DemoProject.Pages.OverviewExamsModel
 @{
     ViewData["Title"] = "Overview Exams";
 }
@@ -64,7 +64,22 @@
                     <td>
                         @if (result.CompleteTime == -1)
                         {
-                            <button onclick="location.href='@Url.Page("/Test", new { partId = result.Part.PartId })'">Làm bài</button>
+
+                            string pageUrl;
+                            switch (result.Part.TypeOfQuestionId % 3)
+                            {
+                                case 1:
+                                    pageUrl = Url.Page("/Synomym", new { partId = result.Part.PartId });
+                                    break;
+                                case 2:
+                                    pageUrl = Url.Page("/Quiz", new { partId = result.Part.PartId });
+                                    break;
+                                default:
+                                    pageUrl = Url.Page("/FillBlank", new { partId = result.Part.PartId });
+                                    break;
+                            }
+
+                            <button onclick="location.href='@pageUrl'">Làm bài</button>
                         }
                         else
                         {
@@ -74,7 +89,7 @@
                     <td>
                         @if (result.Score == -1)
                         {
-                            <p>N/A</p>
+                            <p>Bạn chưa làm bài thi này.</p>
                         }
                         else
                         {
@@ -89,7 +104,7 @@
         else
         {
             <tr>
-                <td colspan="5">No part results found.</td>
+                <td colspan="5">Chưa có kết quả nào được ghi nhận.</td>
             </tr>
         }
     </tbody>
@@ -123,7 +138,7 @@
         else
         {
             <tr>
-                <td colspan="4">No self-study results found.</td>
+                <td colspan="4">Chưa có kết quả nào được ghi nhận.</td>
             </tr>
         }
     </tbody>

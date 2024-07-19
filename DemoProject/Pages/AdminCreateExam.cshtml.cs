@@ -1,13 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ProjectIoePrn.Models;
+using DemoProject.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace ProjectIoePrn.Pages
+namespace DemoProject.Pages
 {
     public class AdminCreateExamModel : PageModel
     {
@@ -89,7 +89,6 @@ namespace ProjectIoePrn.Pages
                     isPublic = "False", // Assuming default isPublic value
                     admin_id = AdminId
                 };
-
                 _logger.LogInformation("Inserting Round: {@Round}", round);
 
                 _context.Rounds.Add(round);
@@ -163,7 +162,6 @@ namespace ProjectIoePrn.Pages
                     };
 
                     _logger.LogInformation("Inserting Question for Part 2: {@Question}", newQuestion);
-
                     _context.Questions.Add(newQuestion);
                     newQuestionId++;
                 }

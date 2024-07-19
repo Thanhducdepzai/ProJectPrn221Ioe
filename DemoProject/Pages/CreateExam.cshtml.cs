@@ -1,10 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
-using ProjectIoePrn.Models;
+using DemoProject.Models;
 using System.Threading.Tasks;
 
-namespace ProjectIoePrn.Pages
+namespace DemoProject.Pages
 {
     public class CreateExamModel : PageModel
     {
