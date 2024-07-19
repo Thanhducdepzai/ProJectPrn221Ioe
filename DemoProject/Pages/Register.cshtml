@@ -12,17 +12,17 @@
                 <form method="POST" class="register-form" id="register-form">
                     <div class="form-group">
                         <label asp-for="student.StudentName" for="name"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input asp-for="student.StudentName" type="text"  id="name" placeholder="Nhập tên của bạn" />
+                        <input asp-for="student.StudentName" type="text" id="name" placeholder="Nhập tên của bạn" />
                     </div>
                     <div class="form-group">
                         <label asp-for="student.StudentDob" for="dob"><i class="zmdi zmdi-cake"></i></label>
-                        <input asp-for="student.StudentDob" type="date"  id="dob" placeholder="Nhập ngày sinh của bạn" />
+                        <input asp-for="student.StudentDob" type="date" id="dob" placeholder="Nhập ngày sinh của bạn" />
                     </div>
                     <div class="form-group">
                         <select class="form-control" asp-for="levelOfSchool.LevelSchoolId" asp-items="ViewBag.LevelOfSchool" id="LevelOfSchool" onchange="updateSchools()">
                             <option value="">--Chọn Cấp Học Giáo Dục--</option>
                         </select>
-                    </div>                   
+                    </div>
                     <div class="form-group">
                         <select class="form-control" asp-for="province.ProvinceId" asp-items="ViewBag.Province" id="ProvinceId" onchange="ProvinceChanged()">
                             <option value="">--Chọn Tỉnh Thành--</option>
@@ -45,25 +45,29 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="student.StudentClass" for="class"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input asp-for="student.StudentClass" type="text"  id="class" placeholder="Nhập lớp của bạn" />
+                        <input asp-for="student.StudentClass" type="text" id="class" placeholder="Nhập lớp của bạn" />
                     </div>
                     <div class="form-group">
                         <label asp-for="student.StudentUsername" for="username"><i class="zmdi zmdi-account material-icons-name"></i></label>
-                        <input asp-for="student.StudentUsername" type="text"  id="username" placeholder="Nhập tên người dùng của bạn" />
+                        <input asp-for="student.StudentUsername" type="text" id="username" placeholder="Nhập tên người dùng của bạn" />
                     </div>
                     <div class="form-group">
                         <label asp-for="student.StudentGmail" for="email"><i class="zmdi zmdi-email"></i></label>
-                        <input asp-for="student.StudentGmail" type="email"  id="email" placeholder="Nhập địa chỉ email của bạn" />
+                        <input asp-for="student.StudentGmail" type="email" id="email" placeholder="Nhập địa chỉ email của bạn" />
                     </div>
                     <div class="form-group">
                         <label asp-for="student.StudentPassword" for="pass"><i class="zmdi zmdi-lock"></i></label>
-                        <input asp-for="student.StudentPassword" type="password"  id="pass" placeholder="Nhập mật khẩu của bạn" />
+                        <input asp-for="student.StudentPassword" type="password" id="pass" placeholder="Nhập mật khẩu của bạn" />
                     </div>
                     <div class="form-group">
                         <label for="re-pass"><i class="zmdi zmdi-lock-outline"></i></label>
-                        <input type="password"  id="re_pass" placeholder="Nhập lại mật khẩu của bạn" /> <i class="zmdi zmdi-eye-off"></i>
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
+                        <input type="password" id="re_pass" placeholder="Nhập lại mật khẩu của bạn" /> <i class="zmdi zmdi-eye-off"></i>
                     </div>
-                   
+
 
                     <div class="form-group form-button">
                         <input type="submit" name="signup" id="signup" class="form-submit" value="Đăng Ký" />

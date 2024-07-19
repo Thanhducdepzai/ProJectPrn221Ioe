@@ -2,72 +2,88 @@
 using GoldBracelet_HE172196_HoangThuPhuong;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Security.Principal;
+using System.Threading.Tasks;
 
 namespace DemoProject.Pages
 {
     public class ResetPasswordModel : PageModel
     {
         private readonly IOE_Project_Clone_PRN221Context _context;
+
         public ResetPasswordModel(IOE_Project_Clone_PRN221Context context)
         {
             _context = context;
         }
-        public Admin adminAccount { get; set; }
-        public Student studentAccount { get; set; }
 
-        public void OnGet()
+        [BindProperty]
+        public string Email { get; set; }
+
+        [BindProperty]
+        public string Otp { get; set; }
+
+        public Admin AdminAccount { get; set; }
+        public Student StudentAccount { get; set; }
+
+        public void OnGet(string email, bool isAdmin)
         {
+            Email = email;
+            HttpContext.Session.SetString("IsAdmin", isAdmin.ToString());
         }
+
         public async Task<IActionResult> OnPostAsync(string newPassword, string confirmPassword)
         {
-            
             if (!ModelState.IsValid)
             {
-                ViewData["error"] = "ModelSate is not valid";
+                ViewData["error"] = "ModelState is not valid";
                 return Page();
             }
-            if(newPassword != confirmPassword)
+
+            if (newPassword != confirmPassword)
             {
                 ViewData["error"] = "Mật khẩu xác nhận không trùng khớp. Vui lòng thử lại.";
                 return Page();
             }
-            else
+
+            var sessionOtp = HttpContext.Session.GetString("OTP");
+            if (Otp != sessionOtp)
             {
-                var isAdmin = HttpContext.Session.GetString("IsAdmin");
-                if (isAdmin != null && isAdmin.ToLower() == "true")
+                ViewData["error"] = "OTP không hợp lệ.";
+                return Page();
+            }
+
+            var isAdmin = HttpContext.Session.GetString("IsAdmin");
+            if (isAdmin != null && isAdmin.ToLower() == "true")
+            {
+                AdminAccount = HttpContext.Session.GetObjectFromJson<Admin>("Admin");
+                if (AdminAccount != null)
                 {
-                    adminAccount = HttpContext.Session.GetObjectFromJson<Admin>("Admin");
-                    if (adminAccount != null)
-                    {
-                        adminAccount.AdminPassword = newPassword; 
-                        _context.Admins.Update(adminAccount);
-                        await _context.SaveChangesAsync();
-                        ViewData["error"] = "Reset mật khẩu của admin thành công.";
-                    }
-                    else
-                    {
-                        ViewData["error"] = "Không tìm thấy tài khoản admin.";
-                    }
+                    AdminAccount.AdminPassword = newPassword;
+                    _context.Admins.Update(AdminAccount);
+                    await _context.SaveChangesAsync();
+                    ViewData["message"] = "Reset mật khẩu của admin thành công.";
                 }
                 else
                 {
-                    studentAccount = HttpContext.Session.GetObjectFromJson<Student>("Student");
-                    if (studentAccount != null)
-                    {
-                        studentAccount.StudentPassword = newPassword; // Edit password here
-                        _context.Students.Update(studentAccount);
-                        await _context.SaveChangesAsync();
-                        ViewData["error"] = "Reset mật khẩu của student thành công.";
-                    }
-                    else
-                    {
-                        ViewData["error"] = "Không tìm thấy tài khoản student.";
-                    }
+                    ViewData["error"] = "Không tìm thấy tài khoản admin.";
                 }
-                return Page();
-                //return RedirectToPage("/Login");
             }
+            else
+            {
+                StudentAccount = HttpContext.Session.GetObjectFromJson<Student>("Student");
+                if (StudentAccount != null)
+                {
+                    StudentAccount.StudentPassword = newPassword;
+                    _context.Students.Update(StudentAccount);
+                    await _context.SaveChangesAsync();
+                    ViewData["message"] = "Reset mật khẩu của student thành công.";
+                }
+                else
+                {
+                    ViewData["error"] = "Không tìm thấy tài khoản student.";
+                }
+            }
+
+            return Page();
         }
     }
 }

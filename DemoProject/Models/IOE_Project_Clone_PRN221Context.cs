@@ -7,13 +7,13 @@ namespace DemoProject.Models
 {
     public partial class IOE_Project_Clone_PRN221Context : DbContext
     {
+        public static IOE_Project_Clone_PRN221Context INSTANCE = new IOE_Project_Clone_PRN221Context();
         public IOE_Project_Clone_PRN221Context()
         {
-        }
-
-        public IOE_Project_Clone_PRN221Context(DbContextOptions<IOE_Project_Clone_PRN221Context> options)
-            : base(options)
-        {
+            if (INSTANCE == null)
+            {
+                INSTANCE = this;
+            }
         }
 
         public virtual DbSet<Admin> Admins { get; set; } = null!;
@@ -34,11 +34,9 @@ namespace DemoProject.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            if (!optionsBuilder.IsConfigured)
-            {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Data Source=LAPTOP-0E04AKRD\\NAMSQL;Initial Catalog=IOE_Project_Clone_PRN221;User ID=sa;Password=nam12345");
-            }
+            var config = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build();
+
+            if (!optionsBuilder.IsConfigured) { optionsBuilder.UseSqlServer(config.GetConnectionString("value")); }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -449,3 +447,4 @@ namespace DemoProject.Models
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
+

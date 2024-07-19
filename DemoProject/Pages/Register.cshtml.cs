@@ -5,8 +5,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 
 using Microsoft.AspNetCore.SignalR;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.RazorPages;
+
+
 
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
@@ -52,16 +52,14 @@ namespace DemoProject.Pages
 
         // OnPost method for form submission
         public async Task<IActionResult> OnPostAsync()
-        {         
-            
-
+        {  
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Login");
         }
 
-       
+
         public async Task<JsonResult> OnGetDistrictsAsync(int provinceId)
         {
             var districts = await _context.Districts
@@ -75,12 +73,12 @@ namespace DemoProject.Pages
         public async Task<JsonResult> OnGetSchoolsAsync(int levelOfSchoolId, int districtId)
         {
             var schools = await _context.Schools
-                .Include(a=>a.District)
+                .Include(a => a.District)
                 .Where(s => s.LevelSchoolId == levelOfSchoolId && s.DistrictId == districtId)
                 .Select(s => new { s.SchoolId, s.SchoolName })
                 .ToListAsync();
             var grades = await _context.Grades
-                .Include(s=>s.Students)
+                .Include(s => s.Students)
                 .Where(s => s.LevelSchoolId == levelOfSchoolId)
                 .Select(s => new { s.GradeId, s.GradeName })
                 .ToListAsync();

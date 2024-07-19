@@ -29,6 +29,7 @@
     <input type="hidden" id="finalScore" name="FinalScore" value="0" />
     <input type="hidden" id="timeSpent" name="TimeSpent" value="0" />
 </form>
+
 <style>
     .correct {
         color: green;
@@ -47,7 +48,9 @@
         text-align: center;
     }
 </style>
+
 <script>
+
     const questions = @Json.Serialize(list);
     let currentQuestionIndex = 0;
     let score = 0;
@@ -55,6 +58,7 @@
     let timerInterval;
     function displayQuestion() {
         const question = questions[currentQuestionIndex];
+        console.log("Count Question: " + question.length)
         document.getElementById('question').textContent = question.questionText;
         createAnswerInputs(question);
     }
@@ -68,6 +72,7 @@
     }
     function createAnswerInputs(question) {
         const { correctAnswer } = parseQuestionMetaData(question.questionMetadata);
+        console.log('Correct Answer:', correctAnswer);
         const answerInputsDiv = document.getElementById('answerInputs');
         answerInputsDiv.innerHTML = '';
         for (let i = 0; i < correctAnswer.length; i++) {
@@ -75,13 +80,16 @@
             input.type = 'text';
             input.className = 'answer-input';
             input.maxLength = 1;
-            if (i === 0) {
+            if (i == 0) {
                 input.value = correctAnswer[0];
+                console.log('First Character:', correctAnswer[0]);
                 input.readOnly = true;
             }
+
             answerInputsDiv.appendChild(input);
         }
     }
+
     function checkAnswer(event) {
         event.preventDefault();
         const userAnswer = Array.from(document.querySelectorAll('.answer-input'))
@@ -94,13 +102,14 @@
             score += 10;
             document.getElementById('score').textContent = `Score: ${score}`;
         }
-        currentQuestionIndex++;
+        currentQuestionIndex++; // Move this line here
         if (currentQuestionIndex < questions.length) {
-            displayQuestion();
+            displayQuestion(); // Display next question after incrementing currentQuestionIndex
         } else {
             endQuiz();
         }
     }
+
     function startTimer() {
         timerInterval = setInterval(() => {
             timeLeft--;
@@ -108,20 +117,33 @@
             if (timeLeft <= 0) {
                 endQuiz();
             }
-        }, 1000);
-    }
-    function updateTimerDisplay() {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        document.getElementById('timer').textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }
-    function endQuiz() {
-        clearInterval(timerInterval);
-        document.getElementById('finalScore').value = score;
-        document.getElementById('timeSpent').value = 1200 - timeLeft;
-        document.getElementById('quizForm').submit();
-    }
-    document.getElementById('answerForm').addEventListener('submit', checkAnswer);
-    displayQuestion();
-    startTimer();
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                timeLeft--;
+                updateTimerDisplay();
+                if (timeLeft <= 0) {
+                    endQuiz();
+                }
+            }, 1000);
+        }
+
+        function updateTimerDisplay() {
+            const minutes = Math.floor(timeLeft / 60);
+            const seconds = timeLeft % 60;
+            document.getElementById('timer').textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function endQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('finalScore').value = score;
+            document.getElementById('timeSpent').value = 1200 - timeLeft;
+            document.getElementById('quizForm').submit();
+        }
+
+        document.getElementById('answerForm').addEventListener('submit', checkAnswer);
+        displayQuestion();
+        startTimer();
+    });
 </script>

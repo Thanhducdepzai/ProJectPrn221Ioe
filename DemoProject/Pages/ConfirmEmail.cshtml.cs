@@ -1,37 +1,47 @@
 ﻿using DemoProject.Models;
+using DemoProject.Pages.EmailOtp;
 using GoldBracelet_HE172196_HoangThuPhuong;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 
 namespace DemoProject.Pages
 {
     public class ConfirmEmailModel : PageModel
     {
         private readonly IOE_Project_Clone_PRN221Context _context;
+        private readonly EmailService _emailService;
 
         [BindProperty]
         public bool IsAdmin { get; set; }
-        public ConfirmEmailModel(IOE_Project_Clone_PRN221Context context)
+
+        public ConfirmEmailModel(IOE_Project_Clone_PRN221Context context, EmailService emailService)
         {
             _context = context;
+            _emailService = emailService;
         }
+
         public void OnGet()
         {
         }
+
         public async Task<IActionResult> OnPostAsync(string email)
         {
-            email = email.Trim();
+            email = email.Trim().ToLower();
             if (!ModelState.IsValid)
             {
-                ViewData["error"] = "ModelSate is not valid";
+                ViewData["error"] = "ModelState is not valid";
                 return Page();
             }
-            var hasEmail = checkEmail(email);
+
+            var hasEmail = CheckEmail(email);
             if (hasEmail)
             {
-                ViewData["message"] = "Link đặt lại mật khẩu đã được gửi qua mail.Vui lòng kiểm tra thông báo trong email.";
-                return RedirectToPage("/ResetPassword");
+                var otp = GenerateOtp();
+                await _emailService.SendEmailAsync(email, "OTP cho việc đặt lại mật khẩu", $"Mã OTP của bạn là: {otp}");
+
+                ViewData["message"] = "Link đặt lại mật khẩu đã được gửi qua mail. Vui lòng kiểm tra thông báo trong email.";
+                return RedirectToPage("/ResetPassword", new { email = email, isAdmin = IsAdmin });
             }
             else
             {
@@ -40,23 +50,22 @@ namespace DemoProject.Pages
             }
         }
 
-        private bool checkEmail(string email )
+        private bool CheckEmail(string email)
         {
             HttpContext.Session.SetString("IsAdmin", IsAdmin.ToString());
             if (IsAdmin)
             {
-                var admin = _context.Admins.FirstOrDefault(m => m.AdminGmail == email);
-                if(admin != null)
+                var admin = _context.Admins.FirstOrDefault(m => m.AdminGmail.ToLower() == email);
+                if (admin != null)
                 {
                     HttpContext.Session.SetObjectAsJson("Admin", admin);
                     return true;
                 }
-                
                 return false;
             }
             else
             {
-                var student = _context.Students.FirstOrDefault(m => m.StudentGmail == email );
+                var student = _context.Students.FirstOrDefault(m => m.StudentGmail.ToLower() == email);
                 if (student != null)
                 {
                     HttpContext.Session.SetObjectAsJson("Student", student);
@@ -64,6 +73,14 @@ namespace DemoProject.Pages
                 }
                 return false;
             }
+        }
+
+        private string GenerateOtp()
+        {
+            var random = new Random();
+            var otp = random.Next(100000, 999999).ToString();
+            HttpContext.Session.SetString("OTP", otp);
+            return otp;
         }
     }
 }
