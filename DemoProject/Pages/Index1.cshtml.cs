@@ -1,7 +1,8 @@
-using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc.RazorPages;
 using DemoProject.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using GoldBracelet_HE172196_HoangThuPhuong;
 
 namespace DemoProject.Pages
 {
@@ -19,12 +20,13 @@ namespace DemoProject.Pages
 
         public void OnGet()
         {
-            var studentId = HttpContext.Session.GetInt32("StudentId");
-            if (studentId != null)
+            // Lấy đối tượng sinh viên từ session
+            var student = HttpContext.Session.GetObjectFromJson<Student>("Student");
+            if (student != null)
             {
                 stu = _context.Students
-                              .Include(s => s.Grade) // Include the Grade property
-                              .FirstOrDefault(s => s.StudentId == studentId);
+                              .Include(s => s.Grade) // Bao gồm thuộc tính Grade
+                              .FirstOrDefault(s => s.StudentName == student.StudentName);
                 if (stu != null)
                 {
                     school = _context.Schools

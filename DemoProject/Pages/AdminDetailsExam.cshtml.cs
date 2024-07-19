@@ -24,6 +24,12 @@ namespace DemoProject.Pages
         public int RoundId { get; set; }
         public string RoundName { get; set; } = string.Empty;
         public DateTime RoundCreateDate { get; set; } = DateTime.Now;
+
+        [BindProperty]
+        public int GradeChoosingId { get; set; }
+
+        public List<Grade> Grades { get; set; } = new List<Grade>();
+
         public List<QuestionInputModel> QuestionsPart1 { get; set; } = new List<QuestionInputModel>();
         public List<QuestionInputModel> QuestionsPart2 { get; set; } = new List<QuestionInputModel>();
         public List<QuestionInputModel> QuestionsPart3 { get; set; } = new List<QuestionInputModel>();
@@ -62,6 +68,9 @@ namespace DemoProject.Pages
                 .ThenInclude(p => p.Questions)
                 .FirstOrDefaultAsync(r => r.RoundId == roundId);
 
+            // Load Grades
+            Grades = await _context.Grades.ToListAsync();
+
             if (round == null)
             {
                 throw new NullReferenceException("Round not found");
@@ -69,6 +78,7 @@ namespace DemoProject.Pages
 
             RoundName = round.RoundName;
             RoundCreateDate = round.RoundCreateDate;
+            GradeChoosingId = round.GradeId;
 
             foreach (var part in round.Parts)
             {

@@ -4,61 +4,143 @@
     ViewData["Title"] = "Exam Details";
 }
 
-<h1>Exam Details</h1>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        color: #333;
+        margin: 0;
+        padding: 0;
+    }
 
-<div>
-    <h2>Admin: @Model.Admin.AdminName</h2>
-    <h3>Round: @Model.RoundName</h3>
-    <div>
-        <label>Round Name:</label>
-        <input type="text" value="@Model.RoundName" readonly />
-    </div>
-    <div>
-        <label>Round Create Date:</label>
-        <input type="date" value="@Model.RoundCreateDate.ToString("yyyy-MM-dd")" readonly />
-    </div>
-    <div>
-        <h4>Part 1: Fill in the Blanks</h4>
-        @foreach (var question in Model.QuestionsPart1)
-        {
-            <div>
-                <label>Question:</label>
-                <input type="text" value="@question.Name" readonly />
-                <label>Answer:</label>
-                <input type="text" value="@question.Answer" readonly />
-            </div>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2, h3, h4 {
+        color: #007bff;
+    }
+
+    label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        display: block;
+    }
+
+    input[type="text"], input[type="date"], select {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+
+    select {
+        background-color: #fff;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+    }
+
+    div > div {
+        margin-bottom: 20px;
+    }
+
+    .question-block {
+        background-color: #f8f9fa;
+        padding: 15px;
+        border-radius: 5px;
+        margin-bottom: 15px;
+    }
+
+        .question-block label {
+            display: inline-block;
+            width: 100px;
         }
-    </div>
-    <div>
-        <h4>Part 2: Multiple Choice</h4>
-        @foreach (var question in Model.QuestionsPart2)
-        {
-            <div>
-                <label>Question:</label>
-                <input type="text" value="@question.Name" readonly />
-                <label>Choice 1:</label>
-                <input type="text" value="@question.Choice1" readonly />
-                <label>Choice 2:</label>
-                <input type="text" value="@question.Choice2" readonly />
-                <label>Choice 3:</label>
-                <input type="text" value="@question.Choice3" readonly />
-                <label>Choice 4:</label>
-                <input type="text" value="@question.Choice4" readonly />
-                <label>Answer:</label>
-                <input type="text" value="@question.Answer" readonly />
-            </div>
+
+        .question-block input {
+            display: inline-block;
+            width: calc(100% - 110px);
         }
-    </div>
+</style>
+
+<div class="container">
+    <h1>Exam Details</h1>
     <div>
-        <h4>Part 3: Matching</h4>
-        @foreach (var question in Model.QuestionsPart3)
-        {
-            <div>
-                <label>Question:</label>
-                <input type="text" value="@question.Name" readonly />
-                <label>Answer:</label>
-                <input type="text" value="@question.Answer" readonly />
-            </div>
-        }
+        <h2>Admin: @Model.Admin.AdminName</h2>
+        <h3>Round: @Model.RoundName</h3>
+        <div>
+            <label>Round Name:</label>
+            <input type="text" value="@Model.RoundName" readonly />
+        </div>
+        <div>
+            <label>Round Create Date:</label>
+            <input type="date" value="@Model.RoundCreateDate.ToString("yyyy-MM-dd")" readonly />
+        </div>
+        <p id="roundGradeDisplay">
+            Khối lớp:
+            <select id="GradeChoosingIdInput" disabled>
+                @foreach (var grade in Model.Grades)
+                {
+                    if (grade.GradeId == Model.GradeChoosingId)
+                    {
+                        <option value="@grade.GradeId" selected>@grade.GradeName</option>
+                    }
+                    else
+                    {
+                        <option value="@grade.GradeId">@grade.GradeName</option>
+                    }
+                }
+            </select>
+        </p>
+        <div>
+            <h4>Part 1: Fill in the Blanks</h4>
+            @foreach (var question in Model.QuestionsPart1)
+            {
+                <div class="question-block">
+                    <label>Question:</label>
+                    <input type="text" value="@question.Name" readonly />
+                    <label>Answer:</label>
+                    <input type="text" value="@question.Answer" readonly />
+                </div>
+            }
+        </div>
+        <div>
+            <h4>Part 2: Multiple Choice</h4>
+            @foreach (var question in Model.QuestionsPart2)
+            {
+                <div class="question-block">
+                    <label>Question:</label>
+                    <input type="text" value="@question.Name" readonly />
+                    <label>Choice 1:</label>
+                    <input type="text" value="@question.Choice1" readonly />
+                    <label>Choice 2:</label>
+                    <input type="text" value="@question.Choice2" readonly />
+                    <label>Choice 3:</label>
+                    <input type="text" value="@question.Choice3" readonly />
+                    <label>Choice 4:</label>
+                    <input type="text" value="@question.Choice4" readonly />
+                    <label>Answer:</label>
+                    <input type="text" value="@question.Answer" readonly />
+                </div>
+            }
+        </div>
+        <div>
+            <h4>Part 3: Matching</h4>
+            @foreach (var question in Model.QuestionsPart3)
+            {
+                <div class="question-block">
+                    <label>Question:</label>
+                    <input type="text" value="@question.Name" readonly />
+                    <label>Answer:</label>
+                    <input type="text" value="@question.Answer" readonly />
+                </div>
+            }
+        </div>
     </div>
 </div>

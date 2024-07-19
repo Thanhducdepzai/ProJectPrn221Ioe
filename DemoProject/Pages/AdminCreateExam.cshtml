@@ -10,7 +10,7 @@
             @TempData["AlertMessage"]
         </div>
     }
-    <form method="post">
+    <form id="examForm" method="post" onsubmit="return validateForm()">
         <div class="header">
             <h2 id="roundNameHeader">
                 Vòng thi:
@@ -19,6 +19,16 @@
             <p id="roundCreateDateDisplay">
                 Ngày thi:
                 <input type="date" id="RoundCreateDateInput" asp-for="RoundCreateDate" />
+            </p>
+            <p id="roundGradeDisplay">
+                Khối lớp:
+                <select id="GradeChoosingIdInput" asp-for="GradeChoosingId">
+                    <option value="">Chọn khối lớp</option>
+                    @foreach (var grade in Model.Grades)
+                    {
+                        <option value="@grade.GradeId">@grade.GradeName</option>
+                    }
+                </select>
             </p>
         </div>
 
@@ -234,5 +244,79 @@
                     }, 5000); // Hide after 5 seconds
                 }
             });
+
+            function validateForm() {
+                let isValid = true;
+
+                // Check Round Name
+                const roundName = document.getElementById('RoundNameInput').value.trim();
+                if (roundName === '') {
+                    isValid = false;
+                }
+
+                // Check Round Create Date
+                const roundCreateDate = document.getElementById('RoundCreateDateInput').value.trim();
+                if (roundCreateDate === '') {
+                    isValid = false;
+                }
+
+                // Check Grade Choosing Id
+                const gradeChoosingId = document.getElementById('GradeChoosingIdInput').value.trim();
+                if (gradeChoosingId === '') {
+                    isValid = false;
+                }
+
+                // Check selected exam part
+                const selectedPart = document.getElementById('exam-part').value;
+
+                // Check fill blanks questions
+                if (selectedPart === 'fillBlanks') {
+                    document.querySelectorAll('#fillBlanksContainer .question-part1').forEach((questionDiv) => {
+                        const name = questionDiv.querySelector('textarea').value.trim();
+                        const answer = questionDiv.querySelector('input').value.trim();
+                        if (name === '' || answer === '') {
+                            isValid = false;
+                        }
+                    });
+                }
+
+                // Check quiz questions
+                if (selectedPart === 'quiz') {
+                    document.querySelectorAll('#quizContainer .question-part2').forEach((questionDiv) => {
+                        const name = questionDiv.querySelector('textarea').value.trim();
+                        const choices = [
+                            questionDiv.querySelector('input[value="1"]').value.trim(),
+                            questionDiv.querySelector('input[value="2"]').value.trim(),
+                            questionDiv.querySelector('input[value="3"]').value.trim(),
+                            questionDiv.querySelector('input[value="4"]').value.trim()
+                        ];
+                        const answer = questionDiv.querySelector('input[type="radio"]:checked') !== null;
+                        if (name === '' || choices.some(choice => choice === '') || !answer) {
+                            isValid = false;
+                        }
+                    });
+                }
+
+                // Check word matching questions
+                if (selectedPart === 'wordMatching') {
+                    document.querySelectorAll('#wordMatchingContainer tbody tr').forEach((row) => {
+                        const vietnamese = row.querySelector('td:first-child input').value.trim();
+                        const english = row.querySelector('td:last-child input').value.trim();
+                        if (vietnamese === '' || english === '') {
+                            isValid = false;
+                        }
+                    });
+                }
+
+                if (!isValid) {
+                    alert("Bạn phải điền đầy đủ các câu hỏi trước khi tạo vòng thi mới!");
+                }
+
+                return isValid;
+            }
+
+            document.getElementById('examForm').onsubmit = function () {
+                return validateForm();
+            };
         </script>
     }

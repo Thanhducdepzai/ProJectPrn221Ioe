@@ -3,21 +3,18 @@
 @{
     ViewData["Title"] = "Fill Blank";
     var list = ViewData["list"] as List<DemoProject.Models.Question>;
-    }
 }
-
 <div class="quiz-page-container quiz-background">
     <div class="quiz-content">
         <div class="quiz-main">
             <div class="question-box">
                 <p class="question" id="question"></p>
                 <form id="answerForm" onsubmit="checkAnswer(event)">
-                    <input type="text" id="answerInput" name="Answer" class="answer-input" placeholder="Type your answer here" />
+                    <div id="answerInputs" class="answer-inputs"></div>
                     <button type="submit" class="submit-button">Kiểm tra</button>
                 </form>
             </div>
         </div>
-
         <div class="quiz-sidebar">
             <div class="score-box">
                 <p id="score">Score: 0</p>
@@ -32,7 +29,6 @@
     <input type="hidden" id="finalScore" name="FinalScore" value="0" />
     <input type="hidden" id="timeSpent" name="TimeSpent" value="0" />
 </form>
-
 <style>
     .correct {
         color: green;
@@ -43,42 +39,61 @@
         color: red;
         font-weight: lighter;
     }
-</style>
 
+    .answer-input {
+        display: inline-block;
+        width: 30px;
+        margin-right: 5px;
+        text-align: center;
+    }
+</style>
 <script>
     const questions = @Json.Serialize(list);
     let currentQuestionIndex = 0;
     let score = 0;
     let timeLeft = 1200;
     let timerInterval;
-
     function displayQuestion() {
         const question = questions[currentQuestionIndex];
         document.getElementById('question').textContent = question.questionText;
-        document.getElementById('answerInput').value = ''; // Clear the previous answer
+        createAnswerInputs(question);
     }
-
     function parseQuestionMetaData(metaData) {
         const [key, value] = metaData.split(':').map(s => s.trim());
         let correctAnswer = '';
-
         if (key.toLowerCase() === 'correct') {
             correctAnswer = value;
         }
         return { correctAnswer };
     }
-
+    function createAnswerInputs(question) {
+        const { correctAnswer } = parseQuestionMetaData(question.questionMetadata);
+        const answerInputsDiv = document.getElementById('answerInputs');
+        answerInputsDiv.innerHTML = '';
+        for (let i = 0; i < correctAnswer.length; i++) {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.className = 'answer-input';
+            input.maxLength = 1;
+            if (i === 0) {
+                input.value = correctAnswer[0];
+                input.readOnly = true;
+            }
+            answerInputsDiv.appendChild(input);
+        }
+    }
     function checkAnswer(event) {
-        event.preventDefault(); // Prevent the form from submitting
-        const userAnswer = document.getElementById('answerInput').value.trim();
+        event.preventDefault();
+        const userAnswer = Array.from(document.querySelectorAll('.answer-input'))
+            .map(input => input.value)
+            .join('')
+            .trim();
         const question = questions[currentQuestionIndex];
         const { correctAnswer } = parseQuestionMetaData(question.questionMetadata);
-
         if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
             score += 10;
             document.getElementById('score').textContent = `Score: ${score}`;
         }
-
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
             displayQuestion();
@@ -86,7 +101,6 @@
             endQuiz();
         }
     }
-
     function startTimer() {
         timerInterval = setInterval(() => {
             timeLeft--;
@@ -96,22 +110,18 @@
             }
         }, 1000);
     }
-
     function updateTimerDisplay() {
         const minutes = Math.floor(timeLeft / 60);
         const seconds = timeLeft % 60;
         document.getElementById('timer').textContent = `Time: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
     }
-
     function endQuiz() {
         clearInterval(timerInterval);
         document.getElementById('finalScore').value = score;
-        document.getElementById('timeSpent').value = 1200 - timeLeft; // Time spent in seconds
+        document.getElementById('timeSpent').value = 1200 - timeLeft;
         document.getElementById('quizForm').submit();
     }
-
     document.getElementById('answerForm').addEventListener('submit', checkAnswer);
-
     displayQuestion();
     startTimer();
 </script>

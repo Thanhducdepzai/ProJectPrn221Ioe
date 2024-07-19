@@ -35,6 +35,9 @@ namespace DemoProject.Pages
         [BindProperty(SupportsGet = true)]
         public DateTime? MaxRoundCreateDate { get; set; }
 
+        [BindProperty]
+        public List<int> SelectedRounds { get; set; }
+
         public async Task OnGetAsync(int pageNumber = 1)
         {
             int pageSize = 3;
@@ -76,12 +79,38 @@ namespace DemoProject.Pages
                 CurrentPage = 1;
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> OnPostMakePublicAsync()
+        {
+            if (SelectedRounds == null || !SelectedRounds.Any())
+            {
+                return Page();
+            }
+
+            var roundsToUpdate = await _context.Rounds
+                                               .Where(r => SelectedRounds.Contains(r.RoundId))
+                                               .ToListAsync();
+
+            foreach (var round in roundsToUpdate)
+            {
+                round.isPublic = "True";
+            }
+
+            await _context.SaveChangesAsync();
+
+            return RedirectToPage(new
+            {
+                AdminId = AdminId,
+                SearchRoundName = SearchRoundName,
+                MinRoundCreateDate = MinRoundCreateDate,
+                MaxRoundCreateDate = MaxRoundCreateDate
+            });
+        }
+
         [HttpPost]
         public async Task<IActionResult> OnPostDeleteRoundAsync(int roundId, int adminId)
         {
-            // Store the roundId in a local variable
-            int idOfRemovingRound = roundId;
-
             // Find the round to delete
             var round = await _context.Rounds.FirstOrDefaultAsync(r => r.RoundId == roundId);
 
@@ -111,6 +140,9 @@ namespace DemoProject.Pages
 
             // Save changes to remove questions, parts, and the round
             await _context.SaveChangesAsync();
+
+            // Reload the Admin object to ensure it is not null
+            Admin = await _context.Admins.FirstOrDefaultAsync(a => a.AdminId == adminId);
 
             // Redirect to the page with updated query parameters
             return RedirectToPage(new { AdminId = adminId, SearchRoundName = SearchRoundName, MinRoundCreateDate = MinRoundCreateDate, MaxRoundCreateDate = MaxRoundCreateDate });

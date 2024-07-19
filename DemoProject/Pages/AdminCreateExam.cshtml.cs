@@ -27,6 +27,11 @@ namespace DemoProject.Pages
         public DateTime RoundCreateDate { get; set; } = DateTime.Now;
 
         [BindProperty]
+        public int GradeChoosingId { get; set; }
+
+        public List<Grade> Grades { get; set; } = new List<Grade>();
+
+        [BindProperty]
         public List<QuestionInputModel> QuestionsPart1 { get; set; } = new List<QuestionInputModel>();
 
         [BindProperty]
@@ -49,6 +54,9 @@ namespace DemoProject.Pages
 
             AdminId = adminId.Value;
             await LoadAdminDataAsync(AdminId);
+
+            // Load Grades
+            Grades = await _context.Grades.ToListAsync();
 
             // Initialize the question lists with the desired number of empty questions
             for (int i = 0; i < 10; i++)
@@ -85,7 +93,7 @@ namespace DemoProject.Pages
                     RoundName = RoundName,
                     RoundCreateDate = RoundCreateDate,
                     RoundUpdateDate = DateTime.Now,
-                    GradeId = 3,
+                    GradeId = GradeChoosingId,
                     isPublic = "False", // Assuming default isPublic value
                     admin_id = AdminId
                 };

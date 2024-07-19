@@ -25,6 +25,11 @@ namespace DemoProject.Pages
         public DateTime RoundCreateDate { get; set; }
 
         [BindProperty]
+        public int GradeChoosingId { get; set; }
+
+        public List<Grade> Grades { get; set; } = new List<Grade>();
+
+        [BindProperty]
         public List<QuestionViewModel> QuestionsPart1 { get; set; } = new List<QuestionViewModel>();
 
         [BindProperty]
@@ -48,6 +53,9 @@ namespace DemoProject.Pages
                 .ThenInclude(p => p.Questions)
                 .FirstOrDefaultAsync(r => r.RoundId == id);
 
+            // Load Grades
+            Grades = await _context.Grades.ToListAsync();
+
             if (round == null)
             {
                 return NotFound();
@@ -56,6 +64,7 @@ namespace DemoProject.Pages
             RoundId = round.RoundId;
             RoundName = round.RoundName;
             RoundCreateDate = round.RoundCreateDate;
+            GradeChoosingId = round.GradeId;
 
             foreach (var part in round.Parts)
             {
@@ -95,6 +104,7 @@ namespace DemoProject.Pages
 
             round.RoundName = RoundName;
             round.RoundCreateDate = RoundCreateDate;
+            round.GradeId = GradeChoosingId;
 
             UpdateQuestions(round.Parts, QuestionsPart1, 1);
             UpdateQuestions(round.Parts, QuestionsPart2, 2);
@@ -116,7 +126,7 @@ namespace DemoProject.Pages
                 }
             }
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("/WaitingExams", new { AdminId = round.admin_id });
         }
 
         private void UpdateQuestions(IEnumerable<Part> parts, List<QuestionViewModel> questions, int partOrder)

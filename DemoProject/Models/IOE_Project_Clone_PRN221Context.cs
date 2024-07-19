@@ -86,12 +86,11 @@ namespace DemoProject.Models
                 entity.Property(e => e.AnwserId)
                     .ValueGeneratedNever()
                     .HasColumnName("anwser_id ");
-
                 entity.Property(e => e.AnswerText)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("answer_text")
-                    .IsFixedLength();
+                                    .HasMaxLength(100)
+                                    .IsUnicode(false)
+                                    .HasColumnName("answer_text")
+                                    .IsFixedLength();
 
                 entity.Property(e => e.QuestionId).HasColumnName("question_id");
 
@@ -167,7 +166,7 @@ namespace DemoProject.Models
                 entity.Property(e => e.UserId).HasColumnName("user_id");
 
                 entity.HasOne(d => d.Round)
-                    .WithMany(p => p.IndividualResultDetails)
+.WithMany(p => p.IndividualResultDetails)
                     .HasForeignKey(d => d.RoundId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Individual Result Detail.round_id");
@@ -241,7 +240,7 @@ namespace DemoProject.Models
                 entity.ToTable("Present Part Result Detail");
 
                 entity.Property(e => e.PartResultDetailId)
-                    .ValueGeneratedNever()
+.ValueGeneratedNever()
                     .HasColumnName("part_result_detail_id ");
 
                 entity.Property(e => e.CompleteTime).HasColumnName("complete_time");
@@ -319,10 +318,9 @@ namespace DemoProject.Models
                 entity.Property(e => e.RoundCreateDate)
                     .HasColumnType("date")
                     .HasColumnName("round_create_date");
-
                 entity.Property(e => e.RoundName)
-                    .HasMaxLength(50)
-                    .HasColumnName("round_name");
+                                    .HasMaxLength(50)
+                                    .HasColumnName("round_name");
 
                 entity.Property(e => e.RoundUpdateDate)
                     .HasColumnType("date")
@@ -397,7 +395,7 @@ namespace DemoProject.Models
 
                 entity.Property(e => e.StudentPassword)
                     .HasMaxLength(50)
-                    .IsUnicode(false)
+.IsUnicode(false)
                     .HasColumnName("student_password")
                     .IsFixedLength();
 
@@ -440,5 +438,3 @@ namespace DemoProject.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
-    }
-}

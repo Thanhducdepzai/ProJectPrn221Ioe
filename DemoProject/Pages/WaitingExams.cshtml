@@ -8,17 +8,17 @@
     <div class="side-info">
         <br /><br /><br />
         <div class="side-info-text" style="background-color: lightskyblue; border-radius: 10px;">
-            <p>Xin chào: @Model.Admin?.AdminName</p> <!--Admin Name here-->
-            <p>ID: @Model.Admin?.AdminId</p> <!--Admin Id here-->
-            <p>Tài khoản: @Model.Admin?.AdminUsername</p> <!-- Admin Username here-->
+            <p>Xin chào: @Model.Admin?.AdminName</p>
+            <p>ID: @Model.Admin?.AdminId</p>
+            <p>Tài khoản: @Model.Admin?.AdminUsername</p>
         </div>
         <br />
         <div class="side-info-btn">
             <a href="/ListExams?AdminId=@Model.Admin.AdminId">
-            <button>Danh sách kỳ thi công khai</button>
+                <button>Danh sách kỳ thi công khai</button>
             </a>
             <a href="/CreateExam?AdminId=@Model.Admin.AdminId">
-            <button>Tạo đề thi</button>
+                <button>Tạo đề thi</button>
             </a>
         </div>
     </div>
@@ -26,7 +26,7 @@
     <div class="create-dethi">
         <div class="searchExamContainer">
             <form method="get">
-                <input type="hidden" asp-for="AdminId" /> <!-- Value has to be the id of admin-->
+                <input type="hidden" asp-for="AdminId" />
                 <input type="text" asp-for="SearchRoundName" placeholder="Search by Round Name" />
                 <input type="date" asp-for="MinRoundCreateDate" />
                 <input type="date" asp-for="MaxRoundCreateDate" />
@@ -34,35 +34,41 @@
             </form>
         </div>
         <h3>Danh sách kỳ thi công khai</h3>
-        @foreach (var round in Model.Rounds)
-        {
-            <div style="display:flex" class="examRoundContainer">
-                <div>
-                    <input type="checkbox" name="selectedRounds" value="@round.RoundId">
-                </div>
-                <div class="create-dethi-moi" style="background-color:aliceblue; border: 1px solid;">
-                    <p>Tên kỳ thi: @round.RoundName</p>
-                    <p>Ngày thi: @round.RoundCreateDate.ToString("dd/MM/yyyy")</p>
-                    <p>Thời gian diễn ra: @round.RoundUpdateDate.ToString("dd/MM/yyyy")</p>
+        <form method="post" asp-page-handler="MakePublic" onsubmit="return confirm('Bạn có chắc chắn thêm tất cả vòng thi được chọn vào danh sách công khai không?');">
+            <input type="hidden" asp-for="AdminId" />
+            <div>
+                <button type="submit" style="height:30px;">Công khai vòng thi</button>
+            </div>
+            @foreach (var round in Model.Rounds)
+            {
+                <div style="display:flex" class="examRoundContainer">
                     <div>
-                        <a href="/AdminDetailsExam?RoundId=@round.RoundId&AdminId=@Model.Admin.AdminId">
-                            <button><i class="fa-regular fa-eye"></i></button>
-                        </a>
-                        <a href="/AdminEditExam?Id=@round.RoundId">
-                        <button type="button"><i class="fa-solid fa-pen"></i></button>
-                        </a>
-                        <form method="post" asp-page-handler="DeleteRound" asp-route-roundId="@round.RoundId" asp-route-adminId="@Model.Admin.AdminId" onsubmit="return confirm('Bạn có chắc chắn xóa phòng thi này không?!');">
-                            <button type="submit"><i class="fa-solid fa-trash"></i></button>
-                        </form>
+                        <input type="checkbox" name="selectedRounds" value="@round.RoundId">
+                    </div>
+                    <div class="create-dethi-moi" style="background-color:aliceblue; border: 1px solid;">
+                        <p>Tên kỳ thi: @round.RoundName</p>
+                        <p>Ngày thi: @round.RoundCreateDate.ToString("dd/MM/yyyy")</p>
+                        <p>Thời gian diễn ra: @round.RoundUpdateDate.ToString("dd/MM/yyyy")</p>
+                        <div>
+                            <a href="/AdminDetailsExam?RoundId=@round.RoundId&AdminId=@Model.Admin.AdminId">
+                                <button type="button"><i class="fa-regular fa-eye"></i></button>
+                            </a>
+                            <a href="/AdminEditExam?Id=@round.RoundId">
+                                <button type="button"><i class="fa-solid fa-pen"></i></button>
+                            </a>
+                            <button type="button" onclick="deleteRound('@round.RoundId')"><i class="fa-solid fa-trash"></i></button>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <br />
-
-            <br />
-
-            <br />
-        }
+                <br />
+                <br />
+                <br />
+            }
+        </form>
+        <form id="deleteRoundForm" method="post" asp-page-handler="DeleteRound" style="display:none;">
+            <input type="hidden" id="deleteRoundId" name="roundId" />
+            <input type="hidden" asp-for="AdminId" />
+        </form>
         <div class="dethi-page">
             @if (Model.CurrentPage > 1)
             {
@@ -91,6 +97,14 @@
     </div>
 </div>
 
+<script>
+    function deleteRound(roundId) {
+        if (confirm('Bạn có chắc chắn xóa phòng thi này không?!')) {
+            document.getElementById('deleteRoundId').value = roundId;
+            document.getElementById('deleteRoundForm').submit();
+        }
+    }
+</script>
 <style>
     input[type="checkbox"] {
         appearance: none;
