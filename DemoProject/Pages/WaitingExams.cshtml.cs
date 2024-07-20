@@ -46,7 +46,7 @@ namespace DemoProject.Pages
             if (Admin != null)
             {
                 IQueryable<Round> query = _context.Rounds
-                                                  .Where(r => r.AdminId == AdminId && r.IsPublic == "False");
+                                                  .Where(r => r.adminId == AdminId && r.isPublic == "False");
                 if (!string.IsNullOrEmpty(SearchRoundName))
                 {
                     query = query.Where(r => r.RoundName.Contains(SearchRoundName));
@@ -94,7 +94,7 @@ namespace DemoProject.Pages
 
             foreach (var round in roundsToUpdate)
             {
-                round.IsPublic = "True";
+                round.isPublic = "True";
             }
 
             await _context.SaveChangesAsync();
@@ -115,7 +115,7 @@ namespace DemoProject.Pages
             var round = await _context.Rounds.FirstOrDefaultAsync(r => r.RoundId == roundId);
 
             // Check if the round exists and if it belongs to the admin
-            if (round == null || round.AdminId != adminId)
+            if (round == null || round.adminId != adminId)
             {
                 return NotFound();
             }

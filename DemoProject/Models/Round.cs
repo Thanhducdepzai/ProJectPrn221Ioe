@@ -16,8 +16,8 @@ namespace DemoProject.Models
         public DateTime RoundCreateDate { get; set; }
         public DateTime RoundUpdateDate { get; set; }
         public int GradeId { get; set; }
-        public string? IsPublic { get; set; }
-        public int? AdminId { get; set; }
+        public string? isPublic { get; set; }
+        public int? adminId { get; set; }
 
         public virtual Admin? Admin { get; set; }
         public virtual Grade Grade { get; set; } = null!;

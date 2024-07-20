@@ -1,4 +1,4 @@
-using DemoProject.Models;
+﻿using DemoProject.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -52,13 +52,21 @@ namespace DemoProject.Pages
 
         // OnPost method for form submission
         public async Task<IActionResult> OnPostAsync()
-        {  
+        {
+
+            var otpCode = GenerateOtp();
+            TempData["OtpCode"] = otpCode;
+
             _context.Students.Add(student);
             await _context.SaveChangesAsync();
 
             return RedirectToPage("./Login");
         }
 
+        private object GenerateOtp()
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task<JsonResult> OnGetDistrictsAsync(int provinceId)
         {

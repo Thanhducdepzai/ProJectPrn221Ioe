@@ -84,34 +84,22 @@ namespace DemoProject.Pages
 
             try
             {
-                var maxRoundId = await _context.Rounds.MaxAsync(r => (int?)r.RoundId) ?? 0;
-                var newRoundId = maxRoundId + 1;
-
                 var round = new Round
                 {
-                    RoundId = newRoundId,
                     RoundName = RoundName,
                     RoundCreateDate = RoundCreateDate,
                     RoundUpdateDate = DateTime.Now,
                     GradeId = GradeChoosingId,
-                    IsPublic = "False", // Assuming default isPublic value
-                    AdminId = AdminId
+                    isPublic = "False", // Assuming default isPublic value
+                    adminId = AdminId
                 };
                 _logger.LogInformation("Inserting Round: {@Round}", round);
 
                 _context.Rounds.Add(round);
                 await _context.SaveChangesAsync();
 
-                var maxPartId = await _context.Parts.MaxAsync(p => (int?)p.PartId) ?? 0;
-                var newPartId = maxPartId + 1;
-
-                var maxQuestionId = await _context.Questions.MaxAsync(q => (int?)q.QuestionId) ?? 0;
-                var newQuestionId = maxQuestionId + 1;
-
-                // Add Part 1 Questions
                 var part1 = new Part
                 {
-                    PartId = newPartId,
                     PartName = "Phần 1: Điền vào chỗ trống",
                     PartOrder = 1,
                     PartCreateDate = DateTime.Now,
@@ -129,7 +117,6 @@ namespace DemoProject.Pages
                 {
                     var newQuestion = new Question
                     {
-                        QuestionId = newQuestionId,
                         QuestionText = question.Name,
                         QuestionMetadata = question.Answer,
                         PartId = part1.PartId
@@ -138,14 +125,10 @@ namespace DemoProject.Pages
                     _logger.LogInformation("Inserting Question for Part 1: {@Question}", newQuestion);
 
                     _context.Questions.Add(newQuestion);
-                    newQuestionId++;
                 }
 
-                // Add Part 2 Questions
-                newPartId++;
                 var part2 = new Part
                 {
-                    PartId = newPartId,
                     PartName = "Phần 2: Trắc nghiệm",
                     PartOrder = 2,
                     PartCreateDate = DateTime.Now,
@@ -163,7 +146,6 @@ namespace DemoProject.Pages
                 {
                     var newQuestion = new Question
                     {
-                        QuestionId = newQuestionId,
                         QuestionText = question.Name,
                         QuestionMetadata = $"1: {question.Choice1}; 2: {question.Choice2}; 3: {question.Choice3}; 4: {question.Choice4}; Correct: {question.Answer}",
                         PartId = part2.PartId
@@ -171,14 +153,10 @@ namespace DemoProject.Pages
 
                     _logger.LogInformation("Inserting Question for Part 2: {@Question}", newQuestion);
                     _context.Questions.Add(newQuestion);
-                    newQuestionId++;
                 }
 
-                // Add Part 3 Questions
-                newPartId++;
                 var part3 = new Part
                 {
-                    PartId = newPartId,
                     PartName = "Phần 3: Nối từ",
                     PartOrder = 3,
                     PartCreateDate = DateTime.Now,
@@ -196,7 +174,6 @@ namespace DemoProject.Pages
                 {
                     var newQuestion = new Question
                     {
-                        QuestionId = newQuestionId,
                         QuestionText = question.Name,
                         QuestionMetadata = question.Answer,
                         PartId = part3.PartId
@@ -205,7 +182,6 @@ namespace DemoProject.Pages
                     _logger.LogInformation("Inserting Question for Part 3: {@Question}", newQuestion);
 
                     _context.Questions.Add(newQuestion);
-                    newQuestionId++;
                 }
 
                 await _context.SaveChangesAsync();

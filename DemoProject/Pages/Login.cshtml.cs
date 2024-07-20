@@ -49,7 +49,9 @@ namespace DemoProject.Pages
                 if (admin != null)
                 {
                     HttpContext.Session.SetObjectAsJson("Admin", admin);
-                    return RedirectToPage("/Admin2");
+
+                    // Chuyển hướng đến trang CreateExam với AdminId trong query string
+                    return RedirectToPage("/CreateExam", new { AdminId = admin.AdminId });
                 }
                 else
                 {

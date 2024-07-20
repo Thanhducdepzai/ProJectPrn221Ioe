@@ -126,7 +126,7 @@ namespace DemoProject.Pages
                 }
             }
 
-            return RedirectToPage("/WaitingExams", new { AdminId = round.AdminId });
+            return RedirectToPage("/WaitingExams", new { AdminId = round.adminId });
         }
 
         private void UpdateQuestions(IEnumerable<Part> parts, List<QuestionViewModel> questions, int partOrder)

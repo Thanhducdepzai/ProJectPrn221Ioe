@@ -85,5 +85,10 @@ namespace DemoProject.Pages
 
             return Page();
         }
+
+        public IActionResult OnPostGoToLogin()
+        {
+            return RedirectToPage("/Login");
+        }
     }
 }

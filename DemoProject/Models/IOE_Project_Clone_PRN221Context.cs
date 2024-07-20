@@ -312,11 +312,11 @@ namespace DemoProject.Models
 
                 entity.Property(e => e.RoundId).HasColumnName("round_id");
 
-                entity.Property(e => e.AdminId).HasColumnName("admin_Id");
+                entity.Property(e => e.adminId).HasColumnName("admin_Id");
 
                 entity.Property(e => e.GradeId).HasColumnName("grade_id");
 
-                entity.Property(e => e.IsPublic)
+                entity.Property(e => e.isPublic)
                     .HasMaxLength(10)
                     .IsUnicode(false)
                     .HasColumnName("isPublic");
@@ -335,7 +335,7 @@ namespace DemoProject.Models
 
                 entity.HasOne(d => d.Admin)
                     .WithMany(p => p.Rounds)
-                    .HasForeignKey(d => d.AdminId)
+                    .HasForeignKey(d => d.adminId)
                     .HasConstraintName("FK_Round_Admin");
 
                 entity.HasOne(d => d.Grade)
