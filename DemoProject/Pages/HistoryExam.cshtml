@@ -2,22 +2,21 @@
 @model DemoProject.Pages.HistoryExamModel
 @{
     ViewData["Title"] = "Xem lại lịch sử bài thi";
-
 }
 
 <h2>Xem lại lịch sử bài thi</h2>
 
 <div>
-    @*
     @foreach (var exam in Model.Exams)
     {
-    <button id="btnExam@exam.ExamId" onclick="showForm(@exam.TypeOfQuestionId)">Bài thi số @exam.ExamId</button>
+        <button id="btnExam@exam.PartId" onclick="showForm(@exam.TypeOfQuestionId)">
+            Bài thi số @exam.PartId
+        </button>
     }
-    *@
 </div>
 
 <div id="fillWordSection" style="display: none;">
-    <h3>Part 1</h3>
+    <h3>Fill Word</h3>
     <table>
         <thead>
             <tr>
@@ -27,14 +26,56 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Fill Word content goes here -->
+            @foreach (var history in Model.HistoryExams
+            .Where(h => h.PartResultDetail.Part.TypeOfQuestionId == 1))
+            {
+                <tr>
+                    <td>@history.ListQuestionId</td>
+                    <td>@history.ListUserAnswer</td>
+                    <td>
+                        <!-- Thay thế bằng câu trả lời đúng từ bảng Question -->
+                    </td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>
 
 <div id="singleChoiceSection" style="display: none;">
     <h3>Single Choice</h3>
-    <!-- Nội dung cho Single Choice sẽ được thêm vào sau -->
+    <table>
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Câu hỏi</th>
+                <th>Đáp án đã chọn</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var history in Model.HistoryExams
+            .Where(h => h.PartResultDetail.Part.TypeOfQuestionId == 2))
+            {
+                var questionIds = history.ListQuestionId.Split(',');
+                var userAnswers = history.ListUserAnswer.Split(',');
+
+                for (int i = 0; i < questionIds.Length; i++)
+                {
+                    var questionId = int.Parse(questionIds[i].Trim());
+                    var questionText = Model.Questions
+                    .FirstOrDefault(q => q.QuestionId == questionId)?
+                    .QuestionText ?? "Câu hỏi không tìm thấy";
+
+                    var userAnswer = userAnswers.Length > i ? userAnswers[i].Trim() : "Chưa chọn";
+
+                    <tr>
+                        <td>@(i + 1)</td>
+                        <td>@questionText</td>
+                        <td>@userAnswer</td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
 </div>
 
 <div id="matchingWordSection" style="display: none;">
@@ -47,7 +88,14 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Matching Word content goes here -->
+            @foreach (var history in Model.HistoryExams
+            .Where(h => h.PartResultDetail.Part.TypeOfQuestionId == 3))
+            {
+                <tr>
+                    <td>@history.ListQuestionId</td>
+                    <td>@history.ListUserAnswer</td>
+                </tr>
+            }
         </tbody>
     </table>
 </div>

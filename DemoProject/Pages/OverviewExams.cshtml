@@ -44,6 +44,11 @@
 }
 
 <h3>Làm bài thi</h3>
+@{
+    string pageUrlhis = Url.Page("/HistoryExam", new { RoundId = ViewData["rid"] });
+
+}
+<button onclick="location.href='@pageUrlhis'"">Xem lịch sử</button>
 <table>
     <thead>
         <tr>
@@ -99,6 +104,7 @@
                         }
                     </td>
                     <td>@result.Part.RoundId</td>
+                    
                 </tr>
                 index++;
             }

@@ -30,31 +30,23 @@ namespace DemoProject.Pages
         {
             var partResultDetail = await _context.PresentPartResultDetails
                 .FirstOrDefaultAsync(p => p.PartId == PartId);
-            //var individualResultDetail = await _context.IndividualResultDetails.Where(a => a.IndividualResultId == partResultDetail.IndividualResultId).FirstOrDefaultAsync();
+
             if (partResultDetail != null)
             {
                 partResultDetail.Score = finalScore;
                 partResultDetail.CompleteTime = timeSpent;
                 await _context.SaveChangesAsync();
 
+                var historyExam = new HistoryExam
+                {
+                    PartResultDetailId = partResultDetail.PartResultDetailId,
+                    ListQuestionId = QuestionIds,
+                    ListUserAnswer = History
+                };
 
-            }
-            /*
-             * var roundScore = individualResultDetail.RoundScore;
-            var completeTime = individualResultDetail.CompleteTime;
-            if (roundScore == -1)
-            {
-                roundScore = 0;
-            }
-            roundScore += finalScore;
-            completeTime += timeSpent;
-            if (individualResultDetail != null)
-            {
-                individualResultDetail.CompleteTime = completeTime;
-                individualResultDetail.RoundScore = roundScore;
+                _context.HistoryExams.Add(historyExam);
                 await _context.SaveChangesAsync();
             }
-             */
 
             return RedirectToPage("/OverviewExams");
         }
